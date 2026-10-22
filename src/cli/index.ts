@@ -13,6 +13,8 @@ import { runVibeTest } from "../core/vibe.js";
 import { remember, recall, listMemories, deleteMemory, loadMemories } from "../core/memory.js";
 import { listHubPacks, pullHubPack } from "../core/hub.js";
 import { startWatchMode } from "../core/watch.js";
+import { startStudioServer } from "../core/studio.js";
+import { runSelfHealing } from "../core/fix.js";
 import { detectHardware } from "../utils/hardware.js";
 import { log } from "../utils/logger.js";
 
@@ -37,6 +39,8 @@ function printHelp() {
     vibe <url> --threshold N Set minimum passing VibeScore for CI (default: 80)
     vibe <url> --open        Automatically open the HTML report in your browser
     watch [url]              Live file watcher: auto-audits UI on file save (.tsx, .jsx, .html)
+    fix                      Formulate and apply automated CSS repairs for detected defects
+    studio [url]             Launch sovereign Tri-Device Visual Canvas HUD (localhost:3100)
 
     hub [list]               Browse curated community memory packs & visual rules
     pull <pack>              Download an open-source memory pack (e.g. memory/tailwind-gotchas)
@@ -100,6 +104,19 @@ async function main() {
     case "watch": {
       const targetUrl = args[1] && !args[1].startsWith("--") ? args[1] : "http://localhost:5173";
       startWatchMode(targetUrl);
+      break;
+    }
+
+    case "studio": {
+      const targetUrl = args[1] && !args[1].startsWith("--") ? args[1] : "http://localhost:5173";
+      const portIdx = args.indexOf("--port");
+      const port = portIdx !== -1 && args[portIdx + 1] ? parseInt(args[portIdx + 1], 10) : 3100;
+      startStudioServer(targetUrl, { port });
+      break;
+    }
+
+    case "fix": {
+      runSelfHealing();
       break;
     }
 

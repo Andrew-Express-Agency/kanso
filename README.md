@@ -110,6 +110,45 @@ kanso memory list
 
 ---
 
+## 4. `kanso studio` — Tri-Device Visual Canvas (localhost:3100)
+
+Never resize your browser or guess how mobile renders. Launch the sovereign HUD:
+```bash
+kanso studio http://localhost:5173
+```
+* **Simultaneous Tri-Device Rendering**: Inspects iPhone 15 Pro (`393px`), iPad Mini (`768px`), and MacBook Retina (`1440px`) live on one canvas.
+* **Instant Re-Auditing**: Trigger VibeRadar scans directly from the top HUD.
+* **One-Click Handoff**: Snapshot current workspace state and diffs into `.kanso/handoff.patch`.
+* **Zero Cloud Latency**: Runs 100% locally on your machine.
+
+---
+
+## 5. `kanso fix` — Automated Visual Self-Healing
+
+When VibeTest detects visual defects (mobile overflows, voids, or invisible text):
+```bash
+kanso fix
+```
+Formulates a precision repair plan, identifies offending components, and formats self-healing instructions for Claude, Cursor, Codex, or your local model.
+
+---
+
+## 6. The Kanso Hub (`kanso hub` & `kanso pull`)
+
+The open-source registry for agent memory packs and visual rules:
+```bash
+# Browse official curated packs
+kanso hub
+
+# Install heuristics directly into ~/.kanso/memory.json
+kanso pull memory/tailwind-gotchas
+kanso pull memory/nextjs-gotchas
+kanso pull memory/ios-safari
+kanso pull memory/nvidia-nim
+```
+
+---
+
 ## CI/CD Visual Gate
 
 Block visual regressions, broken contrast, and mobile overflow from reaching production:

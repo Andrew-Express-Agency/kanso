@@ -13,7 +13,8 @@
     "dev": "tsx src/cli/index.ts",
     "test": "tsx test/index.test.ts",
     "lint": "tsc --noEmit",
-    "preview": "node scripts/preview.js"
+    "preview": "node scripts/preview.js",
+    "studio": "node dist/cli/index.js studio"
   },
   "keywords": [
     "ai",
