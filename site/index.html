@@ -46,25 +46,60 @@
         linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     }
     .radial-glow {
-      background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.12) 0%, rgba(139, 92, 246, 0.05) 45%, transparent 70%);
+      background: radial-gradient(circle at 50% -10%, rgba(59, 130, 246, 0.16) 0%, rgba(139, 92, 246, 0.08) 35%, transparent 70%);
     }
     .glass-card {
-      background: rgba(17, 17, 21, 0.7);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(17, 17, 21, 0.75) 100%);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1) inset, 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.16) inset, 0 24px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px -5px rgba(59, 130, 246, 0.12);
+      transform: translateY(-2px);
     }
     .glass-pill {
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.08) inset;
+    }
+    .glow-cyan {
+      box-shadow: 0 0 30px -4px rgba(56, 189, 248, 0.3);
+    }
+    .glow-purple {
+      box-shadow: 0 0 30px -4px rgba(168, 85, 247, 0.3);
+    }
+    .glow-emerald {
+      box-shadow: 0 0 30px -4px rgba(16, 185, 129, 0.3);
+    }
+    .glow-amber {
+      box-shadow: 0 0 30px -4px rgba(245, 158, 11, 0.3);
+    }
+    .glow-rose {
+      box-shadow: 0 0 30px -4px rgba(244, 63, 94, 0.3);
+    }
+    .shimmer-text {
+      background: linear-gradient(110deg, #ffffff 15%, #94a3b8 50%, #ffffff 85%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textShimmer 6s ease-in-out infinite;
+    }
+    @keyframes textShimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
     }
     .terminal-scroll::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
     .terminal-scroll::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.18);
       border-radius: 3px;
     }
     @keyframes pulseSubtle {
@@ -86,30 +121,31 @@
   <header class="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex justify-center">
     <nav class="max-w-5xl w-full flex items-center justify-between px-5 py-3 rounded-full glass-card border border-white/10 shadow-2xl">
       <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-white/10 to-white/5 border border-white/20 flex items-center justify-center font-bold text-sm tracking-widest text-white shadow-inner">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-white/20 via-white/10 to-white/5 border border-white/20 flex items-center justify-center font-bold text-sm tracking-widest text-white shadow-[0_0_15px_rgba(255,255,255,0.15)]">
           簡
         </div>
-        <div class="flex items-baseline gap-1.5">
+        <div class="flex items-baseline gap-2">
           <span class="font-semibold tracking-tight text-white text-base">Kanso</span>
           <span class="text-xs text-neutral-400 font-normal">簡素</span>
+          <span class="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-white/5 text-neutral-300 border border-white/10">v0.1.0 · MIT</span>
         </div>
       </div>
 
-      <div class="hidden md:flex items-center gap-1.5 text-xs font-medium text-neutral-300">
-        <a href="#features" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">Architecture</a>
-        <a href="#vibe" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">VibeTest™ Radar</a>
-        <a href="#handoff" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">Multi-Agent Handoff</a>
-        <a href="#playground" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">CLI Playground</a>
-        <a href="#comparison" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">Sovereignty</a>
-        <a href="#faq" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">FAQ</a>
+      <div class="hidden md:flex items-center gap-1 text-xs font-medium text-neutral-300">
+        <a href="#features" class="py-2 px-3 rounded-lg hover:text-white hover:bg-white/5 transition-all">Architecture</a>
+        <a href="#vibe" class="py-2 px-3 rounded-lg hover:text-white hover:bg-white/5 transition-all">VibeTest™ Radar</a>
+        <a href="#handoff" class="py-2 px-3 rounded-lg hover:text-white hover:bg-white/5 transition-all">Multi-Agent Handoff</a>
+        <a href="#playground" class="py-2 px-3 rounded-lg hover:text-white hover:bg-white/5 transition-all">CLI Playground</a>
+        <a href="#comparison" class="py-2 px-3 rounded-lg hover:text-white hover:bg-white/5 transition-all">Sovereignty</a>
+        <a href="#faq" class="py-2 px-3 rounded-lg hover:text-white hover:bg-white/5 transition-all">FAQ</a>
       </div>
 
-      <div class="flex items-center gap-3">
-        <a href="https://github.com/AndrewExpressAgency/kanso" target="_blank" class="px-3.5 py-1.5 rounded-full text-xs font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 transition-all flex items-center gap-1.5">
+      <div class="flex items-center gap-2.5">
+        <a href="https://github.com/AndrewExpressAgency/kanso" target="_blank" class="px-3.5 py-1.5 rounded-full text-xs font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 transition-all flex items-center gap-1.5 shadow-sm">
           <i data-lucide="github" class="w-3.5 h-3.5"></i>
           <span>GitHub</span>
         </a>
-        <a href="#install" class="px-4 py-1.5 rounded-full text-xs font-semibold text-black bg-white hover:bg-neutral-200 transition-all shadow-md flex items-center gap-1.5">
+        <a href="#install" class="px-4 py-1.5 rounded-full text-xs font-semibold text-black bg-white hover:bg-neutral-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.25)] flex items-center gap-1.5">
           <span>Get Free</span>
           <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
         </a>
@@ -120,46 +156,85 @@
   <!-- Hero Section -->
   <main class="relative z-10 pt-28 sm:pt-36 pb-16 px-6 max-w-6xl mx-auto flex flex-col items-center text-center">
     
-    <!-- Badge -->
-    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill mb-8 shadow-sm">
-      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-      <span class="text-xs font-medium text-neutral-300 tracking-wide">100% Free · Sovereign Open Source · No Cloud Lock-in</span>
+    <!-- Top Announcement Badge -->
+    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass-pill mb-8 shadow-sm hover:border-white/20 transition-all cursor-default">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+      <span class="text-xs font-mono font-medium text-neutral-200 tracking-wide">KANSO 2.0 SOVEREIGN RELEASE · 100% OFFLINE LOCAL ARCHITECTURE</span>
     </div>
 
     <!-- Main Headline -->
     <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white max-w-4xl leading-[1.08] mb-6">
       The Sovereign AI Studio.<br>
-      <span class="bg-gradient-to-r from-neutral-200 via-neutral-400 to-neutral-500 bg-clip-text text-transparent">Simplicity is Strength.</span>
+      <span class="shimmer-text">Simplicity is Strength.</span>
     </h1>
 
     <!-- Subtitle -->
-    <p class="text-lg sm:text-xl text-neutral-400 max-w-2xl font-normal leading-relaxed mb-10">
-      Give your AI agents visual eyes and seamless memory. Zero subscriptions, zero closed cloud dossiers, zero lock-in. Powered by universal Git diff handoffs and CDP visual regression.
+    <p class="text-lg sm:text-xl text-neutral-300 max-w-2xl font-normal leading-relaxed mb-10">
+      Equip your AI agents with deterministic visual eyes, sub-second headless Chrome regression radar, and zero-loss multi-model Git diff handoffs. Zero subscriptions, zero telemetry, zero cloud dossiers.
     </p>
 
     <!-- CLI Install Box -->
-    <div id="install" class="w-full max-w-lg mb-14">
-      <div class="flex items-center justify-center gap-1 mb-3 p-1 rounded-xl bg-white/5 border border-white/10 w-fit mx-auto">
+    <div id="install" class="w-full max-w-lg mb-8">
+      <div class="flex items-center justify-center gap-1 mb-3 p-1 rounded-xl bg-white/5 border border-white/10 w-fit mx-auto shadow-inner">
         <button id="pkg-npm" onclick="setInstallPkg('npm')" class="px-3.5 py-1 rounded-lg text-xs font-semibold bg-white text-black transition-all shadow-sm">npm</button>
         <button id="pkg-curl" onclick="setInstallPkg('curl')" class="px-3.5 py-1 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all">curl</button>
         <button id="pkg-npx" onclick="setInstallPkg('npx')" class="px-3.5 py-1 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all">npx</button>
       </div>
-      <div class="glass-card rounded-2xl p-2.5 flex items-center justify-between border border-white/10 shadow-2xl relative group">
+      <div class="glass-card rounded-2xl p-2.5 flex items-center justify-between border border-white/10 shadow-2xl relative group hover:border-white/20 transition-all">
         <div class="flex items-center gap-3 px-3 overflow-x-auto text-sm font-mono text-neutral-200">
-          <span class="text-neutral-500 select-none">$</span>
-          <span id="install-cmd" class="text-white select-all">npm install -g kanso</span>
+          <span class="text-blue-400 select-none font-bold">$</span>
+          <span id="install-cmd" class="text-white select-all font-medium">npm install -g kanso</span>
         </div>
-        <button id="copy-btn" onclick="copyInstallCommand()" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-xs font-medium text-white transition-all flex items-center gap-1.5 shrink-0 border border-white/10">
-          <i id="copy-icon" data-lucide="copy" class="w-3.5 h-3.5"></i>
+        <button id="copy-btn" onclick="copyInstallCommand()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-xs font-medium text-white transition-all flex items-center gap-1.5 shrink-0 border border-white/10 shadow-sm">
+          <i id="copy-icon" data-lucide="copy" class="w-3.5 h-3.5 text-blue-300"></i>
           <span id="copy-text">Copy</span>
         </button>
       </div>
-      <div class="flex items-center justify-center gap-6 mt-3 text-xs text-neutral-400">
-        <span>macOS, Linux & Windows</span>
+      <div class="flex items-center justify-center gap-4 mt-3 text-xs text-neutral-400 font-mono">
+        <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> macOS & Linux</span>
         <span>•</span>
-        <span>NVIDIA RTX & Apple Silicon</span>
+        <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> Apple Silicon & RTX</span>
         <span>•</span>
-        <span>MIT Sovereign</span>
+        <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> Permissive MIT</span>
+      </div>
+    </div>
+
+    <!-- Hero Live Telemetry Stats Grid (4 Enriched Micro-Cards) -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 w-full max-w-4xl mb-14 text-left">
+      <div class="glass-card rounded-2xl p-4 border border-white/10 hover:border-sky-500/40 transition-all group">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-neutral-400">CDP Radar</span>
+          <span class="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.8)]"></span>
+        </div>
+        <div class="text-2xl font-extrabold text-white tracking-tight">&lt; 800ms</div>
+        <div class="text-[11px] text-neutral-400 mt-0.5">Headless Chrome audit</div>
+      </div>
+
+      <div class="glass-card rounded-2xl p-4 border border-white/10 hover:border-emerald-500/40 transition-all group">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-neutral-400">Telemetry</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]"></span>
+        </div>
+        <div class="text-2xl font-extrabold text-emerald-400 tracking-tight">0 KB</div>
+        <div class="text-[11px] text-neutral-400 mt-0.5">100% sovereign & offline</div>
+      </div>
+
+      <div class="glass-card rounded-2xl p-4 border border-white/10 hover:border-purple-500/40 transition-all group">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-neutral-400">Git Handoff</span>
+          <span class="w-2 h-2 rounded-full bg-purple-400 shadow-[0_0_6px_rgba(192,132,252,0.8)]"></span>
+        </div>
+        <div class="text-2xl font-extrabold text-white tracking-tight">100%</div>
+        <div class="text-[11px] text-neutral-400 mt-0.5">Diff snapshot fidelity</div>
+      </div>
+
+      <div class="glass-card rounded-2xl p-4 border border-white/10 hover:border-amber-500/40 transition-all group">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-neutral-400">Dual Viewports</span>
+          <span class="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.8)]"></span>
+        </div>
+        <div class="text-2xl font-extrabold text-white tracking-tight">1440 & 393</div>
+        <div class="text-[11px] text-neutral-400 mt-0.5">Retina desktop & mobile</div>
       </div>
     </div>
 
@@ -169,25 +244,31 @@
       <!-- Studio Header Controls -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
         <div class="flex items-center gap-3">
-          <div class="flex gap-1.5">
-            <span class="w-3 h-3 rounded-full bg-neutral-700"></span>
-            <span class="w-3 h-3 rounded-full bg-neutral-700"></span>
-            <span class="w-3 h-3 rounded-full bg-neutral-700"></span>
+          <div class="flex gap-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500/80 border border-rose-600/50 shadow-[0_0_6px_rgba(244,63,94,0.4)]"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-500/80 border border-amber-600/50 shadow-[0_0_6px_rgba(245,158,11,0.4)]"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-500/80 border border-emerald-600/50 shadow-[0_0_6px_rgba(16,185,129,0.4)]"></span>
           </div>
-          <span class="text-xs font-mono text-neutral-400 tracking-wider">KANSO 2.0 RADAR STUDIO</span>
+          <div class="flex items-center gap-2 pl-2 border-l border-white/10">
+            <span class="text-xs font-mono text-neutral-300 font-semibold tracking-wider">KANSO 2.0 RADAR HUD</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              LIVE CDP ENGINE
+            </span>
+          </div>
         </div>
 
         <!-- Mode Tabs -->
-        <div class="flex items-center p-1 rounded-xl bg-white/5 border border-white/10">
-          <button onclick="switchTab('vibe')" id="tab-vibe" class="px-4 py-1.5 rounded-lg text-xs font-semibold bg-white text-black transition-all shadow-sm flex items-center gap-1.5">
-            <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+        <div class="flex items-center p-1 rounded-xl bg-white/5 border border-white/10 shadow-inner">
+          <button onclick="switchTab('vibe')" id="tab-vibe" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-black transition-all shadow-sm flex items-center gap-1.5">
+            <i data-lucide="eye" class="w-3.5 h-3.5 text-black"></i>
             <span>VibeTest™ Radar</span>
           </button>
-          <button onclick="switchTab('handoff')" id="tab-handoff" class="px-4 py-1.5 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all flex items-center gap-1.5">
+          <button onclick="switchTab('handoff')" id="tab-handoff" class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all flex items-center gap-1.5">
             <i data-lucide="arrow-left-right" class="w-3.5 h-3.5"></i>
             <span>Agent Handoff 2.0</span>
           </button>
-          <button onclick="switchTab('memory')" id="tab-memory" class="px-4 py-1.5 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all flex items-center gap-1.5">
+          <button onclick="switchTab('memory')" id="tab-memory" class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all flex items-center gap-1.5">
             <i data-lucide="brain" class="w-3.5 h-3.5"></i>
             <span>Episodic Memory</span>
           </button>
@@ -200,91 +281,130 @@
         <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
           <div>
             <div class="flex items-center justify-between mb-2">
-              <span class="text-xs uppercase tracking-wider text-neutral-400 font-semibold">Visual Health</span>
-              <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">PASSING</span>
+              <span class="text-xs uppercase tracking-wider text-neutral-400 font-semibold flex items-center gap-1.5">
+                <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-400"></i>
+                Visual Health Telemetry
+              </span>
+              <span class="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1 shadow-sm">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                PASSING
+              </span>
             </div>
             <div class="text-4xl font-extrabold text-white tracking-tight flex items-baseline gap-2 mb-1">
-              <span>98</span>
+              <span class="text-emerald-400">100</span>
               <span class="text-sm font-normal text-neutral-400">/ 100 VibeScore™</span>
             </div>
             <p class="text-xs text-neutral-400 leading-relaxed">
-              Real headless Chrome CDP engine inspecting viewport boundaries, contrast ratios, and layout shifts.
+              Real headless Chrome CDP engine inspecting viewport boundaries, WCAG contrast ratios, and layout shifts.
             </p>
           </div>
 
           <div class="space-y-3 py-3 border-y border-white/10 font-mono text-xs">
-            <div class="flex justify-between items-center">
-              <span class="text-neutral-400">Mobile Responsiveness (393px)</span>
-              <span class="text-white font-medium">100 / 100</span>
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-neutral-400">Mobile Responsiveness (393px)</span>
+                <span class="text-emerald-400 font-semibold">100 / 100</span>
+              </div>
+              <div class="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+                <div class="h-full bg-emerald-400 rounded-full w-full shadow-[0_0_8px_rgba(52,211,153,0.6)]"></div>
+              </div>
             </div>
-            <div class="flex justify-between items-center">
-              <span class="text-neutral-400">Visual Contrast & Legibility</span>
-              <span class="text-white font-medium">96 / 100</span>
+
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-neutral-400">Visual Contrast & Legibility</span>
+                <span class="text-emerald-400 font-semibold">100 / 100</span>
+              </div>
+              <div class="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+                <div class="h-full bg-emerald-400 rounded-full w-full shadow-[0_0_8px_rgba(52,211,153,0.6)]"></div>
+              </div>
             </div>
-            <div class="flex justify-between items-center">
-              <span class="text-neutral-400">Layout Spacing & Void Radar</span>
-              <span class="text-white font-medium">100 / 100</span>
+
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-neutral-400">Layout Spacing & Void Radar</span>
+                <span class="text-emerald-400 font-semibold">100 / 100</span>
+              </div>
+              <div class="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+                <div class="h-full bg-emerald-400 rounded-full w-full shadow-[0_0_8px_rgba(52,211,153,0.6)]"></div>
+              </div>
             </div>
-            <div class="flex justify-between items-center">
-              <span class="text-neutral-400">Tap Targets & Accessibility</span>
-              <span class="text-white font-medium">97 / 100</span>
+
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-neutral-400">Tap Targets & Accessibility</span>
+                <span class="text-emerald-400 font-semibold">100 / 100</span>
+              </div>
+              <div class="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+                <div class="h-full bg-emerald-400 rounded-full w-full shadow-[0_0_8px_rgba(52,211,153,0.6)]"></div>
+              </div>
             </div>
           </div>
 
-          <div class="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300 flex items-start gap-2.5">
-            <i data-lucide="shield-check" class="w-4 h-4 text-blue-400 shrink-0 mt-0.5"></i>
+          <div class="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300 flex items-start gap-3 shadow-inner">
+            <div class="w-7 h-7 rounded-lg bg-blue-500/20 border border-blue-400/30 flex items-center justify-center shrink-0">
+              <i data-lucide="shield-check" class="w-4 h-4 text-blue-400"></i>
+            </div>
             <div>
-              <span class="font-semibold block text-white">CI/CD Gate Ready</span>
-              <span>Run <code class="text-blue-200">kanso vibe --ci --threshold 85</code> to block visual regressions in GitHub Actions.</span>
+              <span class="font-semibold block text-white text-xs">CI/CD Gate Ready</span>
+              <span class="text-[11px] text-blue-200">Run <code class="text-white bg-blue-900/40 px-1.5 py-0.5 rounded border border-blue-400/20 font-mono">kanso vibe --ci --threshold 90</code> to block visual regressions in GitHub Actions.</span>
             </div>
           </div>
         </div>
 
         <!-- Right: Dual-Viewport Emulation Mock -->
-        <div class="lg:col-span-7 bg-black/60 rounded-2xl p-5 border border-white/10 flex flex-col justify-center items-center relative overflow-hidden">
+        <div class="lg:col-span-7 bg-black/70 rounded-2xl p-6 border border-white/10 flex flex-col justify-center items-center relative overflow-hidden shadow-inner">
           <div class="flex items-center gap-6 w-full justify-center max-w-full overflow-hidden">
             
-            <!-- Mobile 393px Mockup -->
-            <div class="w-40 sm:w-44 h-72 rounded-2xl bg-neutral-900 border-2 border-neutral-700 p-2 shadow-2xl flex flex-col justify-between shrink-0 relative">
-              <div class="w-12 h-3 rounded-full bg-neutral-800 mx-auto mb-2"></div>
+            <!-- Mobile 393px Mockup (iPhone 15 Pro Bezel) -->
+            <div class="w-40 sm:w-44 h-76 rounded-[28px] bg-neutral-950 border-2 border-neutral-700/80 p-2.5 shadow-[0_0_30px_rgba(0,0,0,0.9)] flex flex-col justify-between shrink-0 relative ring-1 ring-white/10">
+              <!-- Dynamic Island -->
+              <div class="w-14 h-3.5 rounded-full bg-black mx-auto mb-2 flex items-center justify-center border border-neutral-800">
+                <span class="w-1.5 h-1.5 rounded-full bg-neutral-800 ml-auto mr-1.5"></span>
+              </div>
               <div class="space-y-2 px-1">
-                <div class="h-10 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-[10px] text-blue-300 font-medium">
-                  Dynamic Hero
+                <div class="h-10 rounded-xl bg-gradient-to-r from-blue-600/30 to-purple-600/30 border border-blue-400/30 flex items-center justify-center text-[10px] text-blue-200 font-semibold shadow-sm">
+                  Pristine Hero
                 </div>
-                <div class="h-16 rounded-lg bg-white/5 border border-white/10 p-1.5 space-y-1">
-                  <div class="w-3/4 h-2 rounded bg-white/20"></div>
-                  <div class="w-1/2 h-2 rounded bg-white/10"></div>
+                <div class="h-16 rounded-xl bg-white/5 border border-white/10 p-2 space-y-1.5">
+                  <div class="w-3/4 h-2 rounded-full bg-white/30"></div>
+                  <div class="w-1/2 h-2 rounded-full bg-white/15"></div>
                 </div>
-                <div class="h-6 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-[9px] text-emerald-300 font-mono">
-                  No Overflow (393px)
+                <div class="h-7 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-[9px] text-emerald-300 font-mono font-medium shadow-sm">
+                  ✓ No Overflow (393px)
                 </div>
               </div>
-              <div class="w-16 h-1 rounded-full bg-neutral-700 mx-auto mt-2"></div>
+              <!-- Home Indicator Bar -->
+              <div class="w-16 h-1 rounded-full bg-neutral-600 mx-auto mt-2"></div>
             </div>
 
-            <!-- Desktop Viewport Mockup (Hidden on mobile to prevent overflow) -->
-            <div class="hidden md:flex w-64 sm:w-72 h-72 rounded-2xl bg-neutral-900 border-2 border-neutral-700 p-3 shadow-2xl flex-col justify-between shrink-0">
-              <div class="flex items-center justify-between pb-2 border-b border-neutral-800">
-                <div class="flex gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full bg-neutral-700"></span>
-                  <span class="w-1.5 h-1.5 rounded-full bg-neutral-700"></span>
-                  <span class="w-1.5 h-1.5 rounded-full bg-neutral-700"></span>
+            <!-- Desktop Viewport Mockup (MacBook Pro 1440px) -->
+            <div class="hidden md:flex w-64 sm:w-76 h-76 rounded-2xl bg-neutral-950 border border-neutral-700/80 p-3 shadow-2xl flex-col justify-between shrink-0 ring-1 ring-white/10">
+              <div class="flex items-center justify-between pb-2 border-b border-neutral-800/80">
+                <div class="flex gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-neutral-700"></span>
+                  <span class="w-2 h-2 rounded-full bg-neutral-700"></span>
+                  <span class="w-2 h-2 rounded-full bg-neutral-700"></span>
                 </div>
-                <span class="text-[9px] font-mono text-neutral-500">1440 × 900 Retina</span>
+                <span class="text-[9px] font-mono text-neutral-400">1440 × 900 Retina</span>
               </div>
               <div class="space-y-3 py-2">
-                <div class="h-14 rounded-lg bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-white/10 p-2">
-                  <div class="w-1/3 h-2 rounded bg-white/40 mb-1"></div>
-                  <div class="w-2/3 h-2 rounded bg-white/20"></div>
+                <div class="h-14 rounded-xl bg-gradient-to-r from-blue-900/40 via-purple-900/30 to-indigo-900/40 border border-white/10 p-2.5">
+                  <div class="w-1/3 h-2 rounded-full bg-white/50 mb-1.5"></div>
+                  <div class="w-2/3 h-2 rounded-full bg-white/25"></div>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
-                  <div class="h-14 rounded-lg bg-white/5 border border-white/10 p-2"></div>
-                  <div class="h-14 rounded-lg bg-white/5 border border-white/10 p-2"></div>
+                  <div class="h-14 rounded-xl bg-white/5 border border-white/10 p-2">
+                    <div class="w-1/2 h-2 rounded-full bg-white/20 mb-1"></div>
+                  </div>
+                  <div class="h-14 rounded-xl bg-white/5 border border-white/10 p-2">
+                    <div class="w-1/2 h-2 rounded-full bg-white/20 mb-1"></div>
+                  </div>
                 </div>
               </div>
-              <div class="pt-2 border-t border-neutral-800 text-[10px] font-mono text-neutral-400 flex justify-between">
-                <span>Contrast: 7.8:1 (AAA)</span>
-                <span class="text-emerald-400">Zero Void</span>
+              <div class="pt-2 border-t border-neutral-800/80 text-[10px] font-mono text-neutral-400 flex justify-between">
+                <span class="text-blue-300">WCAG: 9.2:1 (AAA)</span>
+                <span class="text-emerald-400 font-semibold">Zero Void Detected</span>
               </div>
             </div>
 
@@ -294,36 +414,52 @@
 
       <!-- Tab 2: Handoff 2.0 Terminal View -->
       <div id="content-handoff" class="pt-6 hidden text-left font-mono text-xs">
-        <div class="bg-black/80 rounded-2xl p-5 border border-white/10 terminal-scroll overflow-x-auto text-neutral-300 space-y-3 leading-relaxed">
-          <div class="text-neutral-500">$ kanso handoff "Refactor Stripe checkout and fix mobile padding"</div>
-          <div class="text-white font-bold">簡素  Handoff 2.0  ·  Serializing agent trajectory, git state & diff patch</div>
-          <div class="text-neutral-400">────────────────────────────────────────────────────────</div>
+        <div class="bg-black/85 rounded-2xl p-5 border border-white/10 terminal-scroll overflow-x-auto text-neutral-300 space-y-3 leading-relaxed shadow-inner">
+          <div class="text-neutral-400 font-semibold">$ kanso handoff create --task "Refactor Stripe checkout and fix mobile padding"</div>
+          <div class="text-white font-bold flex items-center gap-2">
+            <span class="text-blue-400">簡素</span>
+            <span>Handoff 2.0  ·  Serializing agent trajectory, git state & diff patch</span>
+          </div>
+          <div class="text-neutral-600">────────────────────────────────────────────────────────</div>
           <div class="text-emerald-400">  ✓     Generated /workspace/HANDOFF.md</div>
           <div class="text-emerald-400">  ✓     Saved metadata to .kanso/handoff.json</div>
-          <div class="text-emerald-400">  ✓     Preserved git diff snapshot to .kanso/handoff.patch</div>
-          <div>  Project        checkout-core</div>
-          <div>  Branch         feature/fast-pay</div>
-          <div>  Status         IN_PROGRESS</div>
-          <div>  Files Changed  4 file(s)</div>
-          <div class="p-3 rounded-lg bg-white/5 border border-white/10 text-neutral-200 mt-2">
-            <span class="text-blue-400 font-semibold block mb-1">Generated Universal Resume Prompt:</span>
-            <span>[KANSO RESUME] Continuing project checkout-core from claude. Task: Refactor Stripe checkout and fix mobile padding. Diff patch ready for `kanso handoff apply`.</span>
+          <div class="text-emerald-400">  ✓     Preserved git diff snapshot to .kanso/handoff.patch (24 lines)</div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-neutral-400">
+            <div>Project: <span class="text-white font-medium">checkout-core</span></div>
+            <div>Branch: <span class="text-white font-medium">feature/apple-pay</span></div>
+            <div>Status: <span class="text-amber-400 font-semibold">IN_PROGRESS</span></div>
+            <div>Files: <span class="text-white font-medium">3 file(s) touched</span></div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 text-neutral-200 mt-2 space-y-1">
+            <span class="text-purple-400 font-semibold block text-[11px]">Universal Agent Ingestion Prompt:</span>
+            <span class="text-neutral-300">[KANSO RESUME] Continuing project checkout-core from claude. Task: Refactor Stripe checkout and fix mobile padding. Diff patch ready for `kanso handoff apply`. Compatible with Claude, Cursor, Codex, Gemini & Grok.</span>
           </div>
         </div>
       </div>
 
       <!-- Tab 3: Episodic Memory View -->
       <div id="content-memory" class="pt-6 hidden text-left font-mono text-xs">
-        <div class="bg-black/80 rounded-2xl p-5 border border-white/10 terminal-scroll overflow-x-auto text-neutral-300 space-y-3 leading-relaxed">
-          <div class="text-neutral-500">$ kanso recall "mobile void"</div>
-          <div class="text-white font-bold">簡素  Memory Recall 2.0  ·  Query: "mobile void"</div>
-          <div class="text-neutral-400">────────────────────────────────────────────────────────</div>
-          <div class="text-emerald-400">  ✓     Found 1 relevant memory entry (100% offline, ~/.kanso/memory.json):</div>
-          <div class="p-3 rounded-lg bg-white/5 border border-white/10 space-y-1.5 mt-2">
-            <div class="text-white font-semibold">📌 [elevation-prime] Mobile Navbar Void Bug</div>
-            <div class="text-neutral-400">Recorded: 2026-10-18 · Score: 45 (Exact Topic + Tag Match)</div>
-            <div class="text-neutral-300"><span class="text-neutral-400">Insight:</span> Fixed navbar + pt-24 causes a 96px empty void on mobile viewports under 400px.</div>
-            <div class="text-emerald-300"><span class="text-neutral-400">Solution:</span> Use pt-16 sm:pt-24 and safe-area-inset padding.</div>
+        <div class="bg-black/85 rounded-2xl p-5 border border-white/10 terminal-scroll overflow-x-auto text-neutral-300 space-y-3 leading-relaxed shadow-inner">
+          <div class="text-neutral-400 font-semibold">$ kanso recall "mobile void"</div>
+          <div class="text-white font-bold flex items-center gap-2">
+            <span class="text-emerald-400">簡素</span>
+            <span>Memory Recall 2.0  ·  Query: "mobile void" [100% Offline ~/.kanso/memory.json]</span>
+          </div>
+          <div class="text-neutral-600">────────────────────────────────────────────────────────</div>
+          <div class="text-emerald-400">  ✓     Found 1 sovereign memory entry (Relevance Score: 98%):</div>
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2 mt-2">
+            <div class="flex items-center justify-between">
+              <div class="text-white font-semibold text-sm flex items-center gap-2">
+                <span>📌 [elevation-prime] Mobile Navbar Void Bug</span>
+                <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">VERIFIED FIX</span>
+              </div>
+              <span class="text-neutral-400 text-[11px]">Score: 98/100 · Exact Match</span>
+            </div>
+            <div class="text-neutral-300"><span class="text-neutral-400 font-medium">Insight:</span> Fixed navbar + pt-24 causes a 96px empty void on mobile viewports under 400px.</div>
+            <div class="text-emerald-300 bg-emerald-950/30 p-2.5 rounded-lg border border-emerald-500/20 font-mono">
+              <span class="text-neutral-400 block mb-0.5">// Sovereign Solution:</span>
+              <span>Use pt-16 sm:pt-24 with env(safe-area-inset-top) padding.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -332,159 +468,310 @@
 
   </main>
 
-  <!-- Feature Grid Section -->
-  <section id="features" class="relative z-10 py-20 px-6 max-w-6xl mx-auto">
+  <!-- Feature Grid Section: 3 Sovereign Pillars -->
+  <section id="features" class="relative z-10 py-24 px-6 max-w-6xl mx-auto">
     <div class="text-center mb-16">
-      <h2 class="text-xs uppercase font-mono tracking-widest text-blue-400 mb-2">Core Pillars</h2>
-      <h3 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Everything closed assistants charge for. Sovereign.</h3>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill mb-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+        <span class="text-xs uppercase font-mono tracking-widest text-blue-300 font-semibold">Core Pillars</span>
+      </div>
+      <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">Everything closed assistants charge for. Sovereign.</h3>
+      <p class="text-neutral-400 text-sm max-w-xl mx-auto mt-3">
+        Engineered for full local independence. Built without corporate telemetry, token taxation, or subscription lock-in.
+      </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Feature 1 -->
-      <div class="glass-card rounded-3xl p-7 border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between">
+      <!-- Feature 1: VibeTest -->
+      <div class="glass-card rounded-3xl p-8 border border-white/10 hover:border-sky-500/40 transition-all flex flex-col justify-between group">
         <div>
-          <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-6">
-            <i data-lucide="eye" class="w-6 h-6"></i>
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-500/20 via-blue-500/10 to-transparent border border-sky-400/30 flex items-center justify-center text-sky-400 glow-cyan mb-6 group-hover:scale-105 transition-transform shadow-inner">
+            <i data-lucide="eye" class="w-7 h-7"></i>
           </div>
-          <h4 class="text-xl font-bold text-white mb-2">VibeTest™ Visual Eyes</h4>
-          <p class="text-neutral-400 text-sm leading-relaxed mb-6">
-            AI models generate hallucinated HTML they cannot see. Kanso launches headless Chrome, evaluates WCAG contrast, detects empty voids (>85px), and prevents mobile horizontal overflow.
+          <span class="text-[11px] font-mono uppercase tracking-wider text-sky-400 font-semibold block mb-1">CDP Headless Engine</span>
+          <h4 class="text-2xl font-bold text-white mb-3">VibeTest™ Visual Eyes</h4>
+          <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6">
+            AI models generate hallucinated HTML they cannot see. Kanso launches headless Chrome, evaluates WCAG contrast, detects empty voids (>85px), and prevents mobile horizontal overflow leaks.
           </p>
+
+          <div class="space-y-2.5 mb-6 text-xs text-neutral-300 font-mono">
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-sky-400 shrink-0"></i>
+              <span>Dynamic 393px & 1440px viewports</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-sky-400 shrink-0"></i>
+              <span>Alpha-blended WCAG 2.1 AAA contrast</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-sky-400 shrink-0"></i>
+              <span>CI/CD gate blocking (<code class="text-sky-300">--ci --threshold 90</code>)</span>
+            </div>
+          </div>
         </div>
-        <div class="text-xs font-mono text-neutral-300 bg-black/40 p-2.5 rounded-xl border border-white/5">
-          <code>kanso vibe http://localhost:5173</code>
+
+        <div class="flex items-center justify-between text-xs font-mono text-neutral-300 bg-black/50 px-3.5 py-2.5 rounded-xl border border-white/10">
+          <code class="text-sky-300">kanso vibe http://localhost:3000</code>
+          <i data-lucide="terminal" class="w-3.5 h-3.5 text-neutral-500"></i>
         </div>
       </div>
 
-      <!-- Feature 2 -->
-      <div class="glass-card rounded-3xl p-7 border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between">
+      <!-- Feature 2: Universal Handoff 2.0 -->
+      <div class="glass-card rounded-3xl p-8 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between group">
         <div>
-          <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-6">
-            <i data-lucide="git-pull-request" class="w-6 h-6"></i>
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 via-indigo-500/10 to-transparent border border-purple-400/30 flex items-center justify-center text-purple-400 glow-purple mb-6 group-hover:scale-105 transition-transform shadow-inner">
+            <i data-lucide="git-pull-request" class="w-7 h-7"></i>
           </div>
-          <h4 class="text-xl font-bold text-white mb-2">Universal Handoff 2.0</h4>
-          <p class="text-neutral-400 text-sm leading-relaxed mb-6">
-            Switch from Claude to Codex, Cursor, or Gemini without repeating context. Captures git diffs, working tree state, and next steps in a universal snapshot. Apply with one command.
+          <span class="text-[11px] font-mono uppercase tracking-wider text-purple-400 font-semibold block mb-1">Zero-Loss Git Diff</span>
+          <h4 class="text-2xl font-bold text-white mb-3">Universal Handoff 2.0</h4>
+          <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6">
+            Switch between Claude Code, Cursor, Codex, Grok, and Gemini without repeating context. Freezes working tree diffs into <code class="text-purple-300 font-mono">.kanso/handoff.patch</code> with zero context decay.
           </p>
+
+          <div class="space-y-2.5 mb-6 text-xs text-neutral-300 font-mono">
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-purple-400 shrink-0"></i>
+              <span>Captures unstaged & staged file diffs</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-purple-400 shrink-0"></i>
+              <span>Disaster recovery: <code class="text-purple-300">kanso handoff apply</code></span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-purple-400 shrink-0"></i>
+              <span>Standardized prompt format for all LLMs</span>
+            </div>
+          </div>
         </div>
-        <div class="text-xs font-mono text-neutral-300 bg-black/40 p-2.5 rounded-xl border border-white/5">
-          <code>kanso handoff apply</code>
+
+        <div class="flex items-center justify-between text-xs font-mono text-neutral-300 bg-black/50 px-3.5 py-2.5 rounded-xl border border-white/10">
+          <code class="text-purple-300">kanso handoff apply</code>
+          <i data-lucide="terminal" class="w-3.5 h-3.5 text-neutral-500"></i>
         </div>
       </div>
 
-      <!-- Feature 3 -->
-      <div class="glass-card rounded-3xl p-7 border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between">
+      <!-- Feature 3: Offline Episodic Memory -->
+      <div class="glass-card rounded-3xl p-8 border border-white/10 hover:border-emerald-500/40 transition-all flex flex-col justify-between group">
         <div>
-          <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6">
-            <i data-lucide="shield" class="w-6 h-6"></i>
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-transparent border border-emerald-400/30 flex items-center justify-center text-emerald-400 glow-emerald mb-6 group-hover:scale-105 transition-transform shadow-inner">
+            <i data-lucide="brain" class="w-7 h-7"></i>
           </div>
-          <h4 class="text-xl font-bold text-white mb-2">100% Offline Memory</h4>
-          <p class="text-neutral-400 text-sm leading-relaxed mb-6">
-            Your preferences, bug solutions, and architectural lessons live in <code class="text-neutral-300">~/.kanso/memory.json</code>. Zero cloud dossiers, zero data harvesting, zero tracking.
+          <span class="text-[11px] font-mono uppercase tracking-wider text-emerald-400 font-semibold block mb-1">Local Semantic Store</span>
+          <h4 class="text-2xl font-bold text-white mb-3">Episodic Memory 2.0</h4>
+          <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6">
+            Your preferences, bug solutions, and architectural lessons live in <code class="text-emerald-300 font-mono">~/.kanso/memory.json</code>. Features token-similarity semantic search with zero cloud dossiers and zero tracking.
+          </p>
+
+          <div class="space-y-2.5 mb-6 text-xs text-neutral-300 font-mono">
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+              <span>Token-similarity cosine relevance scoring</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+              <span>Project-scoped and global knowledge pools</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+              <span>100% offline JSON with zero cloud telemetry</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs font-mono text-neutral-300 bg-black/50 px-3.5 py-2.5 rounded-xl border border-white/10">
+          <code class="text-emerald-300">kanso recall "contrast trap"</code>
+          <i data-lucide="terminal" class="w-3.5 h-3.5 text-neutral-500"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architectural Loop Diagram Section -->
+  <section class="relative z-10 py-12 px-6 max-w-5xl mx-auto">
+    <div class="glass-card rounded-3xl p-8 border border-white/10 shadow-2xl relative overflow-hidden text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill mb-4">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+        <span class="text-xs uppercase font-mono tracking-widest text-blue-300 font-semibold">The Sovereign Engineering Loop</span>
+      </div>
+      <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">How Kanso Completes Your Agent Workflow</h3>
+      <p class="text-neutral-400 text-xs sm:text-sm max-w-xl mx-auto mb-8">
+        Deterministic visual feedback and state protection running completely in your local dev loop.
+      </p>
+
+      <!-- 4-Stage Pipeline Flow -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left font-mono text-xs">
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 relative">
+          <span class="text-neutral-500 text-[10px] block mb-1">STAGE 01</span>
+          <div class="text-white font-bold text-sm mb-1 flex items-center gap-1.5">
+            <i data-lucide="code" class="w-4 h-4 text-blue-400"></i>
+            <span>Agent Writes Code</span>
+          </div>
+          <p class="text-neutral-400 text-[11px] leading-relaxed">
+            Claude, Cursor, Codex, or Gemini edits components in your workspace.
           </p>
         </div>
-        <div class="text-xs font-mono text-neutral-300 bg-black/40 p-2.5 rounded-xl border border-white/5">
-          <code>kanso recall "contrast"</code>
+
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 relative">
+          <span class="text-neutral-500 text-[10px] block mb-1">STAGE 02</span>
+          <div class="text-white font-bold text-sm mb-1 flex items-center gap-1.5">
+            <i data-lucide="refresh-cw" class="w-4 h-4 text-purple-400"></i>
+            <span>Kanso Watch Radar</span>
+          </div>
+          <p class="text-neutral-400 text-[11px] leading-relaxed">
+            Sub-second file watcher triggers local CDP headless Chrome audit.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 relative">
+          <span class="text-neutral-500 text-[10px] block mb-1">STAGE 03</span>
+          <div class="text-white font-bold text-sm mb-1 flex items-center gap-1.5">
+            <i data-lucide="scan-eye" class="w-4 h-4 text-sky-400"></i>
+            <span>Visual Inspection</span>
+          </div>
+          <p class="text-neutral-400 text-[11px] leading-relaxed">
+            Audits 393px mobile overflow, whitespace voids, and WCAG contrast.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 relative">
+          <span class="text-neutral-500 text-[10px] block mb-1">STAGE 04</span>
+          <div class="text-white font-bold text-sm mb-1 flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
+            <span>Auto Self-Healing</span>
+          </div>
+          <p class="text-neutral-400 text-[11px] leading-relaxed">
+            Formulates precision CSS fixes and stores trajectory in git handoff.
+          </p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Kanso Hub & Live Watch Radar Showcase -->
-  <section class="relative z-10 py-12 px-6 max-w-6xl mx-auto">
+  <section class="relative z-10 py-16 px-6 max-w-6xl mx-auto">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
       
       <!-- Left: Kanso Hub Concept -->
       <div class="lg:col-span-6 space-y-6 text-left">
         <div>
-          <span class="text-xs uppercase font-mono tracking-widest text-blue-400 font-semibold">The Community Registry</span>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill mb-3">
+            <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+            <span class="text-xs uppercase font-mono tracking-widest text-blue-300 font-semibold">The Community Registry</span>
+          </div>
           <h3 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mt-1 mb-3">
             The Hugging Face of Agent Memory & Visual Rules.
           </h3>
-          <p class="text-neutral-400 text-sm leading-relaxed">
-            Why let your AI models make the same mistakes twice? With Kanso Hub, install community-verified heuristics and visual compliance packs directly into your offline episodic memory.
+          <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed">
+            Why let your AI models make the same layout mistakes twice? With Kanso Hub, install community-verified heuristics and visual compliance packs directly into your offline episodic memory.
           </p>
         </div>
 
         <div class="space-y-3 font-mono text-xs">
-          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between hover:border-white/20 transition-all">
-            <div class="flex items-center gap-3">
-              <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+          <!-- Pack 1 -->
+          <div class="p-4 rounded-2xl glass-card border border-white/10 flex items-center justify-between hover:border-blue-500/40 transition-all group">
+            <div class="flex items-center gap-3.5">
+              <div class="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-400/30 flex items-center justify-center text-blue-400 shrink-0 shadow-inner group-hover:scale-105 transition-transform">
+                <i data-lucide="layers" class="w-5 h-5"></i>
+              </div>
               <div>
-                <div class="text-white font-semibold">memory/tailwind-gotchas</div>
-                <div class="text-[11px] text-neutral-400">Fixes mobile navbar voids & flex overflow</div>
+                <div class="flex items-center gap-2">
+                  <span class="text-white font-semibold text-sm">memory/tailwind-gotchas</span>
+                  <span class="text-[10px] text-neutral-400 px-1.5 py-0.5 rounded bg-white/5 border border-white/10">v1.2 · 3.4k</span>
+                </div>
+                <div class="text-[11px] text-neutral-400 mt-0.5">Fixes mobile navbar voids & unconstrained flex leaks</div>
               </div>
             </div>
-            <code class="text-neutral-300 bg-black/40 px-2 py-1 rounded">kanso pull</code>
+            <code class="text-blue-300 bg-blue-950/40 border border-blue-400/20 px-2.5 py-1 rounded-lg text-[11px] shrink-0 font-medium">kanso pull</code>
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between hover:border-white/20 transition-all">
-            <div class="flex items-center gap-3">
-              <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+          <!-- Pack 2 -->
+          <div class="p-4 rounded-2xl glass-card border border-white/10 flex items-center justify-between hover:border-purple-500/40 transition-all group">
+            <div class="flex items-center gap-3.5">
+              <div class="w-10 h-10 rounded-xl bg-purple-500/15 border border-purple-400/30 flex items-center justify-center text-purple-400 shrink-0 shadow-inner group-hover:scale-105 transition-transform">
+                <i data-lucide="smartphone" class="w-5 h-5"></i>
+              </div>
               <div>
-                <div class="text-white font-semibold">memory/ios-safari</div>
-                <div class="text-[11px] text-neutral-400">100dvh viewport jumps & tap targets</div>
+                <div class="flex items-center gap-2">
+                  <span class="text-white font-semibold text-sm">memory/ios-safari</span>
+                  <span class="text-[10px] text-neutral-400 px-1.5 py-0.5 rounded bg-white/5 border border-white/10">v1.0 · 2.8k</span>
+                </div>
+                <div class="text-[11px] text-neutral-400 mt-0.5">100dvh viewport shifts & 44px tap target traps</div>
               </div>
             </div>
-            <code class="text-neutral-300 bg-black/40 px-2 py-1 rounded">kanso pull</code>
+            <code class="text-purple-300 bg-purple-950/40 border border-purple-400/20 px-2.5 py-1 rounded-lg text-[11px] shrink-0 font-medium">kanso pull</code>
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between hover:border-white/20 transition-all">
-            <div class="flex items-center gap-3">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <!-- Pack 3 -->
+          <div class="p-4 rounded-2xl glass-card border border-white/10 flex items-center justify-between hover:border-emerald-500/40 transition-all group">
+            <div class="flex items-center gap-3.5">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-center text-emerald-400 shrink-0 shadow-inner group-hover:scale-105 transition-transform">
+                <i data-lucide="box" class="w-5 h-5"></i>
+              </div>
               <div>
-                <div class="text-white font-semibold">memory/nextjs-gotchas</div>
-                <div class="text-[11px] text-neutral-400">Route handler caching & SSR hydration</div>
+                <div class="flex items-center gap-2">
+                  <span class="text-white font-semibold text-sm">memory/nextjs-gotchas</span>
+                  <span class="text-[10px] text-neutral-400 px-1.5 py-0.5 rounded bg-white/5 border border-white/10">v2.1 · 4.1k</span>
+                </div>
+                <div class="text-[11px] text-neutral-400 mt-0.5">App Router server action caching & hydration rules</div>
               </div>
             </div>
-            <code class="text-neutral-300 bg-black/40 px-2 py-1 rounded">kanso pull</code>
+            <code class="text-emerald-300 bg-emerald-950/40 border border-emerald-400/20 px-2.5 py-1 rounded-lg text-[11px] shrink-0 font-medium">kanso pull</code>
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between hover:border-white/20 transition-all">
-            <div class="flex items-center gap-3">
-              <span class="w-2 h-2 rounded-full bg-green-400"></span>
+          <!-- Pack 4 -->
+          <div class="p-4 rounded-2xl glass-card border border-white/10 flex items-center justify-between hover:border-green-500/40 transition-all group">
+            <div class="flex items-center gap-3.5">
+              <div class="w-10 h-10 rounded-xl bg-green-500/15 border border-green-400/30 flex items-center justify-center text-green-400 shrink-0 shadow-inner group-hover:scale-105 transition-transform">
+                <i data-lucide="zap" class="w-5 h-5"></i>
+              </div>
               <div>
-                <div class="text-white font-semibold">memory/nvidia-nim</div>
-                <div class="text-[11px] text-neutral-400">RTX AI PCs, TensorRT-LLM & local microservices</div>
+                <div class="flex items-center gap-2">
+                  <span class="text-white font-semibold text-sm">memory/nvidia-nim</span>
+                  <span class="text-[10px] text-neutral-400 px-1.5 py-0.5 rounded bg-white/5 border border-white/10">v1.4 · 1.9k</span>
+                </div>
+                <div class="text-[11px] text-neutral-400 mt-0.5">RTX TensorRT-LLM acceleration & local microservices</div>
               </div>
             </div>
-            <code class="text-neutral-300 bg-black/40 px-2 py-1 rounded">kanso pull</code>
+            <code class="text-green-300 bg-green-950/40 border border-green-400/20 px-2.5 py-1 rounded-lg text-[11px] shrink-0 font-medium">kanso pull</code>
           </div>
         </div>
       </div>
 
       <!-- Right: Real-Time Watch Radar Terminal -->
       <div class="lg:col-span-6">
-        <div class="glass-card rounded-3xl p-6 border border-white/10 shadow-2xl font-mono text-xs text-left">
+        <div class="glass-card rounded-3xl p-6 border border-white/10 shadow-2xl font-mono text-xs text-left relative overflow-hidden">
           <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
             <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
               <span class="text-white font-semibold tracking-wider text-[11px]">KANSO LIVE WATCH RADAR</span>
             </div>
-            <span class="text-neutral-500 text-[10px]">$ kanso watch localhost:5173</span>
+            <span class="text-neutral-400 text-[10px] bg-white/5 px-2 py-0.5 rounded border border-white/10">$ kanso watch localhost:3000</span>
           </div>
 
           <div class="space-y-3 leading-relaxed text-neutral-300">
             <div class="text-neutral-400">info  Watching workspace for code changes (.tsx, .jsx, .html, .css)...</div>
             <div class="text-neutral-400">info  Press Ctrl+C to stop watching.</div>
-            <div class="pt-2 text-white">
-              [23:42:01] ⚡️ Change detected in <span class="text-blue-400">src/components/Hero.tsx</span>
+            
+            <div class="pt-2 text-white flex items-center gap-2">
+              <span class="text-neutral-500">[11:02:14]</span>
+              <span>⚡️ Change detected in <span class="text-blue-400 font-semibold">src/components/Hero.tsx</span></span>
             </div>
-            <div class="text-neutral-400">[23:42:01] 🔍 Running CDP Visual Radar...</div>
-            <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 flex items-center gap-2">
-              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
-              <span>[23:42:02] ✅ VibeScore: 100 / 100 (Layout Pristine)</span>
+            <div class="text-neutral-400 pl-4">[11:02:14] 🔍 Running CDP Headless Chrome Visual Radar...</div>
+            <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 flex items-center gap-2.5 shadow-sm">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+              <span class="font-medium">[11:02:15] ✅ VibeScore: 100 / 100 (Layout Pristine)</span>
             </div>
 
-            <div class="pt-2 text-white">
-              [23:42:18] ⚡️ Change detected in <span class="text-purple-400">src/components/Pricing.tsx</span>
+            <div class="pt-2 text-white flex items-center gap-2">
+              <span class="text-neutral-500">[11:02:40]</span>
+              <span>⚡️ Change detected in <span class="text-purple-400 font-semibold">src/components/Pricing.tsx</span></span>
             </div>
-            <div class="text-neutral-400">[23:42:18] 🔍 Running CDP Visual Radar...</div>
-            <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 flex items-start gap-2">
+            <div class="text-neutral-400 pl-4">[11:02:40] 🔍 Running CDP Headless Chrome Visual Radar...</div>
+            <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-300 flex items-start gap-2.5 shadow-sm">
               <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
               <div>
-                <span class="font-bold block">[23:42:19] ⚠️ REGRESSION: VibeScore dropped to 82/100</span>
-                <span class="text-[11px] text-amber-200">Element .btn-pro extends 18px past mobile screen (393px)</span>
+                <span class="font-bold block">[11:02:41] ⚠️ REGRESSION: VibeScore dropped to 81/100</span>
+                <span class="text-[11px] text-amber-200">Element .btn-pro extends 18px past mobile screen (393px). Formulated repair patch via `kanso fix`.</span>
               </div>
             </div>
           </div>
@@ -495,109 +782,321 @@
   </section>
 
   <!-- Comparison Section -->
-  <section id="comparison" class="relative z-10 py-20 px-6 max-w-5xl mx-auto">
+  <section id="comparison" class="relative z-10 py-24 px-6 max-w-5xl mx-auto">
     <div class="text-center mb-14">
-      <h2 class="text-xs uppercase font-mono tracking-widest text-emerald-400 mb-2">Sovereignty Matrix</h2>
-      <h3 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Kanso vs. Closed Assistant Lock-in</h3>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill mb-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+        <span class="text-xs uppercase font-mono tracking-widest text-emerald-300 font-semibold">Sovereignty Matrix</span>
+      </div>
+      <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">Kanso vs. Closed Assistant Lock-in</h3>
+      <p class="text-neutral-400 text-sm max-w-xl mx-auto mt-3">
+        Why pay monthly fees to hand your code and architecture to corporate closed clouds?
+      </p>
     </div>
 
     <div class="glass-card rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
-      <div class="overflow-x-auto">
+      <!-- Desktop Comparison Table -->
+      <div class="hidden sm:block overflow-x-auto">
         <table class="w-full text-left text-sm">
-          <thead class="bg-white/5 border-b border-white/10 text-xs font-semibold uppercase text-neutral-400">
+          <thead class="bg-white/5 border-b border-white/10 text-xs font-semibold uppercase text-neutral-400 font-mono">
             <tr>
               <th class="py-4 px-6">Capability</th>
               <th class="py-4 px-6 text-neutral-400">Meta Muse / Closed Assistants</th>
-              <th class="py-4 px-6 text-white font-bold bg-blue-500/10 border-x border-blue-500/20">Kanso (簡素)</th>
+              <th class="py-4 px-6 text-white font-bold bg-blue-500/10 border-x border-blue-500/20">
+                <span class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]"></span>
+                  Kanso (簡素)
+                </span>
+              </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-white/5 text-neutral-300">
+          <tbody class="divide-y divide-white/5 text-neutral-300 text-xs sm:text-sm">
             <tr>
-              <td class="py-4 px-6 font-medium text-white">Monthly Cost</td>
-              <td class="py-4 px-6 text-red-400 font-mono">$20 – $40 / month</td>
-              <td class="py-4 px-6 font-bold text-emerald-400 font-mono bg-blue-500/10 border-x border-blue-500/20">$0 · Free Forever</td>
+              <td class="py-4 px-6 font-medium text-white">Monthly Subscription</td>
+              <td class="py-4 px-6 text-red-400 font-mono flex items-center gap-1.5">
+                <i data-lucide="x" class="w-4 h-4 text-red-400"></i>
+                $20 – $40 / month
+              </td>
+              <td class="py-4 px-6 font-bold text-emerald-400 font-mono bg-blue-500/10 border-x border-blue-500/20">
+                <span class="inline-flex items-center gap-1.5 text-emerald-400">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                  $0 · Free Forever
+                </span>
+              </td>
             </tr>
             <tr>
               <td class="py-4 px-6 font-medium text-white">Codebase Telemetry</td>
-              <td class="py-4 px-6 text-neutral-400">Logged to corporate cloud servers</td>
-              <td class="py-4 px-6 font-bold text-white bg-blue-500/10 border-x border-blue-500/20">Zero Cloud · 100% Local-First</td>
+              <td class="py-4 px-6 text-neutral-400 flex items-center gap-1.5">
+                <i data-lucide="cloud" class="w-4 h-4 text-neutral-500"></i>
+                Harvested to corporate servers
+              </td>
+              <td class="py-4 px-6 font-bold text-white bg-blue-500/10 border-x border-blue-500/20">
+                <span class="inline-flex items-center gap-1.5 text-emerald-300">
+                  <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                  Zero Cloud · 100% Localhost
+                </span>
+              </td>
             </tr>
             <tr>
               <td class="py-4 px-6 font-medium text-white">Visual Regression Eyes</td>
-              <td class="py-4 px-6 text-neutral-400">None (Blind text-only generation)</td>
-              <td class="py-4 px-6 font-bold text-white bg-blue-500/10 border-x border-blue-500/20">Built-in Chrome CDP Radar</td>
+              <td class="py-4 px-6 text-neutral-400 flex items-center gap-1.5">
+                <i data-lucide="eye-off" class="w-4 h-4 text-neutral-500"></i>
+                Blind (Text-only generation)
+              </td>
+              <td class="py-4 px-6 font-bold text-white bg-blue-500/10 border-x border-blue-500/20">
+                <span class="inline-flex items-center gap-1.5 text-sky-300">
+                  <i data-lucide="eye" class="w-4 h-4 text-sky-400"></i>
+                  Built-in Chrome CDP Radar
+                </span>
+              </td>
             </tr>
             <tr>
               <td class="py-4 px-6 font-medium text-white">Multi-Model Agent Handoff</td>
-              <td class="py-4 px-6 text-neutral-400">Proprietary lock-in</td>
-              <td class="py-4 px-6 font-bold text-white bg-blue-500/10 border-x border-blue-500/20">Universal Git Diff Patches</td>
+              <td class="py-4 px-6 text-neutral-400 flex items-center gap-1.5">
+                <i data-lucide="lock" class="w-4 h-4 text-neutral-500"></i>
+                Proprietary single-vendor lock-in
+              </td>
+              <td class="py-4 px-6 font-bold text-white bg-blue-500/10 border-x border-blue-500/20">
+                <span class="inline-flex items-center gap-1.5 text-purple-300">
+                  <i data-lucide="git-pull-request" class="w-4 h-4 text-purple-400"></i>
+                  Universal Git Diff Patches
+                </span>
+              </td>
             </tr>
             <tr>
-              <td class="py-4 px-6 font-medium text-white">CI/CD Automated Gate</td>
-              <td class="py-4 px-6 text-neutral-400">Requires expensive Enterprise add-ons</td>
-              <td class="py-4 px-6 font-bold text-white bg-blue-500/10 border-x border-blue-500/20">Included (<code class="text-xs">kanso vibe --ci</code>)</td>
+              <td class="py-4 px-6 font-medium text-white">CI/CD Visual Gate</td>
+              <td class="py-4 px-6 text-neutral-400 flex items-center gap-1.5">
+                <i data-lucide="x" class="w-4 h-4 text-neutral-500"></i>
+                Expensive Enterprise tier add-on
+              </td>
+              <td class="py-4 px-6 font-bold text-white bg-blue-500/10 border-x border-blue-500/20">
+                <span class="inline-flex items-center gap-1.5 text-emerald-300">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                  Included (<code class="font-mono text-emerald-200">kanso vibe --ci</code>)
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-medium text-white">Hardware Acceleration</td>
+              <td class="py-4 px-6 text-neutral-400 flex items-center gap-1.5">
+                <i data-lucide="server" class="w-4 h-4 text-neutral-500"></i>
+                Cloud GPU queue latency
+              </td>
+              <td class="py-4 px-6 font-bold text-white bg-blue-500/10 border-x border-blue-500/20">
+                <span class="inline-flex items-center gap-1.5 text-amber-300">
+                  <i data-lucide="cpu" class="w-4 h-4 text-amber-400"></i>
+                  Apple Silicon & RTX TensorRT
+                </span>
+              </td>
             </tr>
             <tr>
               <td class="py-4 px-6 font-medium text-white">License & Code Ownership</td>
-              <td class="py-4 px-6 text-neutral-400">Closed-source proprietary</td>
-              <td class="py-4 px-6 font-bold text-white bg-blue-500/10 border-x border-blue-500/20">MIT Open Source Sovereign</td>
+              <td class="py-4 px-6 text-neutral-400 flex items-center gap-1.5">
+                <i data-lucide="file-text" class="w-4 h-4 text-neutral-500"></i>
+                Closed-source proprietary
+              </td>
+              <td class="py-4 px-6 font-bold text-white bg-blue-500/10 border-x border-blue-500/20">
+                <span class="inline-flex items-center gap-1.5 text-emerald-300">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                  MIT Open Source Sovereign
+                </span>
+              </td>
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Mobile Comparison Cards (Apple HIG & 393px Viewport Safe) -->
+      <div class="sm:hidden p-4 space-y-3">
+        <!-- Card 1 -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-white">Monthly Subscription</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono font-bold">$0 Forever</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2 rounded-xl bg-red-500/5 border border-red-500/15">
+              <span class="text-[10px] text-neutral-400 font-mono block">Closed</span>
+              <span class="text-red-400 font-medium text-[11px] flex items-center gap-1 mt-0.5">
+                <i data-lucide="x" class="w-3 h-3 text-red-400"></i> $20–$40/mo
+              </span>
+            </div>
+            <div class="p-2 rounded-xl bg-blue-500/10 border border-blue-500/25">
+              <span class="text-[10px] text-emerald-400 font-mono block">Kanso</span>
+              <span class="text-emerald-300 font-bold text-[11px] flex items-center gap-1 mt-0.5">
+                <i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> $0 Free
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-white">Codebase Telemetry</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono font-bold">Zero Cloud</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2 rounded-xl bg-red-500/5 border border-red-500/15">
+              <span class="text-[10px] text-neutral-400 font-mono block">Closed</span>
+              <span class="text-neutral-400 text-[11px] block mt-0.5 leading-tight">Harvested</span>
+            </div>
+            <div class="p-2 rounded-xl bg-blue-500/10 border border-blue-500/25">
+              <span class="text-[10px] text-emerald-400 font-mono block">Kanso</span>
+              <span class="text-emerald-300 font-bold text-[11px] block mt-0.5 leading-tight">100% Local</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-white">Visual Radar</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/30 font-mono font-bold">Chrome CDP</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2 rounded-xl bg-red-500/5 border border-red-500/15">
+              <span class="text-[10px] text-neutral-400 font-mono block">Closed</span>
+              <span class="text-neutral-400 text-[11px] block mt-0.5">Blind (Text)</span>
+            </div>
+            <div class="p-2 rounded-xl bg-sky-500/10 border border-sky-500/25">
+              <span class="text-[10px] text-sky-400 font-mono block">Kanso</span>
+              <span class="text-sky-300 font-bold text-[11px] block mt-0.5">Dual Radar</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-white">Agent Handoff</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/30 font-mono font-bold">Universal Git</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2 rounded-xl bg-red-500/5 border border-red-500/15">
+              <span class="text-[10px] text-neutral-400 font-mono block">Closed</span>
+              <span class="text-neutral-400 text-[11px] block mt-0.5">Locked In</span>
+            </div>
+            <div class="p-2 rounded-xl bg-purple-500/10 border border-purple-500/25">
+              <span class="text-[10px] text-purple-400 font-mono block">Kanso</span>
+              <span class="text-purple-300 font-bold text-[11px] block mt-0.5">Any Model</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-white">CI/CD Gate</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono font-bold">Built-in</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2 rounded-xl bg-red-500/5 border border-red-500/15">
+              <span class="text-[10px] text-neutral-400 font-mono block">Closed</span>
+              <span class="text-neutral-400 text-[11px] block mt-0.5">$$$ Enterprise</span>
+            </div>
+            <div class="p-2 rounded-xl bg-blue-500/10 border border-blue-500/25">
+              <span class="text-[10px] text-emerald-400 font-mono block">Kanso</span>
+              <span class="text-emerald-300 font-bold text-[11px] block mt-0.5">Free CLI Gate</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-white">Silicon Native</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 font-mono font-bold">Metal & RTX</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2 rounded-xl bg-red-500/5 border border-red-500/15">
+              <span class="text-[10px] text-neutral-400 font-mono block">Closed</span>
+              <span class="text-neutral-400 text-[11px] block mt-0.5">Cloud Queue</span>
+            </div>
+            <div class="p-2 rounded-xl bg-amber-500/10 border border-amber-500/25">
+              <span class="text-[10px] text-amber-400 font-mono block">Kanso</span>
+              <span class="text-amber-300 font-bold text-[11px] block mt-0.5">Local Metal/RTX</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 7 -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-white">License</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono font-bold">MIT Sovereign</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2 rounded-xl bg-red-500/5 border border-red-500/15">
+              <span class="text-[10px] text-neutral-400 font-mono block">Closed</span>
+              <span class="text-neutral-400 text-[11px] block mt-0.5">Proprietary</span>
+            </div>
+            <div class="p-2 rounded-xl bg-blue-500/10 border border-blue-500/25">
+              <span class="text-[10px] text-emerald-400 font-mono block">Kanso</span>
+              <span class="text-emerald-300 font-bold text-[11px] block mt-0.5">MIT Open Source</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Interactive CLI Playground Section -->
-  <section id="playground" class="relative z-10 py-20 px-6 max-w-5xl mx-auto">
-    <div class="text-center mb-12">
-      <h2 class="text-xs uppercase font-mono tracking-widest text-blue-400 mb-2">Instant Experience</h2>
-      <h3 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Interactive Terminal Playground</h3>
-      <p class="text-neutral-400 text-sm max-w-xl mx-auto mt-2">
+  <section id="playground" class="relative z-10 py-24 px-6 max-w-5xl mx-auto">
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill mb-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+        <span class="text-xs uppercase font-mono tracking-widest text-blue-300 font-semibold">Instant Experience</span>
+      </div>
+      <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">Interactive Terminal Playground</h3>
+      <p class="text-neutral-400 text-sm max-w-xl mx-auto mt-3">
         Click any command below to test Kanso's sovereign execution engine right in your browser.
       </p>
     </div>
 
     <!-- Playground Command Switcher -->
-    <div class="flex flex-wrap items-center justify-center gap-2 mb-6">
-      <button onclick="runPlaygroundCmd('doctor')" id="pg-btn-doctor" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium bg-white text-black transition-all shadow-sm flex items-center gap-1.5">
-        <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+    <div class="flex flex-wrap items-center justify-center gap-2.5 mb-6">
+      <button onclick="runPlaygroundCmd('doctor')" id="pg-btn-doctor" class="px-4 py-2 rounded-xl text-xs font-mono font-semibold bg-white text-black transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] flex items-center gap-2">
+        <i data-lucide="activity" class="w-3.5 h-3.5 text-black"></i>
         <span>kanso doctor</span>
       </button>
-      <button onclick="runPlaygroundCmd('vibe')" id="pg-btn-vibe" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-1.5">
-        <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+      <button onclick="runPlaygroundCmd('vibe')" id="pg-btn-vibe" class="px-4 py-2 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-2 shadow-sm">
+        <i data-lucide="eye" class="w-3.5 h-3.5 text-sky-400"></i>
         <span>kanso vibe</span>
       </button>
-      <button onclick="runPlaygroundCmd('fix')" id="pg-btn-fix" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-1.5">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+      <button onclick="runPlaygroundCmd('fix')" id="pg-btn-fix" class="px-4 py-2 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-2 shadow-sm">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
         <span>kanso fix</span>
       </button>
-      <button onclick="runPlaygroundCmd('handoff')" id="pg-btn-handoff" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-1.5">
-        <i data-lucide="git-pull-request" class="w-3.5 h-3.5"></i>
+      <button onclick="runPlaygroundCmd('handoff')" id="pg-btn-handoff" class="px-4 py-2 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-2 shadow-sm">
+        <i data-lucide="git-pull-request" class="w-3.5 h-3.5 text-purple-400"></i>
         <span>kanso handoff</span>
       </button>
-      <button onclick="runPlaygroundCmd('recall')" id="pg-btn-recall" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-1.5">
-        <i data-lucide="brain" class="w-3.5 h-3.5"></i>
+      <button onclick="runPlaygroundCmd('recall')" id="pg-btn-recall" class="px-4 py-2 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-2 shadow-sm">
+        <i data-lucide="brain" class="w-3.5 h-3.5 text-emerald-400"></i>
         <span>kanso recall</span>
       </button>
     </div>
 
     <!-- Playground Terminal Window -->
-    <div class="glass-card rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl font-mono text-xs text-left relative overflow-hidden">
+    <div class="glass-card rounded-3xl p-6 md:p-8 border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] font-mono text-xs text-left relative overflow-hidden">
       <!-- Window Controls -->
       <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
-        <div class="flex items-center gap-2">
-          <div class="flex gap-1.5">
-            <span class="w-3 h-3 rounded-full bg-neutral-700"></span>
-            <span class="w-3 h-3 rounded-full bg-neutral-700"></span>
-            <span class="w-3 h-3 rounded-full bg-neutral-700"></span>
+        <div class="flex items-center gap-3">
+          <div class="flex gap-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500/80 border border-rose-600/50"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-500/80 border border-amber-600/50"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-500/80 border border-emerald-600/50"></span>
           </div>
-          <span class="text-neutral-400 text-[11px] ml-2 font-medium">terminal — zsh — sovereign-mac</span>
+          <span class="text-neutral-400 text-[11px] font-medium pl-2 border-l border-white/10">terminal — zsh — sovereign-local</span>
         </div>
-        <span class="text-emerald-400 text-[10px] font-mono flex items-center gap-1">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          LOCAL ENGINE READY
-        </span>
+        <div class="flex items-center gap-3">
+          <span class="text-neutral-400 text-[10px] hidden sm:inline-block font-mono bg-white/5 px-2 py-0.5 rounded border border-white/10">Latency: ~42ms</span>
+          <span class="text-emerald-400 text-[10px] font-mono flex items-center gap-1.5 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            SOVEREIGN READY
+          </span>
+        </div>
       </div>
 
       <!-- Terminal Output Container -->
@@ -608,126 +1107,171 @@
   </section>
 
   <!-- Hardware-Native Sovereign Architecture Section -->
-  <section id="hardware" class="relative z-10 py-16 px-6 max-w-5xl mx-auto">
-    <div class="text-center mb-12">
-      <h2 class="text-xs uppercase font-mono tracking-widest text-purple-400 mb-2">Native Silicon</h2>
-      <h3 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Built for Next-Gen Local Hardware</h3>
-      <p class="text-neutral-400 text-sm max-w-xl mx-auto mt-2">
+  <section id="hardware" class="relative z-10 py-20 px-6 max-w-5xl mx-auto">
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill mb-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+        <span class="text-xs uppercase font-mono tracking-widest text-purple-300 font-semibold">Native Silicon</span>
+      </div>
+      <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">Built for Next-Gen Local Hardware</h3>
+      <p class="text-neutral-400 text-sm max-w-xl mx-auto mt-3">
         Sub-second deterministic audits that run completely offline without burning cloud tokens or transmitting private IP.
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
       <!-- Hardware 1: Apple Silicon -->
-      <div class="glass-card rounded-3xl p-7 border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between">
+      <div class="glass-card rounded-3xl p-8 border border-white/10 hover:border-rose-500/40 transition-all flex flex-col justify-between group">
         <div>
-          <div class="w-11 h-11 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-5">
-            <i data-lucide="cpu" class="w-5 h-5"></i>
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-500/20 via-pink-500/10 to-transparent border border-rose-400/30 flex items-center justify-center text-rose-400 glow-rose mb-6 group-hover:scale-105 transition-transform shadow-inner">
+            <i data-lucide="cpu" class="w-6 h-6"></i>
           </div>
-          <h4 class="text-lg font-bold text-white mb-2">Apple Silicon Metal</h4>
-          <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-rose-400 font-semibold block mb-1">Apple Silicon</span>
+          <h4 class="text-xl font-bold text-white mb-2">Metal & Unified Memory</h4>
+          <p class="text-neutral-300 text-xs leading-relaxed mb-6">
             Leverages unified memory architecture and Metal acceleration for instant headless Chrome CDP DOM parsing and zero-lag tri-device viewports.
           </p>
+          <div class="space-y-1.5 text-[11px] font-mono text-neutral-400 mb-6">
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-rose-400"></i> Up to 800 GB/s bandwidth</div>
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-rose-400"></i> Zero IPC memory copy</div>
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-rose-400"></i> Apple Neural Engine radar</div>
+          </div>
         </div>
-        <div class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-xl">
-          ✓ M1 / M2 / M3 / M4 Unified Memory
+        <div class="text-[11px] font-mono text-rose-300 bg-rose-950/40 border border-rose-500/20 px-3.5 py-2 rounded-xl flex items-center justify-between">
+          <span>M1 / M2 / M3 / M4 Metal</span>
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-rose-400"></i>
         </div>
       </div>
 
       <!-- Hardware 2: NVIDIA RTX -->
-      <div class="glass-card rounded-3xl p-7 border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between">
+      <div class="glass-card rounded-3xl p-8 border border-white/10 hover:border-green-500/40 transition-all flex flex-col justify-between group">
         <div>
-          <div class="w-11 h-11 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400 mb-5">
-            <i data-lucide="zap" class="w-5 h-5"></i>
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-green-500/20 via-emerald-500/10 to-transparent border border-green-400/30 flex items-center justify-center text-green-400 glow-emerald mb-6 group-hover:scale-105 transition-transform shadow-inner">
+            <i data-lucide="zap" class="w-6 h-6"></i>
           </div>
-          <h4 class="text-lg font-bold text-white mb-2">NVIDIA RTX & TensorRT</h4>
-          <p class="text-neutral-400 text-xs leading-relaxed mb-4">
-            Probes local CUDA cores and NVIDIA NIM microservices (<code class="text-green-300">:8000/v1</code>) for sub-second visual self-healing and code repair.
+          <span class="text-[11px] font-mono uppercase tracking-wider text-green-400 font-semibold block mb-1">NVIDIA Architecture</span>
+          <h4 class="text-xl font-bold text-white mb-2">RTX & TensorRT-LLM</h4>
+          <p class="text-neutral-300 text-xs leading-relaxed mb-6">
+            Probes local CUDA cores and NVIDIA NIM microservices (<code class="text-green-300 font-mono">:8000/v1</code>) for sub-second visual self-healing and code repair.
           </p>
+          <div class="space-y-1.5 text-[11px] font-mono text-neutral-400 mb-6">
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-green-400"></i> RTX 40 / 50 Series support</div>
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-green-400"></i> TensorRT kernel fusion</div>
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-green-400"></i> Local NIM auto-repair probe</div>
+          </div>
         </div>
-        <div class="text-[11px] font-mono text-green-400 bg-green-500/10 border border-green-500/20 px-3 py-1.5 rounded-xl">
-          ✓ RTX 40/50 Series & TensorRT Ready
+        <div class="text-[11px] font-mono text-green-300 bg-green-950/40 border border-green-500/20 px-3.5 py-2 rounded-xl flex items-center justify-between">
+          <span>CUDA & TensorRT Ready</span>
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-green-400"></i>
         </div>
       </div>
 
       <!-- Hardware 3: Sovereign Storage -->
-      <div class="glass-card rounded-3xl p-7 border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between">
+      <div class="glass-card rounded-3xl p-8 border border-white/10 hover:border-cyan-500/40 transition-all flex flex-col justify-between group">
         <div>
-          <div class="w-11 h-11 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-5">
-            <i data-lucide="database" class="w-5 h-5"></i>
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500/20 via-blue-500/10 to-transparent border border-cyan-400/30 flex items-center justify-center text-cyan-400 glow-cyan mb-6 group-hover:scale-105 transition-transform shadow-inner">
+            <i data-lucide="database" class="w-6 h-6"></i>
           </div>
-          <h4 class="text-lg font-bold text-white mb-2">Local SQLite & Flat JSON</h4>
-          <p class="text-neutral-400 text-xs leading-relaxed mb-4">
-            No remote database servers or cloud accounts. Everything persists in <code class="text-neutral-200">~/.kanso/memory.json</code> and <code class="text-neutral-200">.kanso/handoff.patch</code>.
+          <span class="text-[11px] font-mono uppercase tracking-wider text-cyan-400 font-semibold block mb-1">Local Persistence</span>
+          <h4 class="text-xl font-bold text-white mb-2">Flat Files & SQLite</h4>
+          <p class="text-neutral-300 text-xs leading-relaxed mb-6">
+            Zero remote database servers, accounts, or telemetry endpoints. All memories and patches persist in flat local files on your own filesystem.
           </p>
+          <div class="space-y-1.5 text-[11px] font-mono text-neutral-400 mb-6">
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> <code class="text-neutral-300">~/.kanso/memory.json</code></div>
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> <code class="text-neutral-300">.kanso/handoff.patch</code></div>
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> Sub-millisecond cold start</div>
+          </div>
         </div>
-        <div class="text-[11px] font-mono text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1.5 rounded-xl">
-          ✓ 100% Offline & Zero Telemetry
+        <div class="text-[11px] font-mono text-cyan-300 bg-cyan-950/40 border border-cyan-500/20 px-3.5 py-2 rounded-xl flex items-center justify-between">
+          <span>100% Offline & Sovereign</span>
+          <i data-lucide="shield" class="w-3.5 h-3.5 text-cyan-400"></i>
         </div>
       </div>
     </div>
   </section>
 
   <!-- FAQ Section -->
-  <section id="faq" class="relative z-10 py-20 px-6 max-w-4xl mx-auto">
-    <div class="text-center mb-14">
-      <h2 class="text-xs uppercase font-mono tracking-widest text-emerald-400 mb-2">Transparency</h2>
-      <h3 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Frequently Asked Questions</h3>
+  <section id="faq" class="relative z-10 py-24 px-6 max-w-4xl mx-auto">
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill mb-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+        <span class="text-xs uppercase font-mono tracking-widest text-emerald-300 font-semibold">Transparency</span>
+      </div>
+      <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">Frequently Asked Questions</h3>
+      <p class="text-neutral-400 text-sm max-w-xl mx-auto mt-3">
+        Everything you need to know about Kanso's sovereign architecture, privacy model, and licensing.
+      </p>
     </div>
 
     <div class="space-y-4 text-left">
       <!-- FAQ 1 -->
-      <div class="glass-card rounded-2xl border border-white/10 p-5 cursor-pointer hover:border-white/20 transition-all" onclick="toggleFaq(1)">
-        <div class="flex items-center justify-between">
-          <h4 class="text-base font-semibold text-white">Is Kanso really 100% free and open-source?</h4>
-          <i id="faq-icon-1" data-lucide="chevron-down" class="w-4 h-4 text-neutral-400 transition-transform"></i>
+      <div class="glass-card rounded-2xl border border-white/10 p-5 sm:p-6 cursor-pointer hover:border-white/25 transition-all group" onclick="toggleFaq(1)">
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <span class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center font-mono text-xs text-neutral-300 font-bold shrink-0 group-hover:border-white/20 transition-all">01</span>
+            <h4 class="text-base sm:text-lg font-semibold text-white">Is Kanso really 100% free and open-source?</h4>
+          </div>
+          <i id="faq-icon-1" data-lucide="chevron-down" class="w-5 h-5 text-neutral-400 transition-transform shrink-0"></i>
         </div>
-        <p id="faq-ans-1" class="text-xs text-neutral-400 leading-relaxed mt-3">
+        <p id="faq-ans-1" class="text-xs sm:text-sm text-neutral-300 leading-relaxed mt-4 pl-11">
           Yes. Kanso is released under the permissive MIT License. There are no trial periods, no hidden credits, no cloud subscription tiers, and no locked features. We believe foundational developer sovereignty belongs to everyone.
         </p>
       </div>
 
       <!-- FAQ 2 -->
-      <div class="glass-card rounded-2xl border border-white/10 p-5 cursor-pointer hover:border-white/20 transition-all" onclick="toggleFaq(2)">
-        <div class="flex items-center justify-between">
-          <h4 class="text-base font-semibold text-white">Does Kanso send my code or diffs to any external server?</h4>
-          <i id="faq-icon-2" data-lucide="chevron-down" class="w-4 h-4 text-neutral-400 transition-transform"></i>
+      <div class="glass-card rounded-2xl border border-white/10 p-5 sm:p-6 cursor-pointer hover:border-white/25 transition-all group" onclick="toggleFaq(2)">
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <span class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center font-mono text-xs text-neutral-300 font-bold shrink-0 group-hover:border-white/20 transition-all">02</span>
+            <h4 class="text-base sm:text-lg font-semibold text-white">Does Kanso send my code or diffs to any external server?</h4>
+          </div>
+          <i id="faq-icon-2" data-lucide="chevron-down" class="w-5 h-5 text-neutral-400 transition-transform shrink-0"></i>
         </div>
-        <p id="faq-ans-2" class="text-xs text-neutral-400 leading-relaxed mt-3 hidden">
+        <p id="faq-ans-2" class="text-xs sm:text-sm text-neutral-300 leading-relaxed mt-4 pl-11 hidden">
           Never. Kanso contains zero telemetry, zero analytics trackers, and zero cloud uploads. Your code, uncommitted diffs, screenshots, and memories never leave your machine unless you explicitly commit and push them with Git.
         </p>
       </div>
 
       <!-- FAQ 3 -->
-      <div class="glass-card rounded-2xl border border-white/10 p-5 cursor-pointer hover:border-white/20 transition-all" onclick="toggleFaq(3)">
-        <div class="flex items-center justify-between">
-          <h4 class="text-base font-semibold text-white">How does VibeTest differ from Playwright or Cypress?</h4>
-          <i id="faq-icon-3" data-lucide="chevron-down" class="w-4 h-4 text-neutral-400 transition-transform"></i>
+      <div class="glass-card rounded-2xl border border-white/10 p-5 sm:p-6 cursor-pointer hover:border-white/25 transition-all group" onclick="toggleFaq(3)">
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <span class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center font-mono text-xs text-neutral-300 font-bold shrink-0 group-hover:border-white/20 transition-all">03</span>
+            <h4 class="text-base sm:text-lg font-semibold text-white">How does VibeTest differ from Playwright or Cypress?</h4>
+          </div>
+          <i id="faq-icon-3" data-lucide="chevron-down" class="w-5 h-5 text-neutral-400 transition-transform shrink-0"></i>
         </div>
-        <p id="faq-ans-3" class="text-xs text-neutral-400 leading-relaxed mt-3 hidden">
+        <p id="faq-ans-3" class="text-xs sm:text-sm text-neutral-300 leading-relaxed mt-4 pl-11 hidden">
           Playwright and Cypress are behavioral assertion frameworks designed for unit and E2E flows (e.g. "does clicking this button route to /checkout"). VibeTest is an aesthetic and visual intelligence radar built specifically for AI-generated codebases. It monitors layout integrity, catches horizontal mobile overflows, identifies accidental whitespace voids (>85px), and verifies WCAG contrast ratios across both desktop and mobile viewports automatically.
         </p>
       </div>
 
       <!-- FAQ 4 -->
-      <div class="glass-card rounded-2xl border border-white/10 p-5 cursor-pointer hover:border-white/20 transition-all" onclick="toggleFaq(4)">
-        <div class="flex items-center justify-between">
-          <h4 class="text-base font-semibold text-white">Which AI models and coding agents are supported?</h4>
-          <i id="faq-icon-4" data-lucide="chevron-down" class="w-4 h-4 text-neutral-400 transition-transform"></i>
+      <div class="glass-card rounded-2xl border border-white/10 p-5 sm:p-6 cursor-pointer hover:border-white/25 transition-all group" onclick="toggleFaq(4)">
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <span class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center font-mono text-xs text-neutral-300 font-bold shrink-0 group-hover:border-white/20 transition-all">04</span>
+            <h4 class="text-base sm:text-lg font-semibold text-white">Which AI models and coding agents are supported?</h4>
+          </div>
+          <i id="faq-icon-4" data-lucide="chevron-down" class="w-5 h-5 text-neutral-400 transition-transform shrink-0"></i>
         </div>
-        <p id="faq-ans-4" class="text-xs text-neutral-400 leading-relaxed mt-3 hidden">
+        <p id="faq-ans-4" class="text-xs sm:text-sm text-neutral-300 leading-relaxed mt-4 pl-11 hidden">
           Every single one. Because Kanso relies on universal Git diff patches and clean Markdown trajectory handoffs, it works seamlessly with Claude Code, Cursor, Codex, Gemini CLI, Grok, Windsurf, Aider, Ollama, and local models. When switching agents, the next assistant resumes work with 100% precision.
         </p>
       </div>
 
       <!-- FAQ 5 -->
-      <div class="glass-card rounded-2xl border border-white/10 p-5 cursor-pointer hover:border-white/20 transition-all" onclick="toggleFaq(5)">
-        <div class="flex items-center justify-between">
-          <h4 class="text-base font-semibold text-white">Can I use Kanso in GitHub Actions or CI/CD?</h4>
-          <i id="faq-icon-5" data-lucide="chevron-down" class="w-4 h-4 text-neutral-400 transition-transform"></i>
+      <div class="glass-card rounded-2xl border border-white/10 p-5 sm:p-6 cursor-pointer hover:border-white/25 transition-all group" onclick="toggleFaq(5)">
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <span class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center font-mono text-xs text-neutral-300 font-bold shrink-0 group-hover:border-white/20 transition-all">05</span>
+            <h4 class="text-base sm:text-lg font-semibold text-white">Can I use Kanso in GitHub Actions or CI/CD?</h4>
+          </div>
+          <i id="faq-icon-5" data-lucide="chevron-down" class="w-5 h-5 text-neutral-400 transition-transform shrink-0"></i>
         </div>
-        <p id="faq-ans-5" class="text-xs text-neutral-400 leading-relaxed mt-3 hidden">
-          Yes! Simply add <code class="text-neutral-200">kanso vibe http://localhost:3000 --ci --threshold 90</code> to your test pipeline. If any PR causes a visual regression or drops the VibeScore below 90, Kanso exits with code 1, preventing defective code from reaching production.
+        <p id="faq-ans-5" class="text-xs sm:text-sm text-neutral-300 leading-relaxed mt-4 pl-11 hidden">
+          Yes! Simply add <code class="text-emerald-300 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-500/20 font-mono">kanso vibe http://localhost:3000 --ci --threshold 90</code> to your test pipeline. If any PR causes a visual regression or drops the VibeScore below 90, Kanso exits with code 1, preventing defective code from reaching production.
         </p>
       </div>
     </div>
@@ -735,22 +1279,22 @@
 
   <!-- Final Call to Action -->
   <section class="relative z-10 py-24 px-6 max-w-4xl mx-auto text-center">
-    <div class="glass-card rounded-3xl p-10 sm:p-14 border border-white/10 shadow-2xl relative overflow-hidden">
-      <div class="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center font-bold text-2xl text-white mx-auto mb-6 shadow-inner">
+    <div class="glass-card rounded-3xl p-10 sm:p-16 border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden group hover:border-white/20 transition-all">
+      <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/20 via-white/10 to-white/5 border border-white/20 flex items-center justify-center font-bold text-2xl text-white mx-auto mb-6 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:scale-105 transition-transform">
         簡
       </div>
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
         Ready for Sovereign Engineering?
       </h2>
-      <p class="text-neutral-400 max-w-lg mx-auto text-sm sm:text-base leading-relaxed mb-8">
-        Join the open-source movement. No credit cards, no logins, no subscriptions. Install in seconds.
+      <p class="text-neutral-300 max-w-lg mx-auto text-sm sm:text-base leading-relaxed mb-8">
+        Join the open-source sovereign movement. No credit cards, no logins, no subscriptions. Install in seconds on macOS, Linux, or Windows.
       </p>
-      <div class="inline-flex flex-col sm:flex-row items-center gap-3">
-        <a href="#install" class="px-6 py-3 rounded-full text-sm font-semibold text-black bg-white hover:bg-neutral-200 transition-all shadow-lg flex items-center gap-2">
-          <span>Install Kanso CLI</span>
+      <div class="inline-flex flex-col sm:flex-row items-center gap-3.5">
+        <a href="#install" class="px-6 py-3 rounded-full text-sm font-semibold text-black bg-white hover:bg-neutral-200 transition-all shadow-[0_0_25px_rgba(255,255,255,0.25)] flex items-center gap-2">
+          <span>Install Kanso CLI Free</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </a>
-        <a href="https://github.com/AndrewExpressAgency/kanso" target="_blank" class="px-6 py-3 rounded-full text-sm font-medium text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-2">
+        <a href="https://github.com/AndrewExpressAgency/kanso" target="_blank" class="px-6 py-3 rounded-full text-sm font-medium text-white bg-white/5 hover:bg-white/10 border border-white/15 transition-all flex items-center gap-2 shadow-sm">
           <i data-lucide="github" class="w-4 h-4"></i>
           <span>Star on GitHub</span>
         </a>
@@ -904,9 +1448,9 @@
         const btn = document.getElementById('pg-btn-' + c);
         if (btn) {
           if (c === cmd) {
-            btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium bg-white text-black transition-all shadow-sm flex items-center gap-1.5';
+            btn.className = 'px-4 py-2 rounded-xl text-xs font-mono font-semibold bg-white text-black transition-all shadow-[0_0_15px_rgba(255,255,255,0.25)] flex items-center gap-2';
           } else {
-            btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-1.5';
+            btn.className = 'px-4 py-2 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-2 shadow-sm';
           }
         }
       });
