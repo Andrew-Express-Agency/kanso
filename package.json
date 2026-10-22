@@ -12,7 +12,8 @@
     "build": "tsc",
     "dev": "tsx src/cli/index.ts",
     "test": "tsx test/index.test.ts",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "preview": "node scripts/preview.js"
   },
   "keywords": [
     "ai",
