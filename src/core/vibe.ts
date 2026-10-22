@@ -114,8 +114,21 @@ function getDomAuditScript() {
     }
 
     function parseRgb(colorStr) {
-      const m = colorStr.match(/\\d+/g);
-      return m ? m.slice(0, 3).map(Number) : [0, 0, 0];
+      const m = colorStr.match(/\\d+(\\.\\d+)?/g);
+      if (!m) return [0, 0, 0];
+      const r = parseFloat(m[0]);
+      const g = parseFloat(m[1]);
+      const b = parseFloat(m[2]);
+      const a = m[3] !== undefined ? parseFloat(m[3]) : 1.0;
+      if (a < 0.95) {
+        // Blend alpha over obsidian canvas [10, 10, 12]
+        return [
+          Math.round(r * a + 10 * (1 - a)),
+          Math.round(g * a + 10 * (1 - a)),
+          Math.round(b * a + 12 * (1 - a))
+        ];
+      }
+      return [r, g, b];
     }
 
     const textEls = Array.from(document.querySelectorAll('p, span, h1, h2, h3, h4, a, button, div'));
@@ -123,6 +136,7 @@ function getDomAuditScript() {
       if (el.children.length === 0 && el.textContent.trim().length > 3) {
         const style = window.getComputedStyle(el);
         if (style.visibility === 'hidden' || style.display === 'none' || parseFloat(style.opacity) === 0) continue;
+        if (style.webkitBackgroundClip === 'text' || style.backgroundClip === 'text') continue;
 
         // Find effective background color by walking up
         let bgStyle = style.backgroundColor;
