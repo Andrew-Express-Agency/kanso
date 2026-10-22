@@ -95,11 +95,13 @@
         </div>
       </div>
 
-      <div class="hidden md:flex items-center gap-7 text-xs font-medium text-neutral-300">
-        <a href="#features" class="hover:text-white transition-colors">Architecture</a>
-        <a href="#vibe" class="hover:text-white transition-colors">VibeTest™ Radar</a>
-        <a href="#handoff" class="hover:text-white transition-colors">Multi-Agent Handoff</a>
-        <a href="#comparison" class="hover:text-white transition-colors">Why Sovereign</a>
+      <div class="hidden md:flex items-center gap-1.5 text-xs font-medium text-neutral-300">
+        <a href="#features" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">Architecture</a>
+        <a href="#vibe" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">VibeTest™ Radar</a>
+        <a href="#handoff" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">Multi-Agent Handoff</a>
+        <a href="#playground" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">CLI Playground</a>
+        <a href="#comparison" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">Sovereignty</a>
+        <a href="#faq" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">FAQ</a>
       </div>
 
       <div class="flex items-center gap-3">
@@ -137,6 +139,11 @@
 
     <!-- CLI Install Box -->
     <div id="install" class="w-full max-w-lg mb-14">
+      <div class="flex items-center justify-center gap-1 mb-3 p-1 rounded-xl bg-white/5 border border-white/10 w-fit mx-auto">
+        <button id="pkg-npm" onclick="setInstallPkg('npm')" class="px-3.5 py-1 rounded-lg text-xs font-semibold bg-white text-black transition-all shadow-sm">npm</button>
+        <button id="pkg-curl" onclick="setInstallPkg('curl')" class="px-3.5 py-1 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all">curl</button>
+        <button id="pkg-npx" onclick="setInstallPkg('npx')" class="px-3.5 py-1 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all">npx</button>
+      </div>
       <div class="glass-card rounded-2xl p-2.5 flex items-center justify-between border border-white/10 shadow-2xl relative group">
         <div class="flex items-center gap-3 px-3 overflow-x-auto text-sm font-mono text-neutral-200">
           <span class="text-neutral-500 select-none">$</span>
@@ -541,6 +548,191 @@
     </div>
   </section>
 
+  <!-- Interactive CLI Playground Section -->
+  <section id="playground" class="relative z-10 py-20 px-6 max-w-5xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-xs uppercase font-mono tracking-widest text-blue-400 mb-2">Instant Experience</h2>
+      <h3 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Interactive Terminal Playground</h3>
+      <p class="text-neutral-400 text-sm max-w-xl mx-auto mt-2">
+        Click any command below to test Kanso's sovereign execution engine right in your browser.
+      </p>
+    </div>
+
+    <!-- Playground Command Switcher -->
+    <div class="flex flex-wrap items-center justify-center gap-2 mb-6">
+      <button onclick="runPlaygroundCmd('doctor')" id="pg-btn-doctor" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium bg-white text-black transition-all shadow-sm flex items-center gap-1.5">
+        <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+        <span>kanso doctor</span>
+      </button>
+      <button onclick="runPlaygroundCmd('vibe')" id="pg-btn-vibe" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-1.5">
+        <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+        <span>kanso vibe</span>
+      </button>
+      <button onclick="runPlaygroundCmd('fix')" id="pg-btn-fix" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-1.5">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span>kanso fix</span>
+      </button>
+      <button onclick="runPlaygroundCmd('handoff')" id="pg-btn-handoff" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-1.5">
+        <i data-lucide="git-pull-request" class="w-3.5 h-3.5"></i>
+        <span>kanso handoff</span>
+      </button>
+      <button onclick="runPlaygroundCmd('recall')" id="pg-btn-recall" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-1.5">
+        <i data-lucide="brain" class="w-3.5 h-3.5"></i>
+        <span>kanso recall</span>
+      </button>
+    </div>
+
+    <!-- Playground Terminal Window -->
+    <div class="glass-card rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl font-mono text-xs text-left relative overflow-hidden">
+      <!-- Window Controls -->
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+        <div class="flex items-center gap-2">
+          <div class="flex gap-1.5">
+            <span class="w-3 h-3 rounded-full bg-neutral-700"></span>
+            <span class="w-3 h-3 rounded-full bg-neutral-700"></span>
+            <span class="w-3 h-3 rounded-full bg-neutral-700"></span>
+          </div>
+          <span class="text-neutral-400 text-[11px] ml-2 font-medium">terminal — zsh — sovereign-mac</span>
+        </div>
+        <span class="text-emerald-400 text-[10px] font-mono flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          LOCAL ENGINE READY
+        </span>
+      </div>
+
+      <!-- Terminal Output Container -->
+      <div id="playground-output" class="space-y-2.5 text-neutral-300 leading-relaxed min-h-[260px] max-h-[420px] overflow-y-auto terminal-scroll">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Hardware-Native Sovereign Architecture Section -->
+  <section id="hardware" class="relative z-10 py-16 px-6 max-w-5xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-xs uppercase font-mono tracking-widest text-purple-400 mb-2">Native Silicon</h2>
+      <h3 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Built for Next-Gen Local Hardware</h3>
+      <p class="text-neutral-400 text-sm max-w-xl mx-auto mt-2">
+        Sub-second deterministic audits that run completely offline without burning cloud tokens or transmitting private IP.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+      <!-- Hardware 1: Apple Silicon -->
+      <div class="glass-card rounded-3xl p-7 border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between">
+        <div>
+          <div class="w-11 h-11 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-5">
+            <i data-lucide="cpu" class="w-5 h-5"></i>
+          </div>
+          <h4 class="text-lg font-bold text-white mb-2">Apple Silicon Metal</h4>
+          <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+            Leverages unified memory architecture and Metal acceleration for instant headless Chrome CDP DOM parsing and zero-lag tri-device viewports.
+          </p>
+        </div>
+        <div class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-xl">
+          ✓ M1 / M2 / M3 / M4 Unified Memory
+        </div>
+      </div>
+
+      <!-- Hardware 2: NVIDIA RTX -->
+      <div class="glass-card rounded-3xl p-7 border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between">
+        <div>
+          <div class="w-11 h-11 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400 mb-5">
+            <i data-lucide="zap" class="w-5 h-5"></i>
+          </div>
+          <h4 class="text-lg font-bold text-white mb-2">NVIDIA RTX & TensorRT</h4>
+          <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+            Probes local CUDA cores and NVIDIA NIM microservices (<code class="text-green-300">:8000/v1</code>) for sub-second visual self-healing and code repair.
+          </p>
+        </div>
+        <div class="text-[11px] font-mono text-green-400 bg-green-500/10 border border-green-500/20 px-3 py-1.5 rounded-xl">
+          ✓ RTX 40/50 Series & TensorRT Ready
+        </div>
+      </div>
+
+      <!-- Hardware 3: Sovereign Storage -->
+      <div class="glass-card rounded-3xl p-7 border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between">
+        <div>
+          <div class="w-11 h-11 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-5">
+            <i data-lucide="database" class="w-5 h-5"></i>
+          </div>
+          <h4 class="text-lg font-bold text-white mb-2">Local SQLite & Flat JSON</h4>
+          <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+            No remote database servers or cloud accounts. Everything persists in <code class="text-neutral-200">~/.kanso/memory.json</code> and <code class="text-neutral-200">.kanso/handoff.patch</code>.
+          </p>
+        </div>
+        <div class="text-[11px] font-mono text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1.5 rounded-xl">
+          ✓ 100% Offline & Zero Telemetry
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="relative z-10 py-20 px-6 max-w-4xl mx-auto">
+    <div class="text-center mb-14">
+      <h2 class="text-xs uppercase font-mono tracking-widest text-emerald-400 mb-2">Transparency</h2>
+      <h3 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Frequently Asked Questions</h3>
+    </div>
+
+    <div class="space-y-4 text-left">
+      <!-- FAQ 1 -->
+      <div class="glass-card rounded-2xl border border-white/10 p-5 cursor-pointer hover:border-white/20 transition-all" onclick="toggleFaq(1)">
+        <div class="flex items-center justify-between">
+          <h4 class="text-base font-semibold text-white">Is Kanso really 100% free and open-source?</h4>
+          <i id="faq-icon-1" data-lucide="chevron-down" class="w-4 h-4 text-neutral-400 transition-transform"></i>
+        </div>
+        <p id="faq-ans-1" class="text-xs text-neutral-400 leading-relaxed mt-3">
+          Yes. Kanso is released under the permissive MIT License. There are no trial periods, no hidden credits, no cloud subscription tiers, and no locked features. We believe foundational developer sovereignty belongs to everyone.
+        </p>
+      </div>
+
+      <!-- FAQ 2 -->
+      <div class="glass-card rounded-2xl border border-white/10 p-5 cursor-pointer hover:border-white/20 transition-all" onclick="toggleFaq(2)">
+        <div class="flex items-center justify-between">
+          <h4 class="text-base font-semibold text-white">Does Kanso send my code or diffs to any external server?</h4>
+          <i id="faq-icon-2" data-lucide="chevron-down" class="w-4 h-4 text-neutral-400 transition-transform"></i>
+        </div>
+        <p id="faq-ans-2" class="text-xs text-neutral-400 leading-relaxed mt-3 hidden">
+          Never. Kanso contains zero telemetry, zero analytics trackers, and zero cloud uploads. Your code, uncommitted diffs, screenshots, and memories never leave your machine unless you explicitly commit and push them with Git.
+        </p>
+      </div>
+
+      <!-- FAQ 3 -->
+      <div class="glass-card rounded-2xl border border-white/10 p-5 cursor-pointer hover:border-white/20 transition-all" onclick="toggleFaq(3)">
+        <div class="flex items-center justify-between">
+          <h4 class="text-base font-semibold text-white">How does VibeTest differ from Playwright or Cypress?</h4>
+          <i id="faq-icon-3" data-lucide="chevron-down" class="w-4 h-4 text-neutral-400 transition-transform"></i>
+        </div>
+        <p id="faq-ans-3" class="text-xs text-neutral-400 leading-relaxed mt-3 hidden">
+          Playwright and Cypress are behavioral assertion frameworks designed for unit and E2E flows (e.g. "does clicking this button route to /checkout"). VibeTest is an aesthetic and visual intelligence radar built specifically for AI-generated codebases. It monitors layout integrity, catches horizontal mobile overflows, identifies accidental whitespace voids (>85px), and verifies WCAG contrast ratios across both desktop and mobile viewports automatically.
+        </p>
+      </div>
+
+      <!-- FAQ 4 -->
+      <div class="glass-card rounded-2xl border border-white/10 p-5 cursor-pointer hover:border-white/20 transition-all" onclick="toggleFaq(4)">
+        <div class="flex items-center justify-between">
+          <h4 class="text-base font-semibold text-white">Which AI models and coding agents are supported?</h4>
+          <i id="faq-icon-4" data-lucide="chevron-down" class="w-4 h-4 text-neutral-400 transition-transform"></i>
+        </div>
+        <p id="faq-ans-4" class="text-xs text-neutral-400 leading-relaxed mt-3 hidden">
+          Every single one. Because Kanso relies on universal Git diff patches and clean Markdown trajectory handoffs, it works seamlessly with Claude Code, Cursor, Codex, Gemini CLI, Grok, Windsurf, Aider, Ollama, and local models. When switching agents, the next assistant resumes work with 100% precision.
+        </p>
+      </div>
+
+      <!-- FAQ 5 -->
+      <div class="glass-card rounded-2xl border border-white/10 p-5 cursor-pointer hover:border-white/20 transition-all" onclick="toggleFaq(5)">
+        <div class="flex items-center justify-between">
+          <h4 class="text-base font-semibold text-white">Can I use Kanso in GitHub Actions or CI/CD?</h4>
+          <i id="faq-icon-5" data-lucide="chevron-down" class="w-4 h-4 text-neutral-400 transition-transform"></i>
+        </div>
+        <p id="faq-ans-5" class="text-xs text-neutral-400 leading-relaxed mt-3 hidden">
+          Yes! Simply add <code class="text-neutral-200">kanso vibe http://localhost:3000 --ci --threshold 90</code> to your test pipeline. If any PR causes a visual regression or drops the VibeScore below 90, Kanso exits with code 1, preventing defective code from reaching production.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- Final Call to Action -->
   <section class="relative z-10 py-24 px-6 max-w-4xl mx-auto text-center">
     <div class="glass-card rounded-3xl p-10 sm:p-14 border border-white/10 shadow-2xl relative overflow-hidden">
@@ -578,7 +770,7 @@
         <span>·</span>
         <span>Zero Telemetry</span>
         <span>·</span>
-        <a href="https://github.com/AndrewExpressAgency/kanso" target="_blank" class="hover:text-white transition-colors">GitHub</a>
+        <a href="https://github.com/AndrewExpressAgency/kanso" target="_blank" class="py-2 px-2.5 rounded-lg hover:text-white hover:bg-white/5 transition-all">GitHub</a>
       </div>
     </div>
   </footer>
@@ -586,6 +778,25 @@
   <script>
     // Initialize Lucide icons
     lucide.createIcons();
+
+    // Package manager install switcher
+    const installCommands = {
+      npm: 'npm install -g kanso',
+      curl: 'curl -fsSL https://kanso.sh/install.sh | bash',
+      npx: 'npx kanso vibe http://localhost:3000'
+    };
+
+    function setInstallPkg(pkg) {
+      ['npm', 'curl', 'npx'].forEach(p => {
+        const btn = document.getElementById('pkg-' + p);
+        if (p === pkg) {
+          btn.className = 'px-3.5 py-1 rounded-lg text-xs font-semibold bg-white text-black transition-all shadow-sm';
+        } else {
+          btn.className = 'px-3.5 py-1 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all';
+        }
+      });
+      document.getElementById('install-cmd').innerText = installCommands[pkg] || installCommands.npm;
+    }
 
     // Tab switcher
     function switchTab(tab) {
@@ -604,6 +815,122 @@
       lucide.createIcons();
     }
 
+    // Playground Interactive Terminal Simulator
+    const playgroundOutputs = {
+      doctor: `
+<div class="text-neutral-500 font-semibold">$ kanso doctor</div>
+<div class="text-white font-bold">簡素  Kanso Sovereign Diagnostics & Hardware Radar</div>
+<div class="text-neutral-500">────────────────────────────────────────────────────────</div>
+<div>  Node Runtime   <span class="text-emerald-400">v22.10.1 (Supported)</span></div>
+<div>  Git Binary     <span class="text-emerald-400">git version 2.45.2 (Worktree & Diff Ready)</span></div>
+<div>  Chrome Engine  <span class="text-emerald-400">Apple Silicon Chrome (Headless CDP Enabled)</span></div>
+<div>  Metal Engine   <span class="text-emerald-400">Apple M-Series Metal Active (Unified Memory)</span></div>
+<div>  Neural Engine  <span class="text-emerald-400">Apple Neural Engine (ANE) Accelerators Active</span></div>
+<div>  NVIDIA Radar   <span class="text-neutral-400">Probing CUDA / TensorRT / NIM (:8000/v1)... Ready</span></div>
+<div>  Episodic Store <span class="text-emerald-400">~/.kanso/memory.json (Local & Sovereign)</span></div>
+<div class="pt-2 text-emerald-400 font-semibold">✓ All sovereign engines operating at peak hardware efficiency!</div>
+      `,
+      vibe: `
+<div class="text-neutral-500 font-semibold">$ kanso vibe http://localhost:3000</div>
+<div class="text-white font-bold">簡素  VibeTest 2.0  ·  Deep Visual & DOM Audit for http://localhost:3000</div>
+<div class="text-neutral-500">────────────────────────────────────────────────────────</div>
+<div class="text-neutral-400">  info  Launching headless Apple Silicon Chrome engine via CDP...</div>
+<div class="text-neutral-400">  info  Inspecting Mobile Viewport (iPhone 15 Pro — 393px)...</div>
+<div class="text-emerald-400">  ✓     Captured mobile frame (393 × 852)</div>
+<div class="text-neutral-400">  info  Inspecting Desktop Viewport (MacBook Pro — 1440px)...</div>
+<div class="text-emerald-400">  ✓     Captured desktop frame (1440 × 900)</div>
+<div class="text-neutral-500">  ────────────────────────────────────────────────────</div>
+<div>  Target URL     <span class="text-white">http://localhost:3000</span></div>
+<div>  VibeScore™     <span class="text-emerald-400 font-bold">100 / 100</span></div>
+<div>  Mobile Responsiveness <span class="text-white">100 / 100</span></div>
+<div>  Visual Contrast & Legibility <span class="text-white">100 / 100</span></div>
+<div>  Spacing & Layout Hygiene <span class="text-white">100 / 100</span></div>
+<div>  Tap Targets & Usability <span class="text-white">100 / 100</span></div>
+<div class="text-neutral-500">  ────────────────────────────────────────────────────</div>
+<div class="text-neutral-300">  HTML Report    .kanso/vibe-reports/report.html</div>
+<div class="text-neutral-300">  AI Markdown    .kanso/vibe-reports/vibe-report.md</div>
+<div class="pt-1 text-emerald-400 font-semibold">  ✓ VibeTest complete: 0 issue(s) detected. Layout is pristine!</div>
+      `,
+      fix: `
+<div class="text-neutral-500 font-semibold">$ kanso fix</div>
+<div class="text-white font-bold">簡素  Visual Self-Healing Engine 2.0  ·  Auto-Repair</div>
+<div class="text-neutral-500">────────────────────────────────────────────────────────</div>
+<div class="text-neutral-400">  info  Reading latest visual radar findings from .kanso/vibe-reports/vibe-report.md</div>
+<div>  Identified 1 visual defect in previous audit:</div>
+<div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[11px] my-1">
+  • [MOBILE OVERFLOW] Element .hero-cta extends 14px outside 393px viewport.
+</div>
+<div class="text-blue-400 font-semibold mt-2">Generated Self-Healing Repair Plan:</div>
+<div class="p-3 rounded-lg bg-white/5 border border-white/10 text-neutral-200 font-mono text-[11px] mt-1 space-y-1">
+  <span class="text-neutral-500">// Fix in src/components/Hero.tsx:</span><br>
+  <span class="text-red-400">- &lt;div className="w-[420px] flex items-center justify-between"&gt;</span><br>
+  <span class="text-emerald-400">+ &lt;div className="w-full max-w-[420px] flex flex-col sm:flex-row items-center justify-between"&gt;</span>
+</div>
+<div class="pt-2 text-emerald-400 font-semibold">✓ Precision CSS self-healing patch formulated successfully.</div>
+      `,
+      handoff: `
+<div class="text-neutral-500 font-semibold">$ kanso handoff create --task "Refactor checkout" --status in_progress</div>
+<div class="text-white font-bold">簡素  Handoff 2.0  ·  Serializing agent trajectory, git state & diff patch</div>
+<div class="text-neutral-500">────────────────────────────────────────────────────────</div>
+<div class="text-emerald-400">  ✓     Generated /workspace/HANDOFF.md</div>
+<div class="text-emerald-400">  ✓     Saved metadata to .kanso/handoff.json</div>
+<div class="text-emerald-400">  ✓     Preserved git diff snapshot to .kanso/handoff.patch</div>
+<div>  Project        checkout-core</div>
+<div>  Branch         feature/apple-pay</div>
+<div>  Status         IN_PROGRESS</div>
+<div>  Files Changed  3 file(s)</div>
+<div class="p-2.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-300 text-[11px] mt-2">
+  <span class="font-bold text-white block mb-0.5">Universal Multi-Agent Resume Prompt:</span>
+  <span>[KANSO RESUME] Continuing project checkout-core. Task: Refactor checkout. Status: in_progress. Diff patch ready via 'kanso handoff apply'.</span>
+</div>
+      `,
+      recall: `
+<div class="text-neutral-500 font-semibold">$ kanso recall "navbar void"</div>
+<div class="text-white font-bold">簡素  Memory Recall 2.0  ·  Query: "navbar void"</div>
+<div class="text-neutral-500">────────────────────────────────────────────────────────</div>
+<div class="text-emerald-400">  ✓     Found 1 relevant memory entry (100% offline, ~/.kanso/memory.json):</div>
+<div class="p-3 rounded-lg bg-white/5 border border-white/10 space-y-1.5 mt-2">
+  <div class="text-white font-semibold">📌 [tailwind-gotchas] Mobile Navbar 80px Whitespace Void Trap</div>
+  <div class="text-neutral-400">Score: 50 · Relevance: Exact Match · Pack: memory/tailwind-gotchas</div>
+  <div class="text-neutral-300"><span class="text-neutral-400">Insight:</span> Fixed navbar + pt-20 causes severe layout voids on iPhone dynamic islands.</div>
+  <div class="text-emerald-300"><span class="text-neutral-400">Solution:</span> Use pt-14 sm:pt-20 and env(safe-area-inset-top).</div>
+</div>
+      `
+    };
+
+    function runPlaygroundCmd(cmd) {
+      const cmds = ['doctor', 'vibe', 'fix', 'handoff', 'recall'];
+      cmds.forEach(c => {
+        const btn = document.getElementById('pg-btn-' + c);
+        if (btn) {
+          if (c === cmd) {
+            btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium bg-white text-black transition-all shadow-sm flex items-center gap-1.5';
+          } else {
+            btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-1.5';
+          }
+        }
+      });
+
+      const outputEl = document.getElementById('playground-output');
+      if (outputEl) {
+        outputEl.innerHTML = playgroundOutputs[cmd] || playgroundOutputs.doctor;
+      }
+      lucide.createIcons();
+    }
+
+    // FAQ Toggle
+    function toggleFaq(id) {
+      const ans = document.getElementById('faq-ans-' + id);
+      const icon = document.getElementById('faq-icon-' + id);
+      if (ans.classList.contains('hidden')) {
+        ans.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+      } else {
+        ans.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+      }
+    }
+
     // Copy to clipboard helper
     function copyInstallCommand() {
       const cmd = document.getElementById('install-cmd').innerText;
@@ -616,6 +943,9 @@
         }, 2000);
       });
     }
+
+    // Initialize Playground on page load
+    runPlaygroundCmd('doctor');
   </script>
 </body>
 </html>
