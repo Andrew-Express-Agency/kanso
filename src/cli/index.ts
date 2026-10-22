@@ -185,6 +185,16 @@ Test your app: kanso.sh #buildinpublic #webdev\n`);
       fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8");
       log.success(`Created configuration at .kanso/config.json`);
 
+      // Ensure .gitignore protects .kanso/
+      const gitignorePath = path.join(cwd, ".gitignore");
+      if (fs.existsSync(gitignorePath)) {
+        const gitignoreContent = fs.readFileSync(gitignorePath, "utf-8");
+        if (!gitignoreContent.includes(".kanso")) {
+          fs.appendFileSync(gitignorePath, "\n# Kanso Sovereign Snapshots\n.kanso/\n", "utf-8");
+          log.success(`Added .kanso/ to .gitignore`);
+        }
+      }
+
       // CI Workflow generation
       if (args.includes("--ci") || args.includes("--github")) {
         const ghDir = path.join(cwd, ".github/workflows");

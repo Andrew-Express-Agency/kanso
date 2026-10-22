@@ -11,7 +11,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/cli/index.ts",
-    "test": "tsx test/index.test.ts",
+    "test": "tsx test/index.test.ts && tsx test/vibe-e2e.test.ts && tsx test/handoff-e2e.test.ts",
+    "test:vibe": "tsx test/vibe-e2e.test.ts",
+    "test:handoff": "tsx test/handoff-e2e.test.ts",
     "lint": "tsc --noEmit",
     "preview": "node scripts/preview.js",
     "studio": "node dist/cli/index.js studio"

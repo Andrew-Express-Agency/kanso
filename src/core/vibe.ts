@@ -59,7 +59,7 @@ function findChromePath(): string {
 function getDomAuditScript() {
   return `(() => {
     const issues = [];
-    const vw = window.innerWidth;
+    const vw = document.documentElement.clientWidth || window.innerWidth;
     const vh = window.innerHeight;
 
     // 1. Mobile Horizontal Viewport Overflow
@@ -84,7 +84,13 @@ function getDomAuditScript() {
     }
 
     // 2. Whitespace Void Radar (>80px empty vertical space)
-    const blocks = Array.from(document.querySelectorAll('section, main, header, div[class*="container"], [class*="hero"], [class*="shop"]'));
+    const rawBlocks = Array.from(document.querySelectorAll('body > section, body > div, body > main, main > section, main > div, header, footer'));
+    const blocks = rawBlocks.filter((el, idx) => {
+      const r = el.getBoundingClientRect();
+      if (r.height < 20 || r.width < 50) return false;
+      return !rawBlocks.some((other, oIdx) => oIdx !== idx && other.contains(el));
+    });
+
     for (let i = 0; i < blocks.length - 1; i++) {
       const r1 = blocks[i].getBoundingClientRect();
       const r2 = blocks[i+1].getBoundingClientRect();
