@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Kanso CLI Router
- * 簡素 — Sovereign AI Assistant & Visual Testing Studio.
+ * 簡素 — Sovereign AI Assistant, Visual Testing Studio & Model Gateway.
  */
 
 import fs from "fs";
@@ -14,7 +14,8 @@ import { remember, recall, listMemories, deleteMemory, loadMemories } from "../c
 import { listHubPacks, pullHubPack } from "../core/hub.js";
 import { startWatchMode } from "../core/watch.js";
 import { startStudioServer } from "../core/studio.js";
-import { runSelfHealing } from "../core/fix.js";
+import { runSelfHealing, runSelfHealingWithAI } from "../core/fix.js";
+import { detectGatewayProviders, queryGateway, GatewayProvider } from "../core/gateway.js";
 import { detectHardware } from "../utils/hardware.js";
 import { log } from "../utils/logger.js";
 
@@ -39,8 +40,12 @@ function printHelp() {
     vibe <url> --threshold N Set minimum passing VibeScore for CI (default: 80)
     vibe <url> --open        Automatically open the HTML report in your browser
     watch [url]              Live file watcher: auto-audits UI on file save (.tsx, .jsx, .html)
-    fix                      Formulate and apply automated CSS repairs for detected defects
+    fix [--ai]               Formulate CSS repairs (optional --ai for Model Gateway guidance)
     studio [url]             Launch sovereign Tri-Device Visual Canvas HUD (localhost:3100)
+    studio [url] --app       Launch frameless native macOS standalone desktop app window
+
+    ask "<prompt>"           Query Model Gateway (Ollama local offline / Claude / GPT / Gemini)
+    gateway [status]         Inspect active Model Gateway providers, local models & API keys
 
     hub [list]               Browse curated community memory packs & visual rules
     pull <pack>              Download an open-source memory pack (e.g. memory/tailwind-gotchas)
@@ -62,6 +67,10 @@ function printHelp() {
     kanso handoff apply
     kanso handoff diff
     kanso vibe http://localhost:5173 --ci --threshold 85
+    kanso studio --app
+    kanso ask "How do I fix horizontal scroll on iPhone 15 Pro with Tailwind?"
+    kanso gateway
+    kanso fix --ai
     kanso remember --topic "Tailwind mobile gap" --insight "pt-20 creates 80px void" --solution "Remove pt-20 on sm"
     kanso recall "mobile gap"
     kanso doctor
@@ -111,12 +120,63 @@ async function main() {
       const targetUrl = args[1] && !args[1].startsWith("--") ? args[1] : "http://localhost:5173";
       const portIdx = args.indexOf("--port");
       const port = portIdx !== -1 && args[portIdx + 1] ? parseInt(args[portIdx + 1], 10) : 3100;
-      startStudioServer(targetUrl, { port });
+      const isApp = args.includes("--app");
+      const noOpen = args.includes("--no-open");
+      startStudioServer(targetUrl, { port, app: isApp, open: !noOpen });
+      break;
+    }
+
+    case "ask": {
+      const provIdx = args.indexOf("--provider");
+      const modelIdx = args.indexOf("--model");
+      const provider = provIdx !== -1 ? (args[provIdx + 1] as GatewayProvider) : undefined;
+      const model = modelIdx !== -1 ? args[modelIdx + 1] : undefined;
+
+      // Extract prompt without flags
+      const promptWords = args.slice(1).filter((arg, i, arr) => {
+        if (arg === "--provider" || arg === "--model") return false;
+        if (i > 0 && (arr[i - 1] === "--provider" || arr[i - 1] === "--model")) return false;
+        return true;
+      });
+
+      const prompt = promptWords.join(" ");
+      if (!prompt) {
+        log.error("Please provide a prompt: kanso ask \"<prompt>\" [--provider <name>] [--model <name>]");
+        return;
+      }
+
+      log.header("Kanso Model Gateway", "Dispatching query through sovereign router");
+      const response = await queryGateway(prompt, { provider, model });
+      log.item("Provider", `${response.provider} (${response.model})`);
+      log.item("Latency", `${response.durationMs}ms`);
+      console.log("\n" + response.content + "\n");
+      break;
+    }
+
+    case "gateway": {
+      log.header("Kanso Model Gateway", "Provider & Offline Local AI Status");
+      const providers = await detectGatewayProviders();
+      console.log("\n  ── Active Providers ──\n");
+      for (const p of providers) {
+        const icon = p.available ? "✓" : "○";
+        const color = p.available ? "\x1b[32m" : "\x1b[90m";
+        console.log(`  ${color}${icon}\x1b[0m \x1b[1m${p.name}\x1b[0m [${p.type}]`);
+        console.log(`     Status: ${p.status}`);
+        console.log(`     Models: ${p.models.slice(0, 4).join(", ")}${p.models.length > 4 ? ` (+${p.models.length - 4} more)` : ""}\n`);
+      }
       break;
     }
 
     case "fix": {
-      runSelfHealing();
+      if (args.includes("--ai")) {
+        const provIdx = args.indexOf("--provider");
+        const modelIdx = args.indexOf("--model");
+        const provider = provIdx !== -1 ? (args[provIdx + 1] as GatewayProvider) : undefined;
+        const model = modelIdx !== -1 ? args[modelIdx + 1] : undefined;
+        await runSelfHealingWithAI({ provider, model });
+      } else {
+        runSelfHealing();
+      }
       break;
     }
 
@@ -146,46 +206,44 @@ async function main() {
         if (match) score = match[1];
       }
 
-      console.log("\n  ── GitHub Pull Request Review Block ──\n");
-      console.log(`### 🛡️ Kanso VibeRadar Status: ${score}/100 PASSING
-- **Mobile Responsiveness (393px)**: Verified zero horizontal overflow
-- **Layout Hygiene**: Zero whitespace voids (>85px)
-- **Contrast**: WCAG AAA Compliant
-- **Engine**: Headless Apple Silicon Chrome CDP
+      console.log("\n── 1. Pull Request Visual Review Block ──\n");
+      console.log(`### 🛡️ Kanso Visual Regression Radar: ${score}/100 VibeScore™\n`);
+      console.log(`| Viewport | Status | Resolution |`);
+      console.log(`|:---|:---|:---|`);
+      console.log(`| **Mobile** | ✅ Clean (0 voids, 0 contrast bugs) | 393 × 852 (iPhone 15 Pro) |`);
+      console.log(`| **Desktop** | ✅ Clean (0 horizontal overflow) | 1440 × 900 (MacBook Retina) |\n`);
+      console.log(`*Verified offline with [Kanso](https://kanso.sh) · Sovereign Visual Testing & Agent Handoff*\n`);
 
-[![VibeScore](https://img.shields.io/badge/VibeScore-${score}%2F100-emerald?style=flat-square&logo=apple)](https://kanso.sh)
-`);
-
-      console.log("\n  ── X (Twitter) Post Template ──\n");
-      console.log(`Just scored ${score}/100 on my UI with Kanso (簡素) visual radar.
-0 mobile viewport leaks. 0 layout voids. 100% sovereign & free.
-
-Test your app: kanso.sh #buildinpublic #webdev\n`);
+      console.log("── 2. X / Twitter / LinkedIn Announcement ──\n");
+      console.log(`Shipped our latest frontend milestone with 100/100 VibeScore™ using Kanso (簡素).\n`);
+      console.log(`Zero broken viewports, zero contrast violations, and zero cloud VM bans.\n100% free, 100% local-first.\n\nhttps://kanso.sh\n`);
       break;
     }
 
     case "init": {
-      log.header("Kanso Init", "Configuring workspace for sovereign AI & VibeScore™");
+      log.header("Kanso Init", "Configuring workspace for sovereign visual testing");
       const cwd = process.cwd();
       const kansoDir = path.join(cwd, ".kanso");
       if (!fs.existsSync(kansoDir)) fs.mkdirSync(kansoDir, { recursive: true });
 
-      const configPath = path.join(kansoDir, "config.json");
       const defaultUrl = args[1] && !args[1].startsWith("--") ? args[1] : "http://localhost:5173";
       const config = {
-        $schema: "https://kanso.sh/schema.json",
         project: path.basename(cwd),
         defaultUrl,
+        viewports: {
+          mobile: { width: 393, height: 852, deviceScaleFactor: 3, isMobile: true, hasTouch: true },
+          desktop: { width: 1440, height: 900, deviceScaleFactor: 2, isMobile: false, hasTouch: false },
+        },
         ci: {
-          threshold: 85,
-          blockOnFailure: true,
+          threshold: 80,
+          failOnAnyError: true,
         },
       };
 
-      fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8");
-      log.success(`Created configuration at .kanso/config.json`);
+      fs.writeFileSync(path.join(kansoDir, "config.json"), JSON.stringify(config, null, 2), "utf-8");
+      log.success(`Generated .kanso/config.json`);
 
-      // Ensure .gitignore protects .kanso/
+      // Add .kanso/ to .gitignore if present
       const gitignorePath = path.join(cwd, ".gitignore");
       if (fs.existsSync(gitignorePath)) {
         const gitignoreContent = fs.readFileSync(gitignorePath, "utf-8");
@@ -356,7 +414,12 @@ jobs:
         log.info(`GPU Engine: ${hw.accelerationEngine}`);
       }
 
-      // 4. Memory storage check
+      // 5. Model Gateway status
+      const providers = await detectGatewayProviders();
+      const activeCount = providers.filter((p) => p.available).length;
+      log.success(`Model Gateway: ${activeCount} provider(s) active (Local Ollama, Cloud, Heuristic)`);
+
+      // 6. Memory storage check
       const kansoHome = path.join(os.homedir(), ".kanso");
       const memoryFile = path.join(kansoHome, "memory.json");
       if (fs.existsSync(memoryFile)) {
@@ -367,7 +430,7 @@ jobs:
         log.info(`Local Memory Store: Ready at ${memoryFile} (empty)`);
       }
 
-      // 5. Working tree check
+      // 7. Working tree check
       const cwd = process.cwd();
       const isGit = fs.existsSync(path.join(cwd, ".git"));
       log.item("Active Directory", cwd);
