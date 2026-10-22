@@ -313,3 +313,28 @@ export function handoffStatus(): HandoffPayload | null {
     return null;
   }
 }
+
+export function inspectDiff(): string {
+  log.header("Handoff Diff", "Inspecting diff snapshot");
+
+  const cwd = process.cwd();
+  const patchPath = path.join(cwd, ".kanso/handoff.patch");
+
+  if (!fs.existsSync(patchPath)) {
+    log.info("No active patch found at .kanso/handoff.patch. Inspecting live git diff HEAD:");
+    const liveDiff = runGit("diff HEAD");
+    if (!liveDiff) {
+      log.success("Working tree is completely clean relative to HEAD.");
+      return "";
+    }
+    console.log(liveDiff);
+    return liveDiff;
+  }
+
+  const patchContent = fs.readFileSync(patchPath, "utf-8");
+  log.item("Patch File", ".kanso/handoff.patch");
+  log.item("Patch Size", `${(Buffer.byteLength(patchContent) / 1024).toFixed(1)} KB`);
+  console.log("\n" + patchContent);
+  return patchContent;
+}
+

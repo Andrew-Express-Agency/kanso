@@ -8,7 +8,7 @@ import fs from "fs";
 import path from "path";
 import os from "os";
 import { execSync } from "child_process";
-import { createHandoff, resumeHandoff, applyHandoff, handoffStatus } from "../core/handoff.js";
+import { createHandoff, resumeHandoff, applyHandoff, handoffStatus, inspectDiff } from "../core/handoff.js";
 import { runVibeTest } from "../core/vibe.js";
 import { remember, recall, listMemories, deleteMemory, loadMemories } from "../core/memory.js";
 import { log } from "../utils/logger.js";
@@ -27,9 +27,12 @@ function printHelp() {
     handoff resume           Restore context and format injection prompt for next model
     handoff apply            Apply saved diff snapshot (.kanso/handoff.patch) to working tree
     handoff status           View current workspace handoff metadata and status
+    handoff diff             Inspect live diff or saved patch snapshot
 
     vibe <url>               Run visual regression radar (mobile 393px + desktop 1440px)
-    vibe <url> --html        Generate standalone interactive HTML report with screenshots
+    vibe <url> --ci          Run visual regression gate (fails if VibeScore < 80)
+    vibe <url> --threshold N Set minimum passing VibeScore for CI (default: 80)
+    vibe <url> --open        Automatically open the HTML report in your browser
 
     remember                 Store an episodic insight locally (~/.kanso/memory.json)
                              Options: --topic "..." --insight "..." [--solution "..."] [--tags "..."] [--project "..."]
@@ -42,7 +45,8 @@ function printHelp() {
   Examples:
     kanso handoff "Refactor auth and fix mobile gap"
     kanso handoff apply
-    kanso vibe http://localhost:5173 --html
+    kanso handoff diff
+    kanso vibe http://localhost:5173 --ci --threshold 85
     kanso remember --topic "Tailwind mobile gap" --insight "pt-20 creates 80px void" --solution "Remove pt-20 on sm"
     kanso recall "mobile gap"
     kanso doctor
@@ -62,6 +66,8 @@ async function main() {
         applyHandoff();
       } else if (sub === "status") {
         handoffStatus();
+      } else if (sub === "diff") {
+        inspectDiff();
       } else {
         const task = args.slice(1).join(" ") || "Current agent trajectory";
         createHandoff({ task });
@@ -72,7 +78,11 @@ async function main() {
     case "vibe": {
       const targetUrl = args[1] && !args[1].startsWith("--") ? args[1] : "http://localhost:5173";
       const openHtml = args.includes("--open");
-      await runVibeTest(targetUrl, { openHtml });
+      const isCi = args.includes("--ci");
+      const threshIdx = args.indexOf("--threshold") !== -1 ? args.indexOf("--threshold") : args.indexOf("--min-score");
+      const minScore = threshIdx !== -1 && args[threshIdx + 1] ? parseInt(args[threshIdx + 1], 10) : undefined;
+
+      await runVibeTest(targetUrl, { openHtml, ci: isCi, minScore });
       break;
     }
 

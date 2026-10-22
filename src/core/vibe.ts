@@ -181,7 +181,10 @@ function getDomAuditScript() {
   })()`;
 }
 
-export async function runVibeTest(url: string, opts: { outputDir?: string; openHtml?: boolean } = {}): Promise<VibeReport> {
+export async function runVibeTest(
+  url: string,
+  opts: { outputDir?: string; openHtml?: boolean; ci?: boolean; minScore?: number } = {}
+): Promise<VibeReport> {
   log.header("VibeTest 2.0", `Deep Visual & DOM Audit for ${url}`);
 
   const cwd = process.cwd();
@@ -353,6 +356,16 @@ kanso handoff "Fix visual defects identified in .kanso/vibe-reports/vibe-report.
   log.item("HTML Report", htmlReportPath);
   log.item("AI Markdown", mdReportPath);
   log.success(`VibeTest complete: ${issues.length} issue(s) detected.`);
+
+  if (opts.ci) {
+    const threshold = opts.minScore ?? 80;
+    if (overallScore < threshold) {
+      log.error(`CI Visual Gate Failed: VibeScore ${overallScore} is below required threshold ${threshold}.`);
+      throw new Error(`Visual regression gate failed: Score ${overallScore} is below threshold ${threshold}`);
+    } else {
+      log.success(`CI Visual Gate Passed: VibeScore ${overallScore} meets minimum threshold ${threshold}.`);
+    }
+  }
 
   return {
     url,
