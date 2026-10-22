@@ -101,6 +101,28 @@ export const OFFICIAL_PACKS: Record<string, HubPack> = {
       },
     ],
   },
+
+  "memory/nvidia-nim": {
+    id: "memory/nvidia-nim",
+    name: "NVIDIA RTX AI & NIM Microservices Pack",
+    category: "memory",
+    description: "Accelerate local agent inference on NVIDIA RTX GPUs, TensorRT-LLM, and local NIM containers.",
+    author: "Kanso Core Team",
+    entries: [
+      {
+        topic: "Local NVIDIA NIM Container Endpoint",
+        tags: ["nvidia", "nim", "tensorrt", "gpu", "local-ai"],
+        insight: "NVIDIA NIM exposes an OpenAI-compatible /v1/chat/completions endpoint on localhost:8000 with sub-10ms time-to-first-token.",
+        solution: "Point agent SDKs to http://localhost:8000/v1 with model 'meta/llama3-70b-instruct' and max_tokens: 4096.",
+      },
+      {
+        topic: "CUDA Unified Memory Allocation with Headless Chrome",
+        tags: ["nvidia", "cuda", "vram", "chrome", "gpu"],
+        insight: "Simultaneously running headless Chrome rendering and 70B local LLMs on a single RTX GPU can trigger CUDA out-of-memory errors.",
+        solution: "Launch Chrome with --disable-gpu flag to reserve 100% of dedicated VRAM for TensorRT-LLM execution.",
+      },
+    ],
+  },
 };
 
 export function listHubPacks(): HubPack[] {

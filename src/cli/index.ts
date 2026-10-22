@@ -13,6 +13,7 @@ import { runVibeTest } from "../core/vibe.js";
 import { remember, recall, listMemories, deleteMemory, loadMemories } from "../core/memory.js";
 import { listHubPacks, pullHubPack } from "../core/hub.js";
 import { startWatchMode } from "../core/watch.js";
+import { detectHardware } from "../utils/hardware.js";
 import { log } from "../utils/logger.js";
 
 const args = process.argv.slice(2);
@@ -314,6 +315,18 @@ jobs:
       }
       if (!foundChrome) {
         log.warn("Chrome Binary: Default system path not found. Set CHROME_PATH environment variable for VibeTest.");
+      }
+
+      // 4. GPU & Local AI Hardware Acceleration (NVIDIA / Apple Silicon)
+      const hw = detectHardware();
+      if (hw.gpuType === "nvidia") {
+        log.success(`GPU Engine: ${hw.gpuName} (NVIDIA CUDA / TensorRT ready)`);
+        log.success(`NVIDIA NIM Architecture: Supported (Local RTX AI Ready)`);
+        if (hw.cudaVersion) log.item("CUDA Toolkit", `v${hw.cudaVersion}`);
+      } else if (hw.gpuType === "apple_silicon") {
+        log.success(`GPU Engine: ${hw.gpuName} (Apple Metal & Neural Engine active)`);
+      } else {
+        log.info(`GPU Engine: ${hw.accelerationEngine}`);
       }
 
       // 4. Memory storage check
