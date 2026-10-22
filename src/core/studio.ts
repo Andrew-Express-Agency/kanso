@@ -288,7 +288,7 @@ function generateStudioHtml(defaultTarget: string, port: number, isAppMode: bool
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kanso Studio (簡素) — Sovereign Visual Canvas & Model Gateway</title>
+  <title>Kanso Studio — Sovereign Visual Canvas & Model Gateway</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -357,9 +357,6 @@ function generateStudioHtml(defaultTarget: string, port: number, isAppMode: bool
       </div>
 
       <div class="flex items-center gap-2">
-        <div class="w-6 h-6 rounded-md bg-white/10 border border-white/20 flex items-center justify-center font-bold text-xs text-white">
-          簡
-        </div>
         <span class="font-bold text-sm tracking-tight text-white">Kanso Studio</span>
         <span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-neutral-400">Phase 2</span>
       </div>
