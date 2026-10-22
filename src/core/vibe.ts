@@ -199,7 +199,13 @@ export async function runVibeTest(
   url: string,
   opts: { outputDir?: string; openHtml?: boolean; ci?: boolean; minScore?: number } = {}
 ): Promise<VibeReport> {
-  log.header("VibeTest 2.0", `Deep Visual & DOM Audit for ${url}`);
+  // Normalize target URL (e.g. localhost:5173 -> http://localhost:5173)
+  let targetUrl = url.trim();
+  if (!targetUrl.startsWith("http://") && !targetUrl.startsWith("https://") && !targetUrl.startsWith("file://")) {
+    targetUrl = "http://" + targetUrl;
+  }
+
+  log.header("VibeTest 2.0", `Deep Visual & DOM Audit for ${targetUrl}`);
 
   const cwd = process.cwd();
   const reportDir = opts.outputDir || path.join(cwd, ".kanso/vibe-reports");
@@ -224,7 +230,7 @@ export async function runVibeTest(
 
     const page = await browser.newPage();
 
-    // 1. Audit Mobile Viewport (iPhone 15 Pro: 393 × 852, scale 3)
+    // 1. Audit Mobile Viewport (iPhone 15 Pro: 393 × 852, scale 2)
     log.info("Inspecting Mobile Viewport (iPhone 15 Pro — 393px)...");
     await page.setViewport({
       width: 393,
@@ -234,7 +240,18 @@ export async function runVibeTest(
       hasTouch: true,
     });
 
-    await page.goto(url, { waitUntil: "networkidle2", timeout: 20000 });
+    try {
+      const navResponse = await page.goto(targetUrl, { waitUntil: "networkidle2", timeout: 15000 });
+      if (navResponse && navResponse.status() >= 400) {
+        log.warn(`Target responded with HTTP ${navResponse.status()}`);
+      }
+    } catch (navErr: any) {
+      if (browser) await browser.close();
+      log.error(`Could not connect to target URL: ${navErr.message || navErr}`);
+      log.info(`Tip: Make sure your local server is running and accessible at ${targetUrl}`);
+      throw new Error(`Target unreachable: ${targetUrl}`);
+    }
+
     await page.screenshot({ path: mobileScreenshot as any, fullPage: false });
     log.success("Captured mobile frame (393 × 852)");
 
@@ -254,6 +271,10 @@ export async function runVibeTest(
       isMobile: false,
     });
 
+    try {
+      await page.goto(targetUrl, { waitUntil: "networkidle2", timeout: 15000 });
+    } catch {}
+
     await page.screenshot({ path: desktopScreenshot as any, fullPage: false });
     log.success("Captured desktop frame (1440 × 900)");
 
@@ -268,6 +289,9 @@ export async function runVibeTest(
       }
     }
   } catch (err: any) {
+    if (err.message && err.message.includes("Target unreachable")) {
+      throw err;
+    }
     log.warn(`CDP deep audit encountered notice: ${err.message || err}`);
     log.info("Running deterministic fallback capture...");
 
@@ -319,12 +343,12 @@ export async function runVibeTest(
 
   // Generate Interactive HTML Report
   const htmlReportPath = path.join(reportDir, "report.html");
-  const htmlContent = generateInteractiveHtmlReport(url, overallScore, categories, issues, mobileScreenshot, desktopScreenshot);
+  const htmlContent = generateInteractiveHtmlReport(targetUrl, overallScore, categories, issues, mobileScreenshot, desktopScreenshot);
   fs.writeFileSync(htmlReportPath, htmlContent, "utf-8");
 
   // Generate Markdown AI Report
   const mdReportPath = path.join(reportDir, "vibe-report.md");
-  const mdContent = `# Kanso VibeTest 2.0 Report — ${url}
+  const mdContent = `# Kanso VibeTest 2.0 Report — ${targetUrl}
 
 * **Timestamp**: ${new Date().toISOString()}
 * **VibeScore™**: **${overallScore} / 100**
@@ -361,7 +385,7 @@ kanso handoff "Fix visual defects identified in .kanso/vibe-reports/vibe-report.
   fs.writeFileSync(mdReportPath, mdContent, "utf-8");
 
   log.divider();
-  log.item("Target URL", url);
+  log.item("Target URL", targetUrl);
   log.item("VibeScore™", `${overallScore} / 100`);
   for (const c of categories) {
     log.item(c.category, `${c.score} / 100`);
@@ -382,7 +406,7 @@ kanso handoff "Fix visual defects identified in .kanso/vibe-reports/vibe-report.
   }
 
   return {
-    url,
+    url: targetUrl,
     timestamp: new Date().toISOString(),
     overallScore,
     categories,

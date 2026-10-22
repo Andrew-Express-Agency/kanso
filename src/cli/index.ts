@@ -34,6 +34,9 @@ function printHelp() {
     vibe <url> --threshold N Set minimum passing VibeScore for CI (default: 80)
     vibe <url> --open        Automatically open the HTML report in your browser
 
+    init [url] [--ci]        Initialize workspace (.kanso/config.json + GitHub Actions CI gate)
+    badge [score]            Generate embeddable VibeScore™ markdown badge for README.md
+
     remember                 Store an episodic insight locally (~/.kanso/memory.json)
                              Options: --topic "..." --insight "..." [--solution "..."] [--tags "..."] [--project "..."]
     recall <query>           Smart-rank and recall past engineering insights offline
@@ -83,6 +86,80 @@ async function main() {
       const minScore = threshIdx !== -1 && args[threshIdx + 1] ? parseInt(args[threshIdx + 1], 10) : undefined;
 
       await runVibeTest(targetUrl, { openHtml, ci: isCi, minScore });
+      break;
+    }
+
+    case "init": {
+      log.header("Kanso Init", "Configuring workspace for sovereign AI & VibeScore™");
+      const cwd = process.cwd();
+      const kansoDir = path.join(cwd, ".kanso");
+      if (!fs.existsSync(kansoDir)) fs.mkdirSync(kansoDir, { recursive: true });
+
+      const configPath = path.join(kansoDir, "config.json");
+      const defaultUrl = args[1] && !args[1].startsWith("--") ? args[1] : "http://localhost:5173";
+      const config = {
+        $schema: "https://kanso.sh/schema.json",
+        project: path.basename(cwd),
+        defaultUrl,
+        ci: {
+          threshold: 85,
+          blockOnFailure: true,
+        },
+      };
+
+      fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8");
+      log.success(`Created configuration at .kanso/config.json`);
+
+      // CI Workflow generation
+      if (args.includes("--ci") || args.includes("--github")) {
+        const ghDir = path.join(cwd, ".github/workflows");
+        if (!fs.existsSync(ghDir)) fs.mkdirSync(ghDir, { recursive: true });
+        const ciWorkflow = `name: Kanso VibeScore Radar
+on: [push, pull_request]
+
+jobs:
+  visual-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install & Build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Start App Server
+        run: |
+          npm run preview &
+          npx wait-on ${defaultUrl}
+
+      - name: Execute Kanso VibeRadar CI Gate
+        run: npx kanso vibe ${defaultUrl} --ci --threshold 85
+`;
+        fs.writeFileSync(path.join(ghDir, "vibe.yml"), ciWorkflow, "utf-8");
+        log.success(`Created GitHub Action workflow at .github/workflows/vibe.yml`);
+      }
+
+      log.item("Project", config.project);
+      log.item("Default URL", config.defaultUrl);
+      log.item("CI Gate Threshold", `${config.ci.threshold} / 100`);
+      break;
+    }
+
+    case "badge": {
+      log.header("Kanso Badge", "Embeddable Markdown & HTML Status Badges");
+      const score = args[1] || "100";
+      console.log("\n  Markdown Badge (Add to README.md):");
+      console.log(`  [![VibeScore](https://img.shields.io/badge/VibeScore-${score}%2F100-emerald?style=flat-square&logo=apple)](https://kanso.sh)\n`);
+      console.log("  HTML Badge:");
+      console.log(`  <a href="https://kanso.sh"><img src="https://img.shields.io/badge/VibeScore-${score}%2F100-emerald?style=flat-square" alt="VibeScore" /></a>\n`);
       break;
     }
 
