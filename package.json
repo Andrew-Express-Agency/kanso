@@ -1,0 +1,36 @@
+{
+  "name": "kanso",
+  "version": "0.1.0",
+  "description": "The sovereign, local-first AI assistant and developer studio — featuring universal agent handoffs and visual regression eyes.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "kanso": "./bin/kanso.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli/index.ts",
+    "test": "tsx test/index.test.ts",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "handoff",
+    "vibetest",
+    "visual-regression",
+    "claude",
+    "gemini",
+    "cursor",
+    "local-first",
+    "sovereign"
+  ],
+  "author": "Andrew Express Agency <contact@andrewexpressagency.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
