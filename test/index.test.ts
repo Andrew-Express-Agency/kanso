@@ -67,4 +67,16 @@ console.log("  ✓ Memory list by project verified");
 deleteMemory(entry.id);
 console.log("  ✓ Memory deletion verified");
 
+// 5. Test Kanso Hub Engine
+console.log("5. Testing Kanso Hub...");
+import { listHubPacks, pullHubPack } from "../src/core/hub.js";
+const packs = listHubPacks();
+assert.ok(packs.length >= 3, "Kanso Hub must have at least 3 curated packs");
+const pullSuccess = pullHubPack("memory/tailwind-gotchas");
+assert.strictEqual(pullSuccess, true, "Pulling tailwind-gotchas must succeed");
+
+const recalledGotcha = recall("navbar void");
+assert.ok(recalledGotcha.length > 0, "Pulled hub pack must be immediately recallable offline");
+console.log("  ✓ Kanso Hub registry and pull engine verified");
+
 console.log("\n✅ All Kanso 2.0 core tests passed successfully!\n");
