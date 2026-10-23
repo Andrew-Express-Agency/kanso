@@ -63,10 +63,27 @@ function getDomAuditScript() {
     const vh = window.innerHeight;
 
     // 1. Mobile Horizontal Viewport Overflow
+    function isClippedByAncestor(node) {
+      let cur = node.parentElement;
+      while (cur && cur !== document.documentElement && cur !== document.body) {
+        const s = window.getComputedStyle(cur);
+        if (s.overflowX === 'hidden' || s.overflowX === 'auto' || s.overflowX === 'scroll' || s.overflowX === 'clip') {
+          const pRect = cur.getBoundingClientRect();
+          if (pRect.right <= vw + 3) {
+            return true;
+          }
+        }
+        cur = cur.parentElement;
+      }
+      return false;
+    }
+
     const allElements = document.querySelectorAll('*');
     for (const el of allElements) {
       const rect = el.getBoundingClientRect();
       if (rect.width > 0 && rect.right > vw + 3) {
+        if (isClippedByAncestor(el)) continue;
+
         // Find readable selector
         let sel = el.tagName.toLowerCase();
         if (el.id) sel += '#' + el.id;
