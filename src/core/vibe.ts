@@ -119,7 +119,34 @@ function getDomAuditScript() {
       return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
     }
 
+    const _colorCanvas = document.createElement('canvas');
+    _colorCanvas.width = 1;
+    _colorCanvas.height = 1;
+    const _colorCtx = _colorCanvas.getContext('2d', { willReadFrequently: true });
+
     function parseRgb(colorStr) {
+      if (_colorCtx) {
+        try {
+          _colorCtx.clearRect(0, 0, 1, 1);
+          _colorCtx.fillStyle = colorStr;
+          _colorCtx.fillRect(0, 0, 1, 1);
+          const imgData = _colorCtx.getImageData(0, 0, 1, 1).data;
+          const r = imgData[0];
+          const g = imgData[1];
+          const b = imgData[2];
+          const a = imgData[3] / 255;
+          if (a < 0.95) {
+            // Blend alpha over obsidian canvas [10, 10, 12]
+            return [
+              Math.round(r * a + 10 * (1 - a)),
+              Math.round(g * a + 10 * (1 - a)),
+              Math.round(b * a + 12 * (1 - a))
+            ];
+          }
+          return [r, g, b];
+        } catch (_) {}
+      }
+
       const m = colorStr.match(/\\d+(\\.\\d+)?/g);
       if (!m) return [0, 0, 0];
       const r = parseFloat(m[0]);
