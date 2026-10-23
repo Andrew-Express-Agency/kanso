@@ -57,9 +57,7 @@
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .glass-card:hover {
-      border-color: rgba(255, 255, 255, 0.18);
-      box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.16) inset, 0 24px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px -5px rgba(59, 130, 246, 0.12);
-      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.16);
     }
     .glass-pill {
       background: rgba(255, 255, 255, 0.05);
@@ -83,16 +81,21 @@
     .glow-rose {
       box-shadow: 0 0 30px -4px rgba(244, 63, 94, 0.3);
     }
-    .shimmer-text {
-      background: linear-gradient(110deg, #ffffff 15%, #94a3b8 50%, #ffffff 85%);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: textShimmer 6s ease-in-out infinite;
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid #f5f5f4;
+      outline-offset: 3px;
     }
-    @keyframes textShimmer {
-      0% { background-position: 0% center; }
-      100% { background-position: 200% center; }
+    button:active {
+      transform: translateY(1px);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
     .terminal-scroll::-webkit-scrollbar {
       width: 6px;
@@ -158,8 +161,8 @@
           <i data-lucide="github" class="w-3.5 h-3.5"></i>
           <span>GitHub</span>
         </a>
-        <a href="#install" class="px-4 py-1.5 rounded-full text-xs font-semibold text-black bg-white hover:bg-neutral-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.25)] flex items-center gap-1.5">
-          <span>Install</span>
+        <a href="#install" class="px-4 py-2 rounded-full text-xs font-semibold text-black bg-white hover:bg-neutral-200 transition-colors flex items-center gap-1.5">
+          <span>Get the CLI</span>
           <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
         </a>
       </div>
@@ -178,7 +181,7 @@
     <!-- Main Headline -->
     <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white max-w-4xl leading-[1.08] mb-6">
       Your agent writes the page.<br>
-      <span class="shimmer-text">It cannot see it.</span>
+      It cannot see it.
     </h1>
 
     <!-- Subtitle -->
@@ -189,18 +192,18 @@
     <!-- CLI Install Box -->
     <div id="install" class="w-full max-w-lg mb-8">
       <div class="flex items-center justify-center gap-1 mb-3 p-1 rounded-xl bg-white/5 border border-white/10 w-fit mx-auto shadow-inner">
-        <button id="pkg-npm" onclick="setInstallPkg('npm')" class="px-3.5 py-1 rounded-lg text-xs font-semibold bg-white text-black transition-all shadow-sm">npm</button>
-        <button id="pkg-curl" onclick="setInstallPkg('curl')" class="px-3.5 py-1 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all">curl</button>
-        <button id="pkg-npx" onclick="setInstallPkg('npx')" class="px-3.5 py-1 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all">npx</button>
+        <button id="pkg-clone" type="button" aria-pressed="true" onclick="setInstallPkg('clone')" class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-white text-black transition-colors">clone</button>
+        <button id="pkg-build" type="button" aria-pressed="false" onclick="setInstallPkg('build')" class="px-3.5 py-2 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-colors">build</button>
+        <button id="pkg-run" type="button" aria-pressed="false" onclick="setInstallPkg('run')" class="px-3.5 py-2 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-colors">run</button>
       </div>
       <div class="glass-card rounded-2xl p-2.5 flex items-center justify-between border border-white/10 shadow-2xl relative group hover:border-white/20 transition-all">
-        <div class="flex items-center gap-3 px-3 overflow-x-auto text-sm font-mono text-neutral-200">
+        <div class="flex items-center gap-3 px-3 min-w-0 flex-1 overflow-x-auto text-sm font-mono text-neutral-200">
           <span class="text-blue-400 select-none font-bold">$</span>
-          <span id="install-cmd" class="text-white select-all font-medium">npm install -g kanso</span>
+          <span id="install-cmd" class="text-white select-all font-medium whitespace-nowrap">git clone https://github.com/Andrew-Express-Agency/kanso.git</span>
         </div>
-        <button id="copy-btn" onclick="copyInstallCommand()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-xs font-medium text-white transition-all flex items-center gap-1.5 shrink-0 border border-white/10 shadow-sm">
-          <i id="copy-icon" data-lucide="copy" class="w-3.5 h-3.5 text-blue-300"></i>
-          <span id="copy-text">Copy</span>
+        <button id="copy-btn" type="button" onclick="copyInstallCommand()" class="px-4 py-2.5 rounded-xl bg-white text-black hover:bg-neutral-200 text-xs font-semibold transition-colors flex items-center gap-1.5 shrink-0">
+          <i id="copy-icon" data-lucide="copy" class="w-3.5 h-3.5"></i>
+          <span id="copy-text" aria-live="polite">Copy</span>
         </button>
       </div>
       <div class="flex items-center justify-center gap-4 mt-3 text-xs text-neutral-400 font-mono">
@@ -208,8 +211,9 @@
         <span>•</span>
         <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> Chrome on this machine</span>
         <span>•</span>
-        <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> Permissive MIT</span>
+        <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> MIT</span>
       </div>
+      <p class="text-xs text-neutral-500 mt-3 max-w-md mx-auto leading-relaxed">The package named kanso on npm is a different tool. Clone this repository.</p>
     </div>
 
     <!-- Hero stats. Type only. -->
@@ -251,10 +255,10 @@
             <span class="w-3 h-3 rounded-full bg-emerald-500/80 border border-emerald-600/50 shadow-[0_0_6px_rgba(16,185,129,0.4)]"></span>
           </div>
           <div class="flex items-center gap-2 pl-2 border-l border-white/10">
-            <span class="text-xs font-mono text-neutral-300 font-semibold tracking-wider">KANSO RADAR HUD</span>
+            <span class="text-xs font-mono text-neutral-300 font-semibold tracking-wider">Sample audit</span>
             <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              CDP ENGINE :3000
+              localhost:3000
             </span>
           </div>
         </div>
@@ -263,7 +267,7 @@
         <div class="flex items-center p-1 rounded-xl bg-white/5 border border-white/10 shadow-inner">
           <button onclick="switchTab('vibe')" id="tab-vibe" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-black transition-all shadow-sm flex items-center gap-1.5">
             <i data-lucide="eye" class="w-3.5 h-3.5 text-black"></i>
-            <span>VibeTest™ Radar</span>
+            <span>VibeTest</span>
           </button>
           <button onclick="switchTab('handoff')" id="tab-handoff" class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all flex items-center gap-1.5">
             <i data-lucide="arrow-left-right" class="w-3.5 h-3.5"></i>
@@ -293,7 +297,7 @@
             </div>
             <div class="text-4xl font-extrabold text-white tracking-tight flex items-baseline gap-2 mb-2">
               <span class="text-amber-400">81</span>
-              <span class="text-sm font-normal text-neutral-400">/ 100 VibeScore™ (100 → 81 regression)</span>
+              <span class="text-sm font-normal text-neutral-400">/ 100 on this sample</span>
             </div>
             <p class="text-xs text-neutral-300 leading-relaxed">
               Headless Chrome CDP caught an unconstrained element leaking past the 393px mobile screen boundary.
@@ -333,7 +337,7 @@
           <div class="px-4 py-2.5 bg-black/80 border-b border-white/10 flex items-center justify-between text-[11px] font-mono">
             <div class="flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]"></span>
-              <span class="text-white font-medium">Local Apple Silicon Engine · Dual Viewports</span>
+              <span class="text-white font-medium">Local Chrome, GPU off</span>
             </div>
             <span class="text-neutral-400">393px × 852px & 1440px × 900px</span>
           </div>
@@ -343,7 +347,7 @@
             <img 
               src="assets/photos/stage-macbook.jpg" 
               alt="MacBook Pro Hardware Local Studio" 
-              class="w-full h-full object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+              class="w-full h-full object-cover object-center"
               loading="eager"
             />
           </div>
@@ -383,7 +387,7 @@
 
           <div class="lg:col-span-5 rounded-2xl border border-white/10 overflow-hidden relative group bg-neutral-950 flex flex-col justify-between p-4 shadow-xl">
             <div class="relative rounded-xl overflow-hidden aspect-square border border-purple-500/20 mb-3 bg-black">
-              <img src="assets/photos/pillar-handoff.jpg" alt="Source Code Editor and Terminal Git Patch" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <img src="assets/photos/pillar-handoff.jpg" alt="Source Code Editor and Terminal Git Patch" class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               <div class="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-black/80 border border-purple-500/30 text-[10px] text-purple-300 font-mono flex items-center gap-1.5">
                 <i data-lucide="git-pull-request" class="w-3 h-3 text-purple-400"></i>
@@ -414,7 +418,7 @@
                   <span>📌 [tailwind] Mobile Navbar 80px Whitespace Void Trap</span>
                   <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">VERIFIED</span>
                 </div>
-                <span class="text-neutral-400 text-[11px]">Score: 50 · Exact Match</span>
+                <span class="text-neutral-400 text-[11px]">Score: 50, word match</span>
               </div>
               <div class="text-neutral-300"><span class="text-neutral-400 font-medium">Insight:</span> Fixed navbar + pt-20 causes severe layout voids on iPhone dynamic islands.</div>
               <div class="text-emerald-300 bg-emerald-950/30 p-2.5 rounded-lg border border-emerald-500/20 font-mono text-[11px]">
@@ -426,7 +430,7 @@
 
           <div class="lg:col-span-5 rounded-2xl border border-white/10 overflow-hidden relative group bg-neutral-950 flex flex-col justify-between p-4 shadow-xl">
             <div class="relative rounded-xl overflow-hidden aspect-square border border-emerald-500/20 mb-3 bg-black">
-              <img src="assets/photos/chip-memory.jpg" alt="Silicon Hardware and Memory Chip" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <img src="assets/photos/chip-memory.jpg" alt="Silicon Hardware and Memory Chip" class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               <div class="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-black/80 border border-emerald-500/30 text-[10px] text-emerald-300 font-mono flex items-center gap-1.5">
                 <i data-lucide="brain" class="w-3 h-3 text-emerald-400"></i>
@@ -434,7 +438,7 @@
               </div>
             </div>
             <div class="text-[11px] text-neutral-400 font-mono leading-relaxed">
-              Silicon hardware memory store. Zero network calls, sub-millisecond keyword lookup.
+              Word match on topic, tags, and the note. Nothing leaves the machine.
             </div>
           </div>
         </div>
@@ -466,11 +470,11 @@
             
             <!-- 1. Background Filesystem & Code Matrix -->
             <div class="absolute inset-0 opacity-[0.24] pointer-events-none p-3.5 font-mono text-[9px] text-sky-300 leading-relaxed overflow-hidden">
-              <div class="text-neutral-500 mb-0.5"># kanso vibe filesystem audit</div>
-              <div class="text-sky-400">📁 site/index.html</div>
-              <div class="pl-2 text-neutral-400">├─ 📱 393px: <span class="text-red-400 font-semibold">.btn-pro +18px leak</span></div>
-              <div class="pl-2 text-neutral-400">├─ 🎨 WCAG: <span class="text-amber-400 font-semibold">#muted 3.2:1 trap</span></div>
-              <div class="pl-2 text-neutral-400">└─ 💻 1440px: <span class="text-emerald-400">clean layout</span></div>
+              <div class="text-neutral-500 mb-0.5"># kanso vibe</div>
+              <div class="text-sky-400">site/index.html</div>
+              <div class="pl-2 text-neutral-400">393px: <span class="text-red-400 font-semibold">.btn-pro +18px</span></div>
+              <div class="pl-2 text-neutral-400">contrast: <span class="text-amber-400 font-semibold">#muted 3.2:1</span></div>
+              <div class="pl-2 text-neutral-400">1440px: <span class="text-emerald-400">clean</span></div>
               <div class="text-sky-400 mt-1">📁 src/components/Hero.tsx</div>
               <div class="pl-2 text-neutral-500">line 48: width: 411px;</div>
               <div class="pl-2 text-neutral-500">line 82: gap: 92px;</div>
@@ -521,7 +525,6 @@
             <div class="absolute top-[28%] right-[14%] z-10 flex flex-col items-start pointer-events-none" style="animation: blipPulseRed 2s ease-in-out infinite;">
               <div class="flex items-center gap-1">
                 <span class="relative flex h-2.5 w-2.5">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500 shadow-[0_0_8px_#ef4444]"></span>
                 </span>
                 <div class="px-1.5 py-0.5 rounded bg-red-950/90 border border-red-500/50 text-[8px] font-mono text-red-300 flex items-center gap-1 shadow-lg backdrop-blur-sm">
@@ -536,7 +539,6 @@
             <div class="absolute bottom-[24%] left-[16%] z-10 flex flex-col items-start pointer-events-none" style="animation: blipPulseAmber 2.4s ease-in-out infinite 0.6s;">
               <div class="flex items-center gap-1">
                 <span class="relative flex h-2.5 w-2.5">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500 shadow-[0_0_8px_#f59e0b]"></span>
                 </span>
                 <div class="px-1.5 py-0.5 rounded bg-amber-950/90 border border-amber-500/50 text-[8px] font-mono text-amber-300 flex items-center gap-1 shadow-lg backdrop-blur-sm">
@@ -576,12 +578,12 @@
           </div>
 
           <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500/20 via-blue-500/10 to-transparent border border-sky-400/30 flex items-center justify-center text-sky-400 glow-cyan group-hover:scale-105 transition-transform shadow-inner">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500/20 via-blue-500/10 to-transparent border border-sky-400/30 flex items-center justify-center text-sky-400 glow-cyan shadow-inner">
               <i data-lucide="eye" class="w-5 h-5"></i>
             </div>
             <div>
               <span class="text-[10px] font-mono uppercase tracking-wider text-sky-400 font-semibold block">Local Headless Chrome</span>
-              <h4 class="text-xl font-bold text-white">VibeTest™ Visual Radar</h4>
+              <h4 class="text-xl font-bold text-white">VibeTest</h4>
             </div>
           </div>
           <p class="text-neutral-300 text-xs leading-relaxed mb-6">
@@ -600,7 +602,7 @@
         <div>
           <!-- Real Code Editor & Git Patch Photo -->
           <div class="w-full aspect-square rounded-2xl overflow-hidden mb-6 border border-white/10 relative group-hover:border-purple-500/40 transition-all bg-black shadow-lg">
-            <img src="assets/photos/pillar-handoff.jpg" alt="Source Code Editor and Git Diff" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+            <img src="assets/photos/pillar-handoff.jpg" alt="Source Code Editor and Git Diff" class="w-full h-full object-cover" loading="lazy">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
             <div class="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-black/80 border border-purple-500/30 text-[10px] text-purple-300 font-mono flex items-center gap-1.5 backdrop-blur-sm">
               <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
@@ -609,7 +611,7 @@
           </div>
 
           <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 via-indigo-500/10 to-transparent border border-purple-400/30 flex items-center justify-center text-purple-400 glow-purple group-hover:scale-105 transition-transform shadow-inner">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 via-indigo-500/10 to-transparent border border-purple-400/30 flex items-center justify-center text-purple-400 glow-purple shadow-inner">
               <i data-lucide="git-pull-request" class="w-5 h-5"></i>
             </div>
             <div>
@@ -633,7 +635,7 @@
         <div>
           <!-- Silicon Hardware Memory Photo -->
           <div class="w-full aspect-square rounded-2xl overflow-hidden mb-6 border border-white/10 relative group-hover:border-emerald-500/40 transition-all bg-black shadow-lg">
-            <img src="assets/photos/chip-memory.jpg" alt="Silicon Hardware and Local Disk Memory" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+            <img src="assets/photos/chip-memory.jpg" alt="Silicon Hardware and Local Disk Memory" class="w-full h-full object-cover" loading="lazy">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
             <div class="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-black/80 border border-emerald-500/30 text-[10px] text-emerald-300 font-mono flex items-center gap-1.5 backdrop-blur-sm">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
@@ -642,7 +644,7 @@
           </div>
 
           <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-transparent border border-emerald-400/30 flex items-center justify-center text-emerald-400 glow-emerald group-hover:scale-105 transition-transform shadow-inner">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-transparent border border-emerald-400/30 flex items-center justify-center text-emerald-400 glow-emerald shadow-inner">
               <i data-lucide="brain" class="w-5 h-5"></i>
             </div>
             <div>
@@ -670,9 +672,9 @@
         <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
         <span class="text-xs uppercase font-mono tracking-widest text-blue-300 font-semibold">The Dev Loop</span>
       </div>
-      <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">How Kanso Runs in Your Development Cycle</h3>
+      <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">A save, a Chrome pass, a plan.</h3>
       <p class="text-neutral-400 text-xs sm:text-sm max-w-xl mx-auto mb-8">
-        Deterministic visual feedback and state protection running completely in your local environment.
+        kanso watch reruns the local Chrome check. kanso fix prints a repair plan and does not edit the CSS.
       </p>
 
       <!-- 4-Stage Pipeline Flow -->
@@ -692,7 +694,7 @@
           <span class="text-neutral-500 text-[10px] block mb-1">STAGE 02</span>
           <div class="text-white font-bold text-sm mb-1 flex items-center gap-1.5">
             <i data-lucide="refresh-cw" class="w-4 h-4 text-purple-400"></i>
-            <span>kanso watch Sees Save</span>
+            <span>kanso watch</span>
           </div>
           <p class="text-neutral-400 text-[11px] leading-relaxed">
             Local file watcher triggers headless Chrome audit against localhost.
@@ -717,7 +719,7 @@
             <span>kanso fix Repair Plan</span>
           </div>
           <p class="text-neutral-400 text-[11px] leading-relaxed">
-            Prints precision CSS repair plan. Leaves files untouched for your review.
+            Prints the repair plan with applied set to false. The CSS stays as it is.
           </p>
         </div>
       </div>
@@ -782,8 +784,8 @@
             <i data-lucide="shield-check" class="w-4 h-4"></i>
           </div>
           <div>
-            <div class="text-white font-mono font-semibold text-xs mb-1">memory/wcag-contrast</div>
-            <p class="text-neutral-400 text-[11px] leading-relaxed">WCAG 2.1 AA 4.5:1 ratio color pair patterns</p>
+            <div class="text-white font-mono font-semibold text-xs mb-1">memory/nvidia-nim</div>
+            <p class="text-neutral-400 text-[11px] leading-relaxed">Notes for a local NVIDIA container. The audit still launches Chrome with --disable-gpu.</p>
           </div>
         </div>
       </div>
@@ -794,7 +796,7 @@
           <span class="text-blue-400 font-bold">$</span>
           <span class="text-neutral-200">kanso pull memory/tailwind-gotchas</span>
         </div>
-        <span class="text-[11px] text-neutral-500">// Pull any pack into local memory</span>
+        <span class="text-[11px] text-neutral-500">Copies that pack into ~/.kanso/memory.json</span>
       </div>
     </div>
   </section>
@@ -819,7 +821,7 @@
           <thead class="bg-white/5 border-b border-white/10 text-xs font-semibold uppercase text-neutral-400 font-mono">
             <tr>
               <th class="py-4 px-6">Capability</th>
-              <th class="py-4 px-6 text-neutral-400">Hosted Snapshot Services (Chromatic / Percy)</th>
+              <th class="py-4 px-6 text-neutral-400">Hosted snapshot services</th>
               <th class="py-4 px-6 text-white font-bold bg-blue-500/10 border-x border-blue-500/20">
                 <span class="flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]"></span>
@@ -833,12 +835,12 @@
               <td class="py-4 px-6 font-medium text-white">Monthly Subscription</td>
               <td class="py-4 px-6 text-red-400 font-mono flex items-center gap-1.5">
                 <i data-lucide="x" class="w-4 h-4 text-red-400"></i>
-                $150 – $300 / month
+                Paid plan
               </td>
               <td class="py-4 px-6 font-bold text-emerald-400 font-mono bg-blue-500/10 border-x border-blue-500/20">
                 <span class="inline-flex items-center gap-1.5 text-emerald-400">
                   <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
-                  $0 · Free Forever
+                  $0
                 </span>
               </td>
             </tr>
@@ -916,7 +918,7 @@
               <td class="py-4 px-6 font-bold text-white bg-blue-500/10 border-x border-blue-500/20">
                 <span class="inline-flex items-center gap-1.5 text-emerald-300">
                   <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
-                  MIT Open Source Sovereign
+                  MIT
                 </span>
               </td>
             </tr>
@@ -930,19 +932,19 @@
         <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5">
           <div class="flex items-center justify-between">
             <span class="text-xs font-semibold text-white">Monthly Subscription</span>
-            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono font-bold">$0 Forever</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono font-bold">$0</span>
           </div>
           <div class="grid grid-cols-2 gap-2 text-xs">
             <div class="p-2 rounded-xl bg-red-500/5 border border-red-500/15">
               <span class="text-[10px] text-neutral-400 font-mono block">Hosted</span>
               <span class="text-red-400 font-medium text-[11px] flex items-center gap-1 mt-0.5">
-                <i data-lucide="x" class="w-3 h-3 text-red-400"></i> $150–$300/mo
+                <i data-lucide="x" class="w-3 h-3 text-red-400"></i> Paid plan
               </span>
             </div>
             <div class="p-2 rounded-xl bg-blue-500/10 border border-blue-500/25">
               <span class="text-[10px] text-emerald-400 font-mono block">Kanso</span>
               <span class="text-emerald-300 font-bold text-[11px] flex items-center gap-1 mt-0.5">
-                <i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> $0 Free
+                <i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> $0
               </span>
             </div>
           </div>
@@ -1042,7 +1044,7 @@
         <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5">
           <div class="flex items-center justify-between">
             <span class="text-xs font-semibold text-white">License</span>
-            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono font-bold">MIT Open Source</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono font-bold">MIT</span>
           </div>
           <div class="grid grid-cols-2 gap-2 text-xs">
             <div class="p-2 rounded-xl bg-red-500/5 border border-red-500/15">
@@ -1051,7 +1053,7 @@
             </div>
             <div class="p-2 rounded-xl bg-blue-500/10 border border-blue-500/25">
               <span class="text-[10px] text-emerald-400 font-mono block">Kanso</span>
-              <span class="text-emerald-300 font-bold text-[11px] block mt-0.5">MIT Sovereign</span>
+              <span class="text-emerald-300 font-bold text-[11px] block mt-0.5">MIT</span>
             </div>
           </div>
         </div>
@@ -1068,7 +1070,7 @@
       </div>
       <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">Runs wherever Node and Chrome run.</h3>
       <p class="text-neutral-400 text-sm max-w-xl mx-auto mt-3">
-        <code class="text-neutral-300 font-mono">kanso doctor</code> checks for local Chrome, Node 18+, Git, and reports Apple Silicon or NVIDIA GPU if present. Localhost execution, zero cloud servers.
+        <code class="text-neutral-300 font-mono">kanso doctor</code> checks for local Chrome, Node 18+, and Git. It can print a GPU name. The audit launches Chrome with <code class="text-neutral-300 font-mono">--disable-gpu</code>.
       </p>
     </div>
 
@@ -1102,7 +1104,7 @@
           <span>GPU Detection</span>
         </div>
         <p class="text-xs text-neutral-400 leading-relaxed mb-3">
-          <code class="text-neutral-300 font-mono">kanso doctor</code> probes <code class="text-neutral-300 font-mono">nvidia-smi</code> or Apple Silicon chip info for diagnostic telemetry.
+          <code class="text-neutral-300 font-mono">kanso doctor</code> prints the Apple chip name, or nvidia-smi output if that command exists. The visual check does not use the GPU.
         </p>
         <span class="text-[10px] font-mono text-purple-300 bg-purple-950/40 px-2 py-0.5 rounded border border-purple-400/20">Optional Hardware</span>
       </div>
@@ -1127,9 +1129,9 @@
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
         <span class="text-xs uppercase font-mono tracking-widest text-emerald-300 font-semibold">Transparency</span>
       </div>
-      <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">Frequently Asked Questions</h3>
+      <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">Questions</h3>
       <p class="text-neutral-400 text-sm max-w-xl mx-auto mt-3">
-        Everything you need to know about Kanso's sovereign architecture, privacy model, and licensing.
+        Price, what stays on the machine, and how this differs from a click-test runner.
       </p>
     </div>
 
@@ -1139,12 +1141,12 @@
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center gap-3.5">
             <span class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center font-mono text-xs text-neutral-300 font-bold shrink-0 group-hover:border-white/20 transition-all">01</span>
-            <h4 class="text-base sm:text-lg font-semibold text-white">Is Kanso really 100% free and open-source?</h4>
+            <h4 class="text-base sm:text-lg font-semibold text-white">Does it cost anything?</h4>
           </div>
-          <i id="faq-icon-1" data-lucide="chevron-down" class="w-5 h-5 text-neutral-400 transition-transform shrink-0"></i>
+          <i id="faq-icon-1" data-lucide="chevron-down" class="w-5 h-5 text-neutral-400 transition-transform shrink-0" style="transform: rotate(180deg)"></i>
         </div>
         <p id="faq-ans-1" class="text-xs sm:text-sm text-neutral-300 leading-relaxed mt-4 pl-11">
-          Yes. Kanso is released under the permissive MIT License. There are no trial periods, no hidden credits, no cloud subscription tiers, and no locked features. We believe foundational developer sovereignty belongs to everyone.
+          The repository is MIT. There is no account and no paid tier in this project. Install it from GitHub. The npm package named kanso is a different tool.
         </p>
       </div>
 
@@ -1158,7 +1160,7 @@
           <i id="faq-icon-2" data-lucide="chevron-down" class="w-5 h-5 text-neutral-400 transition-transform shrink-0"></i>
         </div>
         <p id="faq-ans-2" class="text-xs sm:text-sm text-neutral-300 leading-relaxed mt-4 pl-11 hidden">
-          Never. Kanso contains zero telemetry, zero analytics trackers, and zero cloud uploads. Your code, uncommitted diffs, screenshots, and memories never leave your machine unless you explicitly commit and push them with Git.
+          The CLI does not upload the diff, the screenshots, or memory.json. Those files leave the machine only if you push them with git.
         </p>
       </div>
 
@@ -1186,7 +1188,7 @@
           <i id="faq-icon-4" data-lucide="chevron-down" class="w-5 h-5 text-neutral-400 transition-transform shrink-0"></i>
         </div>
         <p id="faq-ans-4" class="text-xs sm:text-sm text-neutral-300 leading-relaxed mt-4 pl-11 hidden">
-          Every model. Because Kanso writes a standard Git diff patch (.kanso/handoff.patch), any model or tool (Claude Code, Cursor, Codex, Gemini, Grok, Aider) can apply the patch directly and continue work without losing uncommitted progress.
+          kanso handoff writes .kanso/handoff.patch from the working tree. kanso handoff apply restores that patch. Any tool that can apply a git diff can pick up the work.
         </p>
       </div>
 
@@ -1216,12 +1218,12 @@
         Install Kanso.
       </h2>
       <p class="text-neutral-400 max-w-md mx-auto text-sm leading-relaxed mb-6 font-mono">
-        <code class="text-white bg-white/10 px-2 py-1 rounded">npm install -g kanso</code><br>
-        Then point it at the local page. Free, local, and MIT.
+        <code class="text-white bg-white/10 px-2 py-1 rounded">git clone https://github.com/Andrew-Express-Agency/kanso.git</code><br>
+        Then build it and point <code class="text-white">kanso vibe</code> at the local page. MIT, on this machine.
       </p>
       <div class="inline-flex flex-col sm:flex-row items-center gap-3">
         <a href="#install" class="px-6 py-2.5 rounded-full text-xs font-semibold text-black bg-white hover:bg-neutral-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.25)] flex items-center gap-2">
-          <span>Install CLI</span>
+          <span>Get the CLI</span>
           <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
         </a>
         <a href="https://github.com/Andrew-Express-Agency/kanso" target="_blank" class="px-5 py-2.5 rounded-full text-xs font-medium text-white bg-white/5 hover:bg-white/10 border border-white/15 transition-all flex items-center gap-2">
@@ -1255,21 +1257,21 @@
 
     // Package manager install switcher
     const installCommands = {
-      npm: 'npm install -g kanso',
-      curl: 'curl -fsSL https://kanso.sh/install.sh | bash',
-      npx: 'npx kanso vibe http://localhost:3000'
+      clone: 'git clone https://github.com/Andrew-Express-Agency/kanso.git',
+      build: 'cd kanso && npm install && npm run build',
+      run: 'node bin/kanso.js vibe http://localhost:3000'
     };
 
     function setInstallPkg(pkg) {
-      ['npm', 'curl', 'npx'].forEach(p => {
+      ['clone', 'build', 'run'].forEach(p => {
         const btn = document.getElementById('pkg-' + p);
-        if (p === pkg) {
-          btn.className = 'px-3.5 py-1 rounded-lg text-xs font-semibold bg-white text-black transition-all shadow-sm';
-        } else {
-          btn.className = 'px-3.5 py-1 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-all';
-        }
+        const on = p === pkg;
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.className = on
+          ? 'px-3.5 py-2 rounded-lg text-xs font-semibold bg-white text-black transition-colors'
+          : 'px-3.5 py-2 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-colors';
       });
-      document.getElementById('install-cmd').innerText = installCommands[pkg] || installCommands.npm;
+      document.getElementById('install-cmd').innerText = installCommands[pkg] || installCommands.clone;
     }
 
     // Tab switcher
@@ -1305,14 +1307,29 @@
     // Copy to clipboard helper
     function copyInstallCommand() {
       const cmd = document.getElementById('install-cmd').innerText;
-      navigator.clipboard.writeText(cmd).then(() => {
-        const text = document.getElementById('copy-text');
-        const icon = document.getElementById('copy-icon');
-        text.innerText = 'Copied!';
-        setTimeout(() => {
-          text.innerText = 'Copy';
-        }, 2000);
-      });
+      const text = document.getElementById('copy-text');
+      const mark = (label) => {
+        text.innerText = label;
+        setTimeout(() => { text.innerText = 'Copy'; }, 2000);
+      };
+      const fallback = () => {
+        const area = document.createElement('textarea');
+        area.value = cmd;
+        area.setAttribute('readonly', '');
+        area.style.position = 'fixed';
+        area.style.left = '-9999px';
+        document.body.appendChild(area);
+        area.select();
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        area.remove();
+        mark(ok ? 'Copied' : 'Select the line');
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(cmd).then(() => mark('Copied')).catch(fallback);
+      } else {
+        fallback();
+      }
     }
   </script>
 </body>
