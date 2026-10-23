@@ -73,6 +73,44 @@ const defectiveHtml = `<!DOCTYPE html>
 </body>
 </html>`;
 
+const carouselHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carousel Layout</title>
+  <style>
+    body { margin: 0; background-color: #08080a; color: #ffffff; }
+    .scroll-container { width: 350px; max-width: 100%; overflow-x: auto; padding: 10px; }
+    .code-line { width: 600px; white-space: nowrap; font-family: monospace; color: #ffffff; }
+  </style>
+</head>
+<body>
+  <div class="scroll-container">
+    <div class="code-line">$ git clone https://github.com/Andrew-Express-Agency/kanso.git</div>
+  </div>
+</body>
+</html>`;
+
+const fixedLeakHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fixed Leak Layout</title>
+  <style>
+    body { margin: 0; background-color: #08080a; color: #ffffff; }
+    .wrapper { width: 393px; overflow-x: hidden; }
+    .fixed-bar { position: fixed; top: 0; left: 0; width: 700px; height: 40px; background: red; color: #ffffff; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="fixed-bar">Fixed Bar Exceeding Viewport</div>
+  </div>
+</body>
+</html>`;
+
 const server = http.createServer((req, res) => {
   if (req.url === "/pristine") {
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
@@ -80,6 +118,12 @@ const server = http.createServer((req, res) => {
   } else if (req.url === "/defective") {
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     res.end(defectiveHtml);
+  } else if (req.url === "/carousel") {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.end(carouselHtml);
+  } else if (req.url === "/fixed-leak") {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.end(fixedLeakHtml);
   } else {
     res.writeHead(404);
     res.end("Not Found");
@@ -125,6 +169,18 @@ server.listen(PORT, async () => {
     const ciPristine = await runVibeTest(`http://localhost:${PORT}/pristine`, { ci: true, minScore: 90 });
     assert.strictEqual(ciPristine.overallScore, 100, "Pristine layout must pass CI gate");
     console.log("  ✓ CI Visual Gate passed for pristine layout\n");
+
+    console.log("6. Testing intentional horizontal scroll container (carousel/code block)...");
+    const carouselReport = await runVibeTest(`http://localhost:${PORT}/carousel`);
+    const carouselOverflowIssues = carouselReport.issues.filter(i => i.type === "viewport_overflow");
+    assert.strictEqual(carouselOverflowIssues.length, 0, "Intentional horizontal scroll container must not trigger viewport overflow");
+    console.log("  ✓ Carousel / code block in overflow-x: auto safely skipped\n");
+
+    console.log("7. Testing position:fixed bar escaping overflow-x:hidden container...");
+    const fixedLeakReport = await runVibeTest(`http://localhost:${PORT}/fixed-leak`);
+    const fixedOverflowIssues = fixedLeakReport.issues.filter(i => i.type === "viewport_overflow");
+    assert.ok(fixedOverflowIssues.length > 0, "Fixed bar escaping overflow-x:hidden MUST be caught as viewport overflow");
+    console.log("  ✓ Escaping position:fixed bar correctly caught by adversarial radar\n");
 
     console.log("✅ All Kanso VibeTest E2E tests passed successfully!\n");
   } catch (err) {

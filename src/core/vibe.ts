@@ -63,11 +63,44 @@ function getDomAuditScript() {
     const vh = window.innerHeight;
 
     // 1. Mobile Horizontal Viewport Overflow
-    function isClippedByAncestor(node) {
+    const docScrollWidth = Math.max(
+      document.documentElement.scrollWidth || 0,
+      document.body ? document.body.scrollWidth : 0
+    );
+
+    function isEscapedPosition(elStyle, ancestor) {
+      if (elStyle.position === 'fixed') {
+        const aStyle = window.getComputedStyle(ancestor);
+        const createsContainingBlock = (
+          aStyle.transform !== 'none' ||
+          aStyle.perspective !== 'none' ||
+          aStyle.filter !== 'none' ||
+          (aStyle.contain && (aStyle.contain.includes('paint') || aStyle.contain.includes('layout') || aStyle.contain.includes('strict')))
+        );
+        return !createsContainingBlock;
+      }
+      if (elStyle.position === 'absolute') {
+        const aStyle = window.getComputedStyle(ancestor);
+        const isPositioned = aStyle.position !== 'static' || aStyle.transform !== 'none';
+        return !isPositioned;
+      }
+      return false;
+    }
+
+    function isClippedByAncestor(node, elStyle) {
+      // If the document itself has a horizontal leak, never skip
+      if (docScrollWidth > vw + 3) return false;
+
       let cur = node.parentElement;
       while (cur && cur !== document.documentElement && cur !== document.body) {
+        if (isEscapedPosition(elStyle, cur)) {
+          cur = cur.parentElement;
+          continue;
+        }
+
         const s = window.getComputedStyle(cur);
-        if (s.overflowX === 'hidden' || s.overflowX === 'auto' || s.overflowX === 'scroll' || s.overflowX === 'clip') {
+        // Only intentional swipe/scroll containers (carousels, code blocks, tabs)
+        if (s.overflowX === 'auto' || s.overflowX === 'scroll') {
           const pRect = cur.getBoundingClientRect();
           if (pRect.right <= vw + 3) {
             return true;
@@ -82,7 +115,8 @@ function getDomAuditScript() {
     for (const el of allElements) {
       const rect = el.getBoundingClientRect();
       if (rect.width > 0 && rect.right > vw + 3) {
-        if (isClippedByAncestor(el)) continue;
+        const elStyle = window.getComputedStyle(el);
+        if (isClippedByAncestor(el, elStyle)) continue;
 
         // Find readable selector
         let sel = el.tagName.toLowerCase();
@@ -144,23 +178,32 @@ function getDomAuditScript() {
     function parseRgb(colorStr) {
       if (_colorCtx) {
         try {
-          _colorCtx.clearRect(0, 0, 1, 1);
+          // Sentinels to confirm canvas accepted and parsed colorStr (invalid color strings no-op in 2D canvas)
+          _colorCtx.fillStyle = '#010203';
           _colorCtx.fillStyle = colorStr;
-          _colorCtx.fillRect(0, 0, 1, 1);
-          const imgData = _colorCtx.getImageData(0, 0, 1, 1).data;
-          const r = imgData[0];
-          const g = imgData[1];
-          const b = imgData[2];
-          const a = imgData[3] / 255;
-          if (a < 0.95) {
-            // Blend alpha over obsidian canvas [10, 10, 12]
-            return [
-              Math.round(r * a + 10 * (1 - a)),
-              Math.round(g * a + 10 * (1 - a)),
-              Math.round(b * a + 12 * (1 - a))
-            ];
+          const s1 = _colorCtx.fillStyle;
+          _colorCtx.fillStyle = '#040506';
+          _colorCtx.fillStyle = colorStr;
+          const s2 = _colorCtx.fillStyle;
+
+          if (s1 === s2) {
+            _colorCtx.clearRect(0, 0, 1, 1);
+            _colorCtx.fillRect(0, 0, 1, 1);
+            const imgData = _colorCtx.getImageData(0, 0, 1, 1).data;
+            const r = imgData[0];
+            const g = imgData[1];
+            const b = imgData[2];
+            const a = imgData[3] / 255;
+            if (a < 0.95) {
+              // Blend alpha over obsidian canvas [10, 10, 12]
+              return [
+                Math.round(r * a + 10 * (1 - a)),
+                Math.round(g * a + 10 * (1 - a)),
+                Math.round(b * a + 12 * (1 - a))
+              ];
+            }
+            return [r, g, b];
           }
-          return [r, g, b];
         } catch (_) {}
       }
 
