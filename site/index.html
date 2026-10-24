@@ -342,14 +342,91 @@
             <span class="text-neutral-400">393px × 852px & 1440px × 900px</span>
           </div>
 
-          <!-- Photo Stage -->
-          <div class="relative overflow-hidden aspect-[16/10] bg-black flex items-center justify-center">
-            <img 
-              src="assets/photos/stage-macbook.jpg" 
-              alt="MacBook Pro Hardware Local Studio" 
-              class="w-full h-full object-cover object-center"
-              loading="eager"
-            />
+          <!-- Dual-Viewport DOM Caliper Audit Stage -->
+          <div class="relative overflow-hidden aspect-[16/10] bg-[#07090e] flex items-center justify-center p-3.5 sm:p-5 select-none font-mono">
+            <!-- Background Coordinate Grid -->
+            <div class="absolute inset-0 bg-grid opacity-30 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+
+            <div class="relative w-full h-full flex items-center justify-center gap-3 sm:gap-4">
+              
+              <!-- Desktop Frame 1440px (Clean) -->
+              <div class="w-[44%] h-[84%] rounded-xl bg-black/80 border border-white/10 p-2 flex flex-col justify-between shadow-xl relative overflow-hidden hidden sm:flex">
+                <div class="flex items-center justify-between pb-1.5 border-b border-white/10 text-[9px] text-neutral-400">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-neutral-600"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-neutral-600"></span>
+                    <span class="text-neutral-300">1440 × 900</span>
+                  </div>
+                  <span class="text-emerald-400 text-[8px] font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">PASS</span>
+                </div>
+                <!-- Wireframe page skeleton -->
+                <div class="space-y-1.5 py-1 text-[8px] text-neutral-500 opacity-60">
+                  <div class="h-2 w-16 bg-neutral-700 rounded"></div>
+                  <div class="h-1.5 w-full bg-neutral-800 rounded"></div>
+                  <div class="grid grid-cols-3 gap-1 pt-1">
+                    <div class="h-8 bg-neutral-900 border border-white/5 rounded"></div>
+                    <div class="h-8 bg-neutral-900 border border-white/5 rounded"></div>
+                    <div class="h-8 bg-neutral-900 border border-white/5 rounded"></div>
+                  </div>
+                </div>
+                <div class="text-[8px] text-neutral-500 flex items-center justify-between pt-1 border-t border-white/5">
+                  <span>scrollWidth: 1440px</span>
+                  <span class="text-emerald-400">0 overflow</span>
+                </div>
+              </div>
+
+              <!-- Mobile Frame 393px (Defect: .btn-pro +18px Overflow) -->
+              <div class="w-full sm:w-[52%] h-[92%] rounded-xl bg-black/90 border border-amber-500/30 p-2.5 flex flex-col justify-between shadow-2xl relative">
+                <!-- Phone top bar -->
+                <div class="flex items-center justify-between pb-1.5 border-b border-white/10 text-[10px]">
+                  <div class="flex items-center gap-1.5 text-neutral-300">
+                    <i data-lucide="smartphone" class="w-3 h-3 text-cyan-400"></i>
+                    <span class="font-medium">393 × 852</span>
+                  </div>
+                  <span class="text-red-400 text-[9px] font-bold bg-red-500/15 px-1.5 py-0.5 rounded border border-red-500/30 animate-pulse">OVERFLOW</span>
+                </div>
+
+                <!-- Phone screen viewport area with boundary caliper -->
+                <div class="relative my-auto py-2 pr-6">
+                  <!-- The 393px Viewport Boundary line -->
+                  <div class="absolute top-0 bottom-0 right-6 w-px border-r border-dashed border-red-500/80 z-10 flex flex-col justify-between items-center pointer-events-none">
+                    <span class="text-[7.5px] bg-red-950 text-red-300 px-1 py-0.2 rounded border border-red-500/50 uppercase tracking-wider -translate-y-1">393px</span>
+                    <span class="text-[7px] text-red-400 -translate-x-3.5">boundary</span>
+                  </div>
+
+                  <!-- Right hazard strip (overflow zone) -->
+                  <div class="absolute top-0 bottom-0 right-0 w-6 bg-red-500/10 border-l border-red-500/30 pointer-events-none"></div>
+
+                  <!-- Simulated Web Content -->
+                  <div class="space-y-1.5">
+                    <div class="h-2 w-20 bg-neutral-600 rounded"></div>
+                    <div class="text-[9px] text-neutral-400 leading-tight">Billing Upgrade Tier</div>
+
+                    <!-- Defect Button: .btn-pro leaking +18px past right edge -->
+                    <div class="relative pt-1">
+                      <div class="w-[calc(100%+14px)] bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-500 text-white text-[9.5px] font-bold py-1.5 px-2 rounded-lg flex items-center justify-between shadow-lg border border-amber-400/50">
+                        <span>.btn-pro</span>
+                        <span class="text-[8px] bg-red-950/90 text-red-200 px-1 rounded border border-red-500/50">+18px</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Caliper Measurement Annotation -->
+                  <div class="mt-2 pt-1.5 flex items-center justify-between text-[8px] font-mono text-neutral-400 border-t border-white/5">
+                    <span class="text-neutral-500">caliper: right = 411px</span>
+                    <span class="text-red-400 font-bold">leak: +18px</span>
+                  </div>
+                </div>
+
+                <!-- Phone bottom status -->
+                <div class="pt-1.5 border-t border-white/10 flex items-center justify-between text-[9px] text-neutral-400">
+                  <span class="text-neutral-500">window.innerWidth: 393</span>
+                  <span class="text-amber-300 font-medium">FAIL (gate 90)</span>
+                </div>
+              </div>
+
+            </div>
           </div>
 
           <!-- Bottom Summary Bar -->
