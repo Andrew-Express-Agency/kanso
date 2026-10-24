@@ -141,6 +141,240 @@
     .radar-line-glow {
       box-shadow: 0 0 10px 1.5px rgba(56, 189, 248, 0.9);
     }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: -4.5rem;
+      bottom: 0;
+      left: 50%;
+      width: 100vw;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, #08080a 0%, #08080a 72%, transparent 100%);
+      pointer-events: none;
+    }
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: calc(100dvh - 4rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3.5rem;
+      padding: 2.75rem 0 3.25rem;
+    }
+    .hero-light {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 100%;
+      height: 24rem;
+      transform: translateX(-50%);
+      background:
+        radial-gradient(ellipse at 50% 38%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05) 34%, transparent 68%);
+      filter: blur(6px);
+      pointer-events: none;
+      z-index: -1;
+      animation: heroDrift 16s ease-in-out infinite;
+    }
+    @keyframes heroDrift {
+      0%, 100% { opacity: 0.72; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.045); }
+    }
+    .hero-rise {
+      animation: heroRise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .hero-d1 { animation-delay: 0.04s; }
+    .hero-d2 { animation-delay: 0.14s; }
+    .hero-d3 { animation-delay: 0.26s; }
+    .hero-d4 { animation-delay: 0.38s; }
+    .hero-d5 { animation-delay: 0.5s; }
+    .hero-d6 { animation-delay: 0.62s; }
+    .hero-d7 { animation-delay: 0.7s; }
+    .hero-d8 { animation-delay: 0.78s; }
+    .hero-d9 { animation-delay: 0.86s; }
+    @keyframes heroRise {
+      from { opacity: 0; transform: translateY(32px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-title {
+      margin: 0 0 1.25rem;
+      max-width: 18em;
+      font-size: clamp(2.45rem, 5.35vw, 4.75rem);
+      font-weight: 600;
+      letter-spacing: -0.045em;
+      line-height: 1.02;
+      color: #f5f5f7;
+    }
+    .hero-line { display: block; }
+    .hero-line.dim { color: #86868b; }
+    .hero-sub {
+      max-width: 38rem;
+      margin: 0 auto 2.25rem;
+      color: #86868b;
+      font-size: clamp(1.02rem, 1.5vw, 1.25rem);
+      font-weight: 400;
+      letter-spacing: -0.015em;
+      line-height: 1.45;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 1.5rem;
+      padding: 0.35rem 0.8rem 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+      color: #f5f5f7;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .hero-badge i {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 999px;
+      background: #30d158;
+    }
+    .seg {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, 5.25rem);
+      width: max-content;
+      gap: 0;
+      margin: 0 auto 0.85rem;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
+    .seg-thumb {
+      position: absolute;
+      top: 3px;
+      bottom: 3px;
+      left: 3px;
+      width: calc((100% - 6px) / 3);
+      border-radius: 999px;
+      background: #f5f5f7;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .seg[data-pkg="build"] .seg-thumb { transform: translateX(100%); }
+    .seg[data-pkg="run"] .seg-thumb { transform: translateX(200%); }
+    .seg button {
+      position: relative;
+      z-index: 1;
+      min-height: 44px;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      background: transparent;
+      color: #a1a1a6;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .seg button[aria-pressed="true"] { color: #1d1d1f; }
+    .cmd-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: min(100%, 40rem);
+      margin: 0 auto;
+      padding: 0.35rem 0.35rem 0.35rem 1.05rem;
+      border-radius: 999px;
+      background: rgba(22, 22, 24, 0.72);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 18px 50px -24px rgba(0, 0, 0, 0.8);
+      backdrop-filter: saturate(140%) blur(18px);
+      -webkit-backdrop-filter: saturate(140%) blur(18px);
+    }
+    .cmd-line {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      min-width: 0;
+      flex: 1;
+      overflow-x: auto;
+      scrollbar-width: none;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: #f5f5f7;
+    }
+    .cmd-line::-webkit-scrollbar { display: none; }
+    @media (max-width: 719px) {
+      .cmd-line {
+        mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 1.4rem), transparent);
+      }
+    }
+    .cmd-prompt { color: #6e6e73; }
+    .cmd-copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-shrink: 0;
+      min-height: 44px;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      background: #f5f5f7;
+      color: #1d1d1f;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .cmd-copy:hover { background: #ffffff; }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.35rem 0.7rem;
+      margin-top: 0.9rem;
+      color: #6e6e73;
+      font-size: 12px;
+      letter-spacing: -0.01em;
+    }
+    .hero-note {
+      max-width: 28rem;
+      margin: 0.7rem auto 0;
+      color: #6e6e73;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.75rem 1rem;
+      width: min(100%, 52rem);
+    }
+    @media (min-width: 720px) {
+      .hero-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
+    }
+    .hero-stat-kicker {
+      color: #86868b;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .hero-stat-num {
+      margin-top: 0.3rem;
+      color: #f5f5f7;
+      font-size: clamp(1.45rem, 2.4vw, 2.35rem);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .hero-stat-num.zero { color: #30d158; }
+    .hero-stat-note {
+      margin-top: 0.4rem;
+      color: #6e6e73;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-light { animation: none; }
+    }
   </style>
 </head>
 <body class="selection:bg-blue-500/30 selection:text-white">
@@ -170,78 +404,77 @@
   </header>
 
   <!-- Hero Section -->
-  <main class="relative z-10 pt-12 sm:pt-16 pb-16 px-6 max-w-6xl mx-auto flex flex-col items-center text-center">
-    
-    <!-- Top Announcement Badge -->
-    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass-pill mb-8 shadow-sm hover:border-white/20 transition-all cursor-default">
-      <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
-      <span class="text-xs font-mono font-medium text-neutral-200 tracking-wide">v0.1.0 · local Chrome · MIT</span>
-    </div>
+  <main class="relative z-10 pb-16 px-6 max-w-6xl mx-auto flex flex-col items-center text-center">
+    <section class="hero" aria-label="Kanso">
+      <div class="hero-light" aria-hidden="true"></div>
 
-    <!-- Main Headline -->
-    <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white max-w-4xl leading-[1.08] mb-6">
-      Your agent writes the page.<br>
-      It cannot see it.
-    </h1>
-
-    <!-- Subtitle -->
-    <p class="text-lg sm:text-xl text-neutral-300 max-w-2xl font-normal leading-relaxed mb-10">
-      Kanso opens Chrome on this machine at 393×852 and 1440×900. It flags overflow, vertical gaps over 85px, text under 2:1, and tap targets under 36px, then writes both screenshots and a git patch.
-    </p>
-
-    <!-- CLI Install Box -->
-    <div id="install" class="w-full max-w-lg mb-8">
-      <div class="flex items-center justify-center gap-1 mb-3 p-1 rounded-xl bg-white/5 border border-white/10 w-fit mx-auto shadow-inner">
-        <button id="pkg-clone" type="button" aria-pressed="true" onclick="setInstallPkg('clone')" class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-white text-black transition-colors">clone</button>
-        <button id="pkg-build" type="button" aria-pressed="false" onclick="setInstallPkg('build')" class="px-3.5 py-2 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-colors">build</button>
-        <button id="pkg-run" type="button" aria-pressed="false" onclick="setInstallPkg('run')" class="px-3.5 py-2 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-colors">run</button>
-      </div>
-      <div class="glass-card rounded-2xl p-2.5 flex items-center justify-between border border-white/10 shadow-2xl relative group hover:border-white/20 transition-all">
-        <div class="flex items-center gap-3 px-3 min-w-0 flex-1 overflow-x-auto text-sm font-mono text-neutral-200">
-          <span class="text-blue-400 select-none font-bold">$</span>
-          <span id="install-cmd" class="text-white select-all font-medium whitespace-nowrap">git clone https://github.com/Andrew-Express-Agency/kanso.git</span>
+      <div class="hero-motion w-full">
+        <div class="hero-badge hero-rise hero-d1">
+          <i></i>
+          <span>v0.1.0 · local Chrome · MIT</span>
         </div>
-        <button id="copy-btn" type="button" onclick="copyInstallCommand()" class="px-4 py-2.5 rounded-xl bg-white text-black hover:bg-neutral-200 text-xs font-semibold transition-colors flex items-center gap-1.5 shrink-0">
-          <i id="copy-icon" data-lucide="copy" class="w-3.5 h-3.5"></i>
-          <span id="copy-text" aria-live="polite">Copy</span>
-        </button>
-      </div>
-      <div class="flex items-center justify-center gap-4 mt-3 text-xs text-neutral-400 font-mono">
-        <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> macOS & Linux</span>
-        <span>•</span>
-        <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> Chrome on this machine</span>
-        <span>•</span>
-        <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> MIT</span>
-      </div>
-      <p class="text-xs text-neutral-500 mt-3 max-w-md mx-auto leading-relaxed">The package named kanso on npm is a different tool. Clone this repository.</p>
-    </div>
 
-    <!-- Hero stats. Type only. -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-8 sm:gap-x-10 w-full max-w-4xl mb-14 text-left">
-      <div class="min-w-0">
-        <div class="text-[11px] font-mono uppercase tracking-[0.12em] sm:tracking-[0.16em] text-neutral-500">Headless CDP</div>
-        <div class="text-[1.35rem] sm:text-[1.65rem] leading-none font-medium text-white tracking-tight mt-2">&lt; 800ms</div>
-        <div class="text-[11px] text-neutral-500 mt-1.5 leading-snug">Chrome on this machine, GPU off</div>
+        <h1 class="hero-title">
+          <span class="hero-line hero-rise hero-d2">Your agent writes the page.</span>
+          <span class="hero-line dim hero-rise hero-d3">It cannot see it.</span>
+        </h1>
+
+        <p class="hero-sub hero-rise hero-d4">
+          Kanso opens Chrome on this machine at 393×852 and 1440×900. It flags overflow, vertical gaps over 85px, text under 2:1, and tap targets under 36px, then writes both screenshots and a git patch.
+        </p>
+
+        <div id="install" class="w-full hero-rise hero-d5">
+          <div class="seg" id="install-seg" data-pkg="clone">
+            <span class="seg-thumb" aria-hidden="true"></span>
+            <button id="pkg-clone" type="button" aria-pressed="true" onclick="setInstallPkg('clone')">clone</button>
+            <button id="pkg-build" type="button" aria-pressed="false" onclick="setInstallPkg('build')">build</button>
+            <button id="pkg-run" type="button" aria-pressed="false" onclick="setInstallPkg('run')">run</button>
+          </div>
+          <div class="cmd-pill">
+            <div class="cmd-line">
+              <span class="cmd-prompt select-none">$</span>
+              <span id="install-cmd" class="select-all whitespace-nowrap">git clone https://github.com/Andrew-Express-Agency/kanso.git</span>
+            </div>
+            <button id="copy-btn" type="button" onclick="copyInstallCommand()" class="cmd-copy">
+              <i id="copy-icon" data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span id="copy-text" aria-live="polite">Copy</span>
+            </button>
+          </div>
+          <div class="hero-meta">
+            <span>macOS &amp; Linux</span>
+            <span aria-hidden="true">·</span>
+            <span>Chrome on this machine</span>
+            <span aria-hidden="true">·</span>
+            <span>MIT</span>
+          </div>
+          <p class="hero-note">The package named kanso on npm is a different tool. Clone this repository.</p>
+        </div>
       </div>
 
-      <div class="min-w-0">
-        <div class="text-[11px] font-mono uppercase tracking-[0.12em] sm:tracking-[0.16em] text-neutral-500">Zero Account</div>
-        <div class="text-[1.35rem] sm:text-[1.65rem] leading-none font-medium text-emerald-400 tracking-tight mt-2">0 KB</div>
-        <div class="text-[11px] text-neutral-500 mt-1.5 leading-snug">No account. Nothing is uploaded</div>
+      <!-- Hero stats. Type only. -->
+      <div class="hero-stats">
+        <div class="min-w-0 hero-rise hero-d6">
+          <div class="hero-stat-kicker">Headless CDP</div>
+          <div class="hero-stat-num">&lt; 800ms</div>
+          <div class="hero-stat-note">Chrome on this machine, GPU off</div>
+        </div>
+        <div class="min-w-0 hero-rise hero-d7">
+          <div class="hero-stat-kicker">Zero Account</div>
+          <div class="hero-stat-num zero">0 KB</div>
+          <div class="hero-stat-note">No account. Nothing is uploaded</div>
+        </div>
+        <div class="min-w-0 hero-rise hero-d8">
+          <div class="hero-stat-kicker">Git Patch</div>
+          <div class="hero-stat-num">100%</div>
+          <div class="hero-stat-note">Working tree, saved as a patch</div>
+        </div>
+        <div class="min-w-0 hero-rise hero-d9">
+          <div class="hero-stat-kicker">Dual Viewports</div>
+          <div class="hero-stat-num">393 &amp; 1440</div>
+          <div class="hero-stat-note">393×852 and 1440×900 shots</div>
+        </div>
       </div>
-
-      <div class="min-w-0">
-        <div class="text-[11px] font-mono uppercase tracking-[0.12em] sm:tracking-[0.16em] text-neutral-500">Git Patch</div>
-        <div class="text-[1.35rem] sm:text-[1.65rem] leading-none font-medium text-white tracking-tight mt-2">100%</div>
-        <div class="text-[11px] text-neutral-500 mt-1.5 leading-snug">Working tree, saved as a patch</div>
-      </div>
-
-      <div class="min-w-0">
-        <div class="text-[11px] font-mono uppercase tracking-[0.12em] sm:tracking-[0.16em] text-neutral-500">Dual Viewports</div>
-        <div class="text-[1.35rem] sm:text-[1.65rem] leading-none font-medium text-white tracking-tight mt-2">393 & 1440</div>
-        <div class="text-[11px] text-neutral-500 mt-1.5 leading-snug">393×852 and 1440×900 shots</div>
-      </div>
-    </div>
+    </section>
 
     <!-- Live Interactive Studio Preview -->
     <section class="w-full max-w-5xl rounded-3xl glass-card border border-white/10 p-6 md:p-8 shadow-2xl overflow-hidden relative">
@@ -1340,16 +1573,34 @@
     };
 
     function setInstallPkg(pkg) {
+      const seg = document.getElementById('install-seg');
+      if (seg) seg.setAttribute('data-pkg', pkg);
       ['clone', 'build', 'run'].forEach(p => {
         const btn = document.getElementById('pkg-' + p);
-        const on = p === pkg;
-        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-        btn.className = on
-          ? 'px-3.5 py-2 rounded-lg text-xs font-semibold bg-white text-black transition-colors'
-          : 'px-3.5 py-2 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-colors';
+        btn.setAttribute('aria-pressed', p === pkg ? 'true' : 'false');
       });
       document.getElementById('install-cmd').innerText = installCommands[pkg] || installCommands.clone;
     }
+
+    (function () {
+      const motion = document.querySelector('.hero-motion');
+      if (!motion) return;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const onScroll = () => {
+        if (reduce.matches) {
+          motion.style.transform = '';
+          motion.style.opacity = '';
+          return;
+        }
+        const span = Math.max(window.innerHeight * 0.72, 1);
+        const p = Math.min(Math.max(window.scrollY / span, 0), 1);
+        motion.style.transform = 'translate3d(0,' + (p * -28).toFixed(2) + 'px,0) scale(' + (1 - p * 0.035).toFixed(4) + ')';
+        motion.style.opacity = String(1 - p * 0.4);
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      reduce.addEventListener('change', onScroll);
+    })();
 
     // Tab switcher
     function switchTab(tab) {
